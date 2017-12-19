@@ -44,6 +44,8 @@ namespace DG
             if (!ground) {
                 Debug.Log("Cannot find ground..");
             }
+
+            anim.Play("Idle");
         }
 
         void Update()
@@ -96,7 +98,9 @@ namespace DG
                     anim.Play("Run");
                 }
                 else {
-                    anim.Play("Falling Impact");
+                    if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                        anim.Play("Falling Impact");
+                    }
                 }
             }
             else {

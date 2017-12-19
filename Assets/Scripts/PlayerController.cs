@@ -24,7 +24,6 @@ namespace DG
 
         bool isCanJump;
         bool isGrounded;
-        bool isHover;
         bool isFlipX;
 
         Vector2 input;
@@ -97,17 +96,10 @@ namespace DG
                     anim.Play("Run");
                 }
                 else {
-                    if (isHover) {
-                        anim.Play("Falling Impact");
-                        isHover = false;
-                    }
-                    else {
-                        anim.Play("Idle");
-                    }
+                    anim.Play("Falling Impact");
                 }
             }
             else {
-                isHover = true;
                 anim.Play("Fall");
             }
         }

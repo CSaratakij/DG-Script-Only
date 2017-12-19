@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4487189847614962}
   - component: {fileID: 212269081901790436}
-  - component: {fileID: 95181522517713492}
   - component: {fileID: 50270162821032022}
+  - component: {fileID: 95934470261911928}
   - component: {fileID: 70356146628232730}
   - component: {fileID: 114791023147278362}
   m_Layer: 8
@@ -66,7 +66,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1091536648850888}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.26, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children:
   - {fileID: 4146611782695622}
@@ -108,7 +108,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.045491695, y: -0.232162}
   m_Size: {x: 0.7722883, y: 1.535676}
   m_Direction: 0
---- !u!95 &95181522517713492
+--- !u!95 &95934470261911928
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1

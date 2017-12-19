@@ -24,6 +24,7 @@ namespace DG
 
         bool isJump;
         bool isGrounded;
+        bool isHover;
         bool isFlipX;
 
         Vector2 input;
@@ -76,6 +77,12 @@ namespace DG
             if (isGrounded) {
                 isJump = Input.GetButtonDown("Jump");
             }
+            else {
+                isJump = false;
+            }
+
+            _FlipXHandler();
+
         }
 
         void _AnimationHandler()
@@ -85,17 +92,24 @@ namespace DG
                     anim.Play("Run");
                 }
                 else {
-                    anim.Play("Idle");
+                    if (isHover) {
+                        anim.Play("Falling Impact");
+                        isHover = false;
+                    }
+                    else {
+                        anim.Play("Idle");
+                    }
                 }
             }
             else {
+                isHover = true;
                 anim.Play("Fall");
             }
         }
 
         void _MovementHandler()
         {
-            isGrounded = Physics2D.OverlapCircle(ground.position, 0.02f, groundMask);
+            isGrounded = Physics2D.OverlapCircle(ground.position, 0.08f, groundMask);
             velocity.x = input.x * moveForce; 
 
             if (isJump) {
@@ -109,9 +123,18 @@ namespace DG
             rigid.velocity = velocity;
         }
 
-        void _FlipX()
+        void _FlipXHandler()
         {
-            transform.localScale *= -1.0f;
+            var newScale = transform.localScale;
+
+            if (input.x >= 1.0f) {
+                newScale.x = 1.0f;
+
+            } else if (input.x <= -1.0f) {
+                newScale.x = -1.0f;
+            }
+
+            transform.localScale = newScale;
         }
     }
 }

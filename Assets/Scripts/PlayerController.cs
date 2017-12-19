@@ -75,7 +75,7 @@ namespace DG
             }
 
             if (isGrounded) {
-                isJump = Input.GetButtonDown("Jump");
+                isJump = Input.GetButton("Jump");
             }
             else {
                 isJump = false;
@@ -109,7 +109,7 @@ namespace DG
 
         void _MovementHandler()
         {
-            isGrounded = Physics2D.OverlapCircle(ground.position, 0.08f, groundMask);
+            isGrounded = Physics2D.OverlapCircle(ground.position, 0.02f, groundMask);
             velocity.x = input.x * moveForce; 
 
             if (isJump) {

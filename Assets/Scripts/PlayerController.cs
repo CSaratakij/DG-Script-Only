@@ -22,7 +22,7 @@ namespace DG
         LayerMask groundMask;
 
 
-        bool isJump;
+        bool isCanJump;
         bool isGrounded;
         bool isHover;
         bool isFlipX;
@@ -74,11 +74,16 @@ namespace DG
                 input.x *= -1.0f;
             }
 
-            if (isGrounded) {
-                isJump = Input.GetButton("Jump");
+            if (Input.GetButtonDown("Jump")) {
+                isCanJump = true;
+
+                if (isGrounded && isCanJump) {
+                    velocity.y = jumpForce;
+                    rigid.velocity = velocity;
+                }
             }
-            else {
-                isJump = false;
+            else if (Input.GetButtonUp("Jump")) {
+                isCanJump = false;
             }
 
             _FlipXHandler();
@@ -111,14 +116,7 @@ namespace DG
         {
             isGrounded = Physics2D.OverlapCircle(ground.position, 0.02f, groundMask);
             velocity.x = input.x * moveForce; 
-
-            if (isJump) {
-                velocity.y = jumpForce;
-            }
-            else {
-                velocity.y = rigid.velocity.y;
-            }
-
+            velocity.y = rigid.velocity.y;
             velocity.y -= gravity * Time.deltaTime;
             rigid.velocity = velocity;
         }

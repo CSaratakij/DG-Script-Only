@@ -28,6 +28,9 @@ namespace DG
         [Range(-5.0f, 5.0f)]
         float offsetY;
 
+        [SerializeField]
+        float dampSpeed;
+
 
         Vector3 offset;
 
@@ -40,7 +43,8 @@ namespace DG
         {
             if (target) {
                 var startPos = target.position;
-                startPos.y = 1.0f;
+                startPos.x += offsetX;
+                startPos.y += offsetY;
                 startPos.z = POSITION_Z;
                 transform.position = startPos;
             }
@@ -53,7 +57,7 @@ namespace DG
             if (Mathf.Abs(offset.x) > marginX) {
                 isNeedFollowX = true;
             }
-            else if (Mathf.Abs(offset.x) <= 0.1f) {
+            else if (Mathf.Abs(offset.x) <= (marginX + 0.1f)) {
                 isNeedFollowX = false;
             }
 
@@ -63,7 +67,6 @@ namespace DG
             else if (Mathf.Abs(offset.y) <= 1.0f) {
                 isNeedFollowY = false;
             }
-
 
             if (isEnableFollowing)
             {
@@ -84,7 +87,7 @@ namespace DG
                 var targetPos = transform.position + offset;
                 targetPos.x += offsetX;
 
-                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, 0.08f);
+                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeed);
                 newPos.y = transform.position.y;
                 newPos.z = POSITION_Z;
                 transform.position = newPos;
@@ -98,7 +101,7 @@ namespace DG
                 var targetPos = transform.position + offset;
                 targetPos.y += offsetY;
 
-                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, 0.08f);
+                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeed);
                 newPos.x = transform.position.x;
                 newPos.z = POSITION_Z;
                 transform.position = newPos;

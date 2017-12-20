@@ -30,6 +30,9 @@ namespace DG
 
         [SerializeField]
         float dampSpeed;
+        
+        [SerializeField]
+        float dampSpeedY;
 
 
         Vector3 offset;
@@ -101,7 +104,7 @@ namespace DG
                 var targetPos = transform.position + offset;
                 targetPos.y += offsetY;
 
-                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeed);
+                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeedY);
                 newPos.x = transform.position.x;
                 newPos.z = POSITION_Z;
                 transform.position = newPos;

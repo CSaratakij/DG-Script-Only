@@ -16,6 +16,9 @@ namespace DG
         AudioSource footstepAudioSource;
         AudioSource impactAudioSource;
 
+        string previousMaterial;
+        string currentMaterial;
+
 
         void Awake()
         {
@@ -26,6 +29,13 @@ namespace DG
 
         public void Play(string key)
         {
+            previousMaterial = currentMaterial;
+            currentMaterial = key;
+
+            if (currentMaterial != previousMaterial) {
+                footstepAudioSource.Stop();
+            }
+
             if (!footstepAudioSource.isPlaying) {
                 switch (key) {
                     case "grass":

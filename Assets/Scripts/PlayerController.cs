@@ -6,6 +6,8 @@ namespace DG
 {
     public class PlayerController : MonoBehaviour
     {
+        const float HOVER_TIMER = 0.04f;
+
         [SerializeField]
         bool isInverseMovement;
 
@@ -29,9 +31,13 @@ namespace DG
 
 
         bool isCanJump;
+        bool isPressedJump;
+
         bool isGrounded;
         bool isFlipX;
+
         bool isHover;
+        bool isFalling;
 
         Vector2 input;
         Vector2 velocity;
@@ -47,6 +53,8 @@ namespace DG
 
         RaycastHit2D materialRay;
         CameraFolllow cameraFollow;
+
+        float hoverTimer;
 
 
         void Awake()
@@ -100,6 +108,7 @@ namespace DG
             feet = transform.Find("footstep");
             footStepAudioPlayer = transform.Find("footstep").gameObject.GetComponent<FootStepAudioPlayer>();
             cameraFollow = Camera.main.GetComponent<CameraFolllow>();
+            hoverTimer = HOVER_TIMER;
         }
 
         void _InputHandler()
@@ -112,7 +121,10 @@ namespace DG
 
             if (Input.GetButtonDown("Jump")) {
                 isCanJump = true;
-
+                isPressedJump = true;
+                isFalling = false;
+                hoverTimer = HOVER_TIMER;
+                
                 if (isGrounded && isCanJump) {
                     velocity.y = jumpForce;
                     rigid.velocity = velocity;
@@ -160,11 +172,20 @@ namespace DG
             if (isGrounded) {
                 cameraFollow.ForceFollowVertical();
 
-                if (isHover) {
-                    if (materialRay) {
+                if (isPressedJump) {
+                    if (isFalling && materialRay) {
+                        footStepAudioPlayer.PlayImpact(materialRay.transform.tag);
+                        isPressedJump = false;
+                    }
+                }
+                else {
+                    if (isHover && materialRay) {
                         footStepAudioPlayer.PlayImpact(materialRay.transform.tag);
                     }
+
                     isHover = false;
+                    isFalling = false;
+                    hoverTimer = HOVER_TIMER;
                 }
 
                 if (Input.GetAxisRaw("Horizontal") != 0.0f && materialRay) {
@@ -173,6 +194,12 @@ namespace DG
             }
             else {
                 isHover = true;
+                hoverTimer -= 0.1f * Time.deltaTime;
+
+                if (hoverTimer <= 0.0f) {
+                    isFalling = true;
+                }
+
                 cameraFollow.UnForceFollowVertical();
             }
         }

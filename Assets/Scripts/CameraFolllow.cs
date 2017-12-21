@@ -29,7 +29,7 @@ namespace DG
         float offsetY;
 
         [SerializeField]
-        float dampSpeed;
+        float dampSpeedX;
         
         [SerializeField]
         float dampSpeedY;
@@ -40,6 +40,7 @@ namespace DG
 
         bool isNeedFollowX;
         bool isNeedFollowY;
+        bool isForceFollowY;
 
 
         void Start()
@@ -64,11 +65,18 @@ namespace DG
                 isNeedFollowX = false;
             }
 
-            if (Mathf.Abs(offset.y) > marginY) {
-                isNeedFollowY = true;
+            if (isForceFollowY) {
+                if (transform.position.y < (target.position.y + offsetY)) {
+                    _FollowVertical();
+                }
             }
-            else if (Mathf.Abs(offset.y) <= 1.0f) {
-                isNeedFollowY = false;
+            else {
+                if (Mathf.Abs(offset.y) > marginY) {
+                    isNeedFollowY = true;
+                }
+                else if (Mathf.Abs(offset.y) <= 1.0f) {
+                    isNeedFollowY = false;
+                }
             }
 
             if (isEnableFollowing)
@@ -90,7 +98,7 @@ namespace DG
                 var targetPos = transform.position + offset;
                 targetPos.x += offsetX;
 
-                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeed);
+                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeedX);
                 newPos.y = transform.position.y;
                 newPos.z = POSITION_Z;
                 transform.position = newPos;
@@ -133,6 +141,16 @@ namespace DG
         public void ToggleFollow()
         {
             isEnableFollowing = !isEnableFollowing;
+        }
+
+        public void ForceFollowVertical()
+        {
+            isForceFollowY = true;
+        }
+
+        public void UnForceFollowVertical()
+        {
+            isForceFollowY = false;
         }
     }
 }

@@ -46,6 +46,7 @@ namespace DG
         Transform feet;
 
         RaycastHit2D materialRay;
+        CameraFolllow cameraFollow;
 
 
         void Awake()
@@ -90,7 +91,6 @@ namespace DG
             _MovementHandler();
         }
 
-
         void _Initialize()
         {
             anim = GetComponent<Animator>();
@@ -99,6 +99,7 @@ namespace DG
             ground = transform.Find("ground");
             feet = transform.Find("footstep");
             footStepAudioPlayer = transform.Find("footstep").gameObject.GetComponent<FootStepAudioPlayer>();
+            cameraFollow = Camera.main.GetComponent<CameraFolllow>();
         }
 
         void _InputHandler()
@@ -157,6 +158,8 @@ namespace DG
         void _FootStepHandler()
         {
             if (isGrounded) {
+                cameraFollow.ForceFollowVertical();
+
                 if (isHover) {
                     if (materialRay) {
                         footStepAudioPlayer.PlayImpact(materialRay.transform.tag);
@@ -170,6 +173,7 @@ namespace DG
             }
             else {
                 isHover = true;
+                cameraFollow.UnForceFollowVertical();
             }
         }
 

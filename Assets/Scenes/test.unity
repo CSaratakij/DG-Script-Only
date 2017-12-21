@@ -589,12 +589,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnableFollowing: 1
   target: {fileID: 1032781771}
-  marginX: 1.4
-  marginY: 1.5
+  marginX: 1.5
+  marginY: 1.8
   offsetX: 0
-  offsetY: 1
-  dampSpeed: 0.13
-  dampSpeedY: 0.09
+  offsetY: 1.2
+  dampSpeedX: 0.13
+  dampSpeedY: 0.12
 --- !u!1 &134711705
 GameObject:
   m_ObjectHideFlags: 0

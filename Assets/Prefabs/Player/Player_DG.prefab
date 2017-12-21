@@ -245,7 +245,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
@@ -846,7 +846,8 @@ MonoBehaviour:
   isInverseMovement: 1
   moveForce: 4
   jumpForce: 12
-  gravity: 19.6
+  fallMultiplier: 0
+  lowJumpMultiplier: 0
   groundMask:
     serializedVersion: 2
     m_Bits: 4294966473
@@ -867,8 +868,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInverseMovement: 0
   moveForce: 4
-  jumpForce: 12
-  gravity: 19.6
+  jumpForce: 10
+  fallMultiplier: 6
+  lowJumpMultiplier: 4.5
   groundMask:
     serializedVersion: 2
     m_Bits: 4294966473

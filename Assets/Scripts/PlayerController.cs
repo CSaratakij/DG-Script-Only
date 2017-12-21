@@ -6,8 +6,6 @@ namespace DG
 {
     public class PlayerController : MonoBehaviour
     {
-        const float HOVER_TIMER = 0.04f;
-
         [SerializeField]
         bool isInverseMovement;
 
@@ -18,7 +16,10 @@ namespace DG
         float jumpForce;
 
         [SerializeField]
-        float gravity;
+        float fallMultiplier;
+
+        [SerializeField]
+        float lowJumpMultiplier;
 
         [SerializeField]
         LayerMask groundMask;
@@ -30,13 +31,8 @@ namespace DG
         AudioClip jumpSound;
 
 
-        bool isCanJump;
         bool isPressedJump;
-
         bool isGrounded;
-        bool isFlipX;
-
-        bool isHover;
         bool isFalling;
 
         Vector2 input;
@@ -54,7 +50,7 @@ namespace DG
         RaycastHit2D materialRay;
         CameraFolllow cameraFollow;
 
-        float hoverTimer;
+        Vector3 newScale;
 
 
         void Awake()
@@ -86,7 +82,12 @@ namespace DG
 
         void Update()
         {
+            if (rigid.velocity.y < 0.0f) {
+                isFalling = true;
+            }
+
             _InputHandler();
+            _FlipXHandler();
             _AnimationHandler();
             _FootStepHandler();
 
@@ -96,6 +97,7 @@ namespace DG
 
         void FixedUpdate()
         {
+            _JumpHandler();
             _MovementHandler();
         }
 
@@ -108,7 +110,7 @@ namespace DG
             feet = transform.Find("footstep");
             footStepAudioPlayer = transform.Find("footstep").gameObject.GetComponent<FootStepAudioPlayer>();
             cameraFollow = Camera.main.GetComponent<CameraFolllow>();
-            hoverTimer = HOVER_TIMER;
+            newScale = transform.localScale;
         }
 
         void _InputHandler()
@@ -120,23 +122,8 @@ namespace DG
             }
 
             if (Input.GetButtonDown("Jump")) {
-                isCanJump = true;
                 isPressedJump = true;
-                isFalling = false;
-                hoverTimer = HOVER_TIMER;
-                
-                if (isGrounded && isCanJump) {
-                    velocity.y = jumpForce;
-                    rigid.velocity = velocity;
-                    audioSource.Play();
-                }
             }
-            else if (Input.GetButtonUp("Jump")) {
-                isCanJump = false;
-            }
-
-            _FlipXHandler();
-
         }
 
         void _AnimationHandler()
@@ -163,7 +150,7 @@ namespace DG
 
             velocity.x = input.x * moveForce; 
             velocity.y = rigid.velocity.y;
-            velocity.y -= gravity * Time.deltaTime;
+
             rigid.velocity = velocity;
         }
 
@@ -172,20 +159,9 @@ namespace DG
             if (isGrounded) {
                 cameraFollow.ForceFollowVertical();
 
-                if (isPressedJump) {
-                    if (isFalling && materialRay) {
-                        footStepAudioPlayer.PlayImpact(materialRay.transform.tag);
-                        isPressedJump = false;
-                    }
-                }
-                else {
-                    if (isHover && materialRay) {
-                        footStepAudioPlayer.PlayImpact(materialRay.transform.tag);
-                    }
-
-                    isHover = false;
+                if (isFalling && materialRay) {
+                    footStepAudioPlayer.PlayImpact(materialRay.transform.tag);
                     isFalling = false;
-                    hoverTimer = HOVER_TIMER;
                 }
 
                 if (Input.GetAxisRaw("Horizontal") != 0.0f && materialRay) {
@@ -193,29 +169,36 @@ namespace DG
                 }
             }
             else {
-                isHover = true;
-                hoverTimer -= 0.1f * Time.deltaTime;
-
-                if (hoverTimer <= 0.0f) {
-                    isFalling = true;
-                }
-
                 cameraFollow.UnForceFollowVertical();
+            }
+        }
+
+        void _JumpHandler()
+        {
+            if (isGrounded && isPressedJump) {
+                rigid.velocity = Vector2.up * jumpForce;
+                audioSource.Play();
+                isPressedJump = false;
+            }
+
+            if (rigid.velocity.y < 0.0f) {
+                rigid.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+            }
+            else if (rigid.velocity.y > 0.0f && !Input.GetButton("Jump")) {
+                rigid.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
             }
         }
 
         void _FlipXHandler()
         {
-            var newScale = transform.localScale;
-
-            if (input.x >= 1.0f) {
+            if (input.x > 0.0f) {
                 newScale.x = 1.0f;
+                transform.localScale = newScale;
 
-            } else if (input.x <= -1.0f) {
+            } else if (input.x < 0.0f) {
                 newScale.x = -1.0f;
+                transform.localScale = newScale;
             }
-
-            transform.localScale = newScale;
         }
 
         //Temp

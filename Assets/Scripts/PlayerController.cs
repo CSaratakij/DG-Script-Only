@@ -167,13 +167,16 @@ namespace DG
             if (isGrounded) {
                 cameraFollow.ForceFollowVertical();
 
-                if (isFalling && materialRay) {
-                    footStepAudioPlayer.PlayImpact(materialRay.transform.tag);
-                    isFalling = false;
-                }
+                if (rigid.velocity.y == 0.0f) {
+                    
+                    if (isFalling && materialRay) {
+                        footStepAudioPlayer.PlayImpactForce(materialRay.transform.tag);
+                        isFalling = false;
+                    }
 
-                if (Input.GetAxisRaw("Horizontal") != 0.0f && materialRay) {
-                    footStepAudioPlayer.Play(materialRay.transform.tag);
+                    if (Input.GetAxisRaw("Horizontal") != 0.0f && materialRay) {
+                        footStepAudioPlayer.Play(materialRay.transform.tag);
+                    }
                 }
             }
             else {

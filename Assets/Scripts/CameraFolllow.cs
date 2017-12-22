@@ -34,6 +34,9 @@ namespace DG
         [SerializeField]
         float dampSpeedY;
 
+        [SerializeField]
+        float dampSpeedOutMarginY;
+
 
         Vector3 offset;
 
@@ -75,6 +78,18 @@ namespace DG
                 else {
                     if (Mathf.Abs(offset.y) > marginY) {
                         isNeedFollowY = true;
+
+                        //test.. out bound
+                        //var expectOutBound = (offset.y < marginY - 0.5f);
+
+                        /*
+                        var expectOutBound = (offset.y < 0.05f);
+
+                        if (expectOutBound) {
+                            _FollowVerticalFaster();
+                        }
+                        //
+                        //*/
                     }
                     else if (Mathf.Abs(offset.y) <= 1.0f) {
                         isNeedFollowY = false;
@@ -113,6 +128,21 @@ namespace DG
                 targetPos.y += offsetY;
 
                 var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeedY);
+                newPos.x = transform.position.x;
+                newPos.z = POSITION_Z;
+                transform.position = newPos;
+            }
+        }
+
+        //test
+        public void _FollowVerticalFaster()
+        {
+            if (target) {
+                var currentVelocity = Vector3.zero;
+                var targetPos = transform.position + offset;
+                targetPos.y += offsetY;
+
+                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeedOutMarginY);
                 newPos.x = transform.position.x;
                 newPos.z = POSITION_Z;
                 transform.position = newPos;

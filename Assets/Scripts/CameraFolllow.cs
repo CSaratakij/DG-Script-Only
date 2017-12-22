@@ -56,31 +56,31 @@ namespace DG
 
         void LateUpdate()
         {
-            offset = (target.position - transform.position);
-
-            if (Mathf.Abs(offset.x) > marginX) {
-                isNeedFollowX = true;
-            }
-            else if (Mathf.Abs(offset.x) <= 0.38f) {
-                isNeedFollowX = false;
-            }
-
-            if (isForceFollowY) {
-                if (transform.position.y < (target.position.y + offsetY)) {
-                    _FollowVertical();
-                }
-            }
-            else {
-                if (Mathf.Abs(offset.y) > marginY) {
-                    isNeedFollowY = true;
-                }
-                else if (Mathf.Abs(offset.y) <= 1.0f) {
-                    isNeedFollowY = false;
-                }
-            }
-
             if (isEnableFollowing)
             {
+                offset = (target.position - transform.position);
+
+                if (Mathf.Abs(offset.x) > marginX) {
+                    isNeedFollowX = true;
+                }
+                else if (Mathf.Abs(offset.x) <= 0.38f) {
+                    isNeedFollowX = false;
+                }
+
+                if (isForceFollowY) {
+                    if (transform.position.y < (target.position.y + offsetY)) {
+                        _FollowVertical();
+                    }
+                }
+                else {
+                    if (Mathf.Abs(offset.y) > marginY) {
+                        isNeedFollowY = true;
+                    }
+                    else if (Mathf.Abs(offset.y) <= 1.0f) {
+                        isNeedFollowY = false;
+                    }
+                }
+
                 if (isNeedFollowX) {
                     _FollowHorizontal();
                 }
@@ -136,6 +136,16 @@ namespace DG
             {
                 Debug.Log("Can't find target..");
             }
+        }
+
+        public void LockCamera()
+        {
+            isEnableFollowing = false;
+        }
+
+        public void UnlockCamera()
+        {
+            isEnableFollowing = true;
         }
 
         public void ToggleFollow()

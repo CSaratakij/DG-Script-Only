@@ -868,9 +868,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInverseMovement: 0
   moveForce: 4
-  jumpForce: 10
-  fallMultiplier: 6
-  lowJumpMultiplier: 4.5
+  jumpForce: 10.6
+  fallMultiplier: 4.8
+  lowJumpMultiplier: 8
   groundMask:
     serializedVersion: 2
     m_Bits: 4294966473

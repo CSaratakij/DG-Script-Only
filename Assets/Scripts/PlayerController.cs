@@ -124,6 +124,14 @@ namespace DG
             if (Input.GetButtonDown("Jump")) {
                 isPressedJump = true;
             }
+
+            //test
+            if (Input.GetKeyDown(KeyCode.L)) {
+                cameraFollow.LockCamera();
+            }
+            else if (Input.GetKeyDown(KeyCode.U)) {
+                cameraFollow.UnlockCamera();
+            }
         }
 
         void _AnimationHandler()

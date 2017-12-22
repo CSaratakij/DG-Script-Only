@@ -55,20 +55,20 @@ namespace DG
 
         public void PlayImpact(string key)
         {
-            if (!impactAudioSource.isPlaying) {
-                switch (key) {
-                    case "grass":
-                        impactAudioSource.PlayOneShot(impactClips[0]);
-                    break;
+            impactAudioSource.Stop();
 
-                    case "stone":
-                        impactAudioSource.PlayOneShot(impactClips[1]);
-                    break;
+            switch (key) {
+                case "grass":
+                    impactAudioSource.PlayOneShot(impactClips[0]);
+                break;
 
-                    default:
-                        Debug.Log("Cannot find key : " + key);
-                    break;
-                }
+                case "stone":
+                    impactAudioSource.PlayOneShot(impactClips[1]);
+                break;
+
+                default:
+                    Debug.Log("Cannot find key : " + key);
+                break;
             }
         }
     }

@@ -66,7 +66,7 @@ namespace DG
                 if (Mathf.Abs(offset.x) > marginX) {
                     isNeedFollowX = true;
                 }
-                else if (Mathf.Abs(offset.x) <= 0.38f) {
+                else if (Mathf.Abs(offset.x) <= 0.1f) {
                     isNeedFollowX = false;
                 }
 

@@ -1396,21 +1396,6 @@ Prefab:
       propertyPath: target
       value: 
       objectReference: {fileID: 1032781771}
-    - target: {fileID: 20082975811035172, guid: 64c77129881e7eb49a2058b85e3dad7c,
-        type: 2}
-      propertyPath: orthographic size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114274538530217588, guid: 64c77129881e7eb49a2058b85e3dad7c,
-        type: 2}
-      propertyPath: marginY
-      value: 1.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114274538530217588, guid: 64c77129881e7eb49a2058b85e3dad7c,
-        type: 2}
-      propertyPath: dampSpeedOutMarginY
-      value: 0.03
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 64c77129881e7eb49a2058b85e3dad7c, type: 2}
   m_IsPrefabParent: 0

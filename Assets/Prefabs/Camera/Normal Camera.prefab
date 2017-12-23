@@ -103,8 +103,8 @@ MonoBehaviour:
   offsetY: 1.2
   boundYMargin: 0
   dampSpeedX: 0.1
-  dampSpeedY: 0.06
-  dampSpeedOutMarginY: 0.02
+  dampSpeedY: 0.064
+  dampSpeedOutMarginY: 0.7
 --- !u!124 &124607862020575230
 Behaviour:
   m_ObjectHideFlags: 1

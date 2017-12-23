@@ -44,7 +44,7 @@ namespace DG
 
         Vector3 offset;
         Vector3 bottomLeftWorldPoint;
-
+        
         bool isNeedFollowX;
         bool isNeedFollowY;
 
@@ -86,7 +86,7 @@ namespace DG
                 if (expectOutBoundY) {
 
                     if (!isInitStickY && currentVerticalDistance == 0.0f) {
-                        currentVerticalDistance = transform.position.y - (target.position.y + offsetY);
+                        currentVerticalDistance = 0.0f;
                         isInitStickY = true;
                     }
 
@@ -144,13 +144,21 @@ namespace DG
         void _StickYAxis()
         {
             if (target) {
+
                 var newPos = transform.position;
 
                 var targetPos = target.position;
                 targetPos.y = target.position.y + offsetY;
 
-                newPos.y = target.position.y + currentVerticalDistance;
-                currentVerticalDistance -= Mathf.Lerp(currentVerticalDistance, 0.0f, dampSpeedOutMarginY) * Time.deltaTime;
+                var bottomDistanceFromPlayer = ((bottomLeftWorldPoint.y + boundYMargin) - target.position.y);
+                var bottomPosRelativeToCamera = (transform.position.y - bottomDistanceFromPlayer);
+                var possibleTargetYAxisMax = (target.position.y + offsetY);
+
+                if (target.position.y < possibleTargetYAxisMax) {
+
+                    currentVerticalDistance += Mathf.Lerp(0.0f, (transform.position.y - possibleTargetYAxisMax), dampSpeedOutMarginY) * Time.deltaTime;
+                    newPos.y = bottomPosRelativeToCamera - currentVerticalDistance;
+                }
 
                 newPos.x = transform.position.x;
                 newPos.z = POSITION_Z;

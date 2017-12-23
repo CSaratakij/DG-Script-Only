@@ -18,16 +18,16 @@ namespace DG
 
         [SerializeField]
         [Range(-5.0f, 5.0f)]
-        float marginY;
-
-        [SerializeField]
-        [Range(-5.0f, 5.0f)]
         float offsetX;
 
         [SerializeField]
         [Range(-5.0f, 5.0f)]
         float offsetY;
 
+        [SerializeField]
+        [Range(-5.0f, 5.0f)]
+        float boundYMargin;
+        
         [SerializeField]
         float dampSpeedX;
         
@@ -38,12 +38,22 @@ namespace DG
         float dampSpeedOutMarginY;
 
 
-        Vector3 offset;
+        public bool IsStickYAxis { get { return isStickY; } }
+        public bool IsOutBoundY { get { return expectOutBoundY; } }
 
+
+        Vector3 offset;
+        Vector3 bottomLeftWorldPoint;
 
         bool isNeedFollowX;
         bool isNeedFollowY;
-        bool isForceFollowY;
+
+        bool expectOutBoundY;
+
+        bool isStickY;
+        bool isInitStickY;
+
+        float currentVerticalDistance;
 
 
         void Start()
@@ -70,30 +80,25 @@ namespace DG
                     isNeedFollowX = false;
                 }
 
-                if (isForceFollowY) {
-                    if (transform.position.y < (target.position.y + offsetY)) {
-                        _FollowVertical();
+                bottomLeftWorldPoint = Camera.main.ScreenToWorldPoint(Vector3.zero);
+                expectOutBoundY = (target.position.y - boundYMargin) < bottomLeftWorldPoint.y;
+
+                if (expectOutBoundY) {
+
+                    if (!isInitStickY && currentVerticalDistance == 0.0f) {
+                        currentVerticalDistance = transform.position.y - (target.position.y + offsetY);
+                        isInitStickY = true;
                     }
+
+                    isStickY = true;
+                }
+
+                if (isStickY) {
+                    _StickYAxis();
+                    isNeedFollowY = false;
                 }
                 else {
-                    if (Mathf.Abs(offset.y) > marginY) {
-                        isNeedFollowY = true;
-
-                        //test.. out bound
-                        //var expectOutBound = (offset.y < marginY - 0.5f);
-
-                        /*
-                        var expectOutBound = (offset.y < 0.05f);
-
-                        if (expectOutBound) {
-                            _FollowVerticalFaster();
-                        }
-                        //
-                        //*/
-                    }
-                    else if (Mathf.Abs(offset.y) <= 1.0f) {
-                        isNeedFollowY = false;
-                    }
+                    isNeedFollowY = true;
                 }
 
                 if (isNeedFollowX) {
@@ -128,31 +133,40 @@ namespace DG
                 targetPos.y += offsetY;
 
                 var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeedY);
+
                 newPos.x = transform.position.x;
                 newPos.z = POSITION_Z;
+
                 transform.position = newPos;
             }
         }
 
-        //test
-        public void _FollowVerticalFaster()
+        void _StickYAxis()
         {
             if (target) {
-                var currentVelocity = Vector3.zero;
-                var targetPos = transform.position + offset;
-                targetPos.y += offsetY;
+                var newPos = transform.position;
 
-                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeedOutMarginY);
+                var targetPos = target.position;
+                targetPos.y = target.position.y + offsetY;
+
+                if (transform.position.y > targetPos.y) {
+                    currentVerticalDistance -= Mathf.Lerp(currentVerticalDistance, 0.0f, dampSpeedOutMarginY) * Time.deltaTime;
+                    newPos.y = targetPos.y + currentVerticalDistance;
+                }
+                else {
+                    newPos.y = targetPos.y;
+                }
+
                 newPos.x = transform.position.x;
                 newPos.z = POSITION_Z;
+
                 transform.position = newPos;
             }
         }
 
         void _FollowTarget()
         {
-            if (target)
-            {
+            if (target) {
                 var currentVelocity = Vector3.zero;
                 var targetPos = transform.position + offset;
                 targetPos.x += offsetX;
@@ -162,8 +176,7 @@ namespace DG
                 newPos.z = POSITION_Z;
                 transform.position = newPos;
             }
-            else
-            {
+            else {
                 Debug.Log("Can't find target..");
             }
         }
@@ -183,14 +196,10 @@ namespace DG
             isEnableFollowing = !isEnableFollowing;
         }
 
-        public void ForceFollowVertical()
-        {
-            isForceFollowY = true;
-        }
-
-        public void UnForceFollowVertical()
-        {
-            isForceFollowY = false;
+        public void UnStickYAxis() {
+            isStickY = false;
+            isInitStickY = false;
+            currentVerticalDistance = 0.0f;
         }
     }
 }

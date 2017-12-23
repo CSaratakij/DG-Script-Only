@@ -98,13 +98,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnableFollowing: 1
   target: {fileID: 0}
-  marginX: 0.6
-  marginY: 1.6
+  marginX: 0.4
   offsetX: 0
   offsetY: 1.2
-  dampSpeedX: 0.13
-  dampSpeedY: 0.12
-  dampSpeedOutMarginY: 0.03
+  boundYMargin: 1.2
+  dampSpeedX: 0.1
+  dampSpeedY: 0.1
+  dampSpeedOutMarginY: 0.1
 --- !u!124 &124607862020575230
 Behaviour:
   m_ObjectHideFlags: 1

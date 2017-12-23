@@ -16,6 +16,9 @@ namespace DG
         float jumpForce;
 
         [SerializeField]
+        float maxVelocityY;
+
+        [SerializeField]
         float fallMultiplier;
 
         [SerializeField]
@@ -101,6 +104,13 @@ namespace DG
             _MovementHandler();
         }
 
+        void LateUpdate()
+        {
+            if (isGrounded && !cameraFollow.IsOutBoundY) {
+                cameraFollow.UnStickYAxis();
+            }
+        }
+
         void _Initialize()
         {
             anim = GetComponent<Animator>();
@@ -158,6 +168,7 @@ namespace DG
 
             velocity.x = input.x * moveForce; 
             velocity.y = rigid.velocity.y;
+            velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
 
             rigid.velocity = velocity;
         }
@@ -165,7 +176,6 @@ namespace DG
         void _FootStepHandler()
         {
             if (isGrounded) {
-                cameraFollow.ForceFollowVertical();
 
                 if (rigid.velocity.y == 0.0f) {
                     
@@ -178,9 +188,6 @@ namespace DG
                         footStepAudioPlayer.Play(materialRay.transform.tag);
                     }
                 }
-            }
-            else {
-                cameraFollow.UnForceFollowVertical();
             }
         }
 
@@ -215,10 +222,12 @@ namespace DG
         //Temp
         void _ResetPosition()
         {
-            if (transform.position.y < -5.0f) {
+            if (transform.position.y < -50.0f) {
                 var newPos = transform.position;
                 newPos.x = 0.0f;
                 newPos.y = 6.0f;
+
+                rigid.velocity = Vector2.zero;
                 transform.position = newPos;
             }
         }

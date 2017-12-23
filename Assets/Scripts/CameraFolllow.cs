@@ -149,35 +149,13 @@ namespace DG
                 var targetPos = target.position;
                 targetPos.y = target.position.y + offsetY;
 
-                if (transform.position.y > targetPos.y) {
-                    currentVerticalDistance -= Mathf.Lerp(currentVerticalDistance, 0.0f, dampSpeedOutMarginY) * Time.deltaTime;
-                    newPos.y = targetPos.y + currentVerticalDistance;
-                }
-                else {
-                    newPos.y = targetPos.y;
-                }
+                newPos.y = target.position.y + currentVerticalDistance;
+                currentVerticalDistance -= Mathf.Lerp(currentVerticalDistance, 0.0f, dampSpeedOutMarginY) * Time.deltaTime;
 
                 newPos.x = transform.position.x;
                 newPos.z = POSITION_Z;
 
                 transform.position = newPos;
-            }
-        }
-
-        void _FollowTarget()
-        {
-            if (target) {
-                var currentVelocity = Vector3.zero;
-                var targetPos = transform.position + offset;
-                targetPos.x += offsetX;
-                targetPos.y += offsetY;
-
-                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, 0.08f);
-                newPos.z = POSITION_Z;
-                transform.position = newPos;
-            }
-            else {
-                Debug.Log("Can't find target..");
             }
         }
 

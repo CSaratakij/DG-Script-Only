@@ -216,6 +216,7 @@ namespace DG
             } else if (input.x < 0.0f) {
                 newScale.x = -1.0f;
                 transform.localScale = newScale;
+
             }
         }
 

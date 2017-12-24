@@ -30,6 +30,9 @@ namespace DG
         
         [SerializeField]
         float dampSpeedX;
+
+        [SerializeField]
+        float slowDampSpeedX;
         
         [SerializeField]
         float dampSpeedY;
@@ -40,12 +43,15 @@ namespace DG
 
         public bool IsStickYAxis { get { return isStickY; } }
         public bool IsOutBoundY { get { return expectOutBoundY; } }
+        public float OffsetX { get { return offsetX; } }
 
 
         Vector3 offset;
         Vector3 bottomLeftWorldPoint;
         
         bool isNeedFollowX;
+        bool isSlowFollowX;
+
         bool isNeedFollowY;
 
         bool expectOutBoundY;
@@ -102,7 +108,13 @@ namespace DG
                 }
 
                 if (isNeedFollowX) {
-                    _FollowHorizontal();
+
+                    if (isSlowFollowX) {
+                        _FollowHorizontal(slowDampSpeedX);
+                    }
+                    else {
+                        _FollowHorizontal(dampSpeedX);
+                    }
                 }
 
                 if (isNeedFollowY) {
@@ -111,14 +123,15 @@ namespace DG
             }
         }
 
-        void _FollowHorizontal()
+        void _FollowHorizontal(float dampSpeed)
         {
             if (target) {
                 var currentVelocity = Vector3.zero;
+
                 var targetPos = transform.position + offset;
                 targetPos.x += offsetX;
 
-                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeedX);
+                var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeed);
                 newPos.y = transform.position.y;
                 newPos.z = POSITION_Z;
                 transform.position = newPos;
@@ -129,6 +142,7 @@ namespace DG
         {
             if (target) {
                 var currentVelocity = Vector3.zero;
+
                 var targetPos = transform.position + offset;
                 targetPos.y += offsetY;
 
@@ -180,6 +194,31 @@ namespace DG
         public void ToggleFollow()
         {
             isEnableFollowing = !isEnableFollowing;
+        }
+
+        public void SetFollowX(bool value)
+        {
+            isNeedFollowX = value;
+        }
+
+        public void SetFollowY(bool value)
+        {
+            isNeedFollowX = value;
+        }
+
+        public void SetOffsetX(float value)
+        {
+            offsetX = value;
+        }
+
+        public void SlowFollowX(bool value)
+        {
+            isSlowFollowX = value;
+        }
+
+        public void FlipOffsetX()
+        {
+            offsetX *= -1.0f;
         }
 
         public void UnStickYAxis() {

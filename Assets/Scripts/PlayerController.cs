@@ -7,6 +7,9 @@ namespace DG
     public class PlayerController : MonoBehaviour
     {
         [SerializeField]
+        bool isMain;
+
+        [SerializeField]
         bool isInverseMovement;
 
         [SerializeField]
@@ -55,6 +58,10 @@ namespace DG
 
         Vector3 newScale;
 
+        WorldWrappingController worldWrappingControl;
+        SpriteRenderer render;
+
+
 
         void Awake()
         {
@@ -81,6 +88,26 @@ namespace DG
             }
 
             anim.Play("Idle");
+
+            if (worldWrappingControl) {
+                worldWrappingControl.AllowFocus(true);
+            }
+
+            if (render) {
+                render.maskInteraction = SpriteMaskInteraction.None;
+            }
+
+            if (!isMain) {
+                //test
+                //It shoud be
+                //- set only visible on mask
+                //- forget physics, make y axis to be the same as player's main
+                //- x axis control by world wrapping?
+                //- how we gonna reset its place?
+                //- Who inside the world wrapping area most = main?
+                //And in world wrapping mode -> camera should focus on the center of its wold wrapping.
+                gameObject.SetActive(false);
+            }
         }
 
         void Update()
@@ -121,6 +148,8 @@ namespace DG
             footStepAudioPlayer = transform.Find("footstep").gameObject.GetComponent<FootStepAudioPlayer>();
             cameraFollow = Camera.main.GetComponent<CameraFolllow>();
             newScale = transform.localScale;
+            worldWrappingControl = GetComponent<WorldWrappingController>();
+            render = GetComponent<SpriteRenderer>();
         }
 
         void _InputHandler()
@@ -133,6 +162,10 @@ namespace DG
 
             if (Input.GetButtonDown("Jump")) {
                 isPressedJump = true;
+            }
+
+            if (Input.GetButtonDown("Focus")) {
+                _FocusHandler();
             }
 
             //test
@@ -218,6 +251,20 @@ namespace DG
                 transform.localScale = newScale;
 
             }
+        }
+
+        void _FocusHandler()
+        {
+            var isUseFocus = !worldWrappingControl.IsUseFocus;
+
+            if (isUseFocus) {
+                render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            }
+            else {
+                render.maskInteraction = SpriteMaskInteraction.None;
+            }
+
+            worldWrappingControl.UseFocus(isUseFocus);
         }
 
         //Temp

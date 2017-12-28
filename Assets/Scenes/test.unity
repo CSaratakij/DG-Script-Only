@@ -502,6 +502,16 @@ Prefab:
       propertyPath: mask
       value: 
       objectReference: {fileID: 1540506964}
+    - target: {fileID: 114112117809267972, guid: fb1aa8cee9c3c81478d2d6e4074c91f9,
+        type: 2}
+      propertyPath: offsetArea.y
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114112117809267972, guid: fb1aa8cee9c3c81478d2d6e4074c91f9,
+        type: 2}
+      propertyPath: offsetArea.x
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fb1aa8cee9c3c81478d2d6e4074c91f9, type: 2}
   m_IsPrefabParent: 0

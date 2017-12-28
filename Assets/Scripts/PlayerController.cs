@@ -203,6 +203,18 @@ namespace DG
             velocity.y = rigid.velocity.y;
             velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
 
+            //test
+            /*
+            if (worldWrappingControl.IsUseFocus) {
+                if (rigid.velocity.y < 0.0f) {
+                    velocity.y = Mathf.Clamp(velocity.y, -8.0f, 8.0f);
+                }
+            }
+            else {
+                velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
+            }
+            */
+
             rigid.velocity = velocity;
         }
 
@@ -259,9 +271,14 @@ namespace DG
 
             if (isUseFocus) {
                 render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+
+                //test camera.. <-- need to smooth after call lock..
+                cameraFollow.LockCamera();
             }
             else {
                 render.maskInteraction = SpriteMaskInteraction.None;
+                //test camera..
+                cameraFollow.UnlockCamera();
             }
 
             worldWrappingControl.UseFocus(isUseFocus);

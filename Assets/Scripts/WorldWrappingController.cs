@@ -60,11 +60,13 @@ namespace DG
         void _FocusHandler()
         {
             var offsetX = 0.3;
+            var offsetY = 0.4;
 
             if (target) {
 
                 //Conflict at the moment..
 
+                //horizontal
                 //Condition..
                 //- If about to be the edge -> display second player sprite
                 //- If about to be the edge + offset -> change main..
@@ -90,6 +92,21 @@ namespace DG
                 else if (target.position.x < (currentLinePoints[0].x - offsetX)) {
                     var newPos = target.position;
                     newPos.x = currentLinePoints[1].x;
+                    target.position = newPos;
+                }
+
+                //vertical
+                //upper
+                if (target.position.y > (currentLinePoints[1].y + offsetY)) {
+                    var newPos = target.position;
+                    newPos.y = currentLinePoints[2].y;
+                    target.position = newPos;
+                }
+
+                //lower
+                if (target.position.y < (currentLinePoints[2].y - offsetY)) {
+                    var newPos = target.position;
+                    newPos.y = currentLinePoints[1].y;
                     target.position = newPos;
                 }
             }

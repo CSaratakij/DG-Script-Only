@@ -878,7 +878,15 @@ MonoBehaviour:
   isEnableFocus: 0
   mask: {fileID: 0}
   target: {fileID: 4330412164925912}
-  offsetArea: {x: 3, y: 2}
+  offsetArea: {x: 2, y: 2}
+  boundfreeOffset: {x: 5, y: 5}
+  boundMask:
+    serializedVersion: 2
+    m_Bits: 1
+  upperBound: {fileID: 0}
+  lowerBound: {fileID: 0}
+  rightBound: {fileID: 0}
+  leftBound: {fileID: 0}
 --- !u!114 &114347312601246496
 MonoBehaviour:
   m_ObjectHideFlags: 1

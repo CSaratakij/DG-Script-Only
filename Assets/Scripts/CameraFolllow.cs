@@ -48,16 +48,18 @@ namespace DG
 
         Vector3 offset;
         Vector3 bottomLeftWorldPoint;
+        Vector3 lastPositionBeforeLock;
         
         bool isNeedFollowX;
-        bool isSlowFollowX;
-
         bool isNeedFollowY;
 
+        bool isSlowFollowX;
         bool expectOutBoundY;
 
         bool isStickY;
         bool isInitStickY;
+
+        bool isLock;
 
         float currentVerticalDistance;
 
@@ -77,50 +79,65 @@ namespace DG
         {
             if (isEnableFollowing)
             {
-                offset = (target.position - transform.position);
-
-                if (Mathf.Abs(offset.x) > marginX) {
-                    isNeedFollowX = true;
-                }
-                else if (Mathf.Abs(offset.x) <= 0.1f) {
-                    isNeedFollowX = false;
-                }
-
-                bottomLeftWorldPoint = Camera.main.ScreenToWorldPoint(Vector3.zero);
-                expectOutBoundY = (target.position.y - boundYMargin) < bottomLeftWorldPoint.y;
-
-                if (expectOutBoundY) {
-
-                    if (!isInitStickY && currentVerticalDistance == 0.0f) {
-                        currentVerticalDistance = 0.0f;
-                        isInitStickY = true;
-                    }
-
-                    isStickY = true;
-                }
-
-                if (isStickY) {
-                    _StickYAxis();
-                    isNeedFollowY = false;
+                if (isLock) {
+                    _Follow(lastPositionBeforeLock, dampSpeedX);
                 }
                 else {
-                    isNeedFollowY = true;
-                }
+                    offset = (target.position - transform.position);
 
-                if (isNeedFollowX) {
+                    if (Mathf.Abs(offset.x) > marginX) {
+                        isNeedFollowX = true;
+                    }
+                    else if (Mathf.Abs(offset.x) <= 0.1f) {
+                        isNeedFollowX = false;
+                    }
 
-                    if (isSlowFollowX) {
-                        _FollowHorizontal(slowDampSpeedX);
+                    bottomLeftWorldPoint = Camera.main.ScreenToWorldPoint(Vector3.zero);
+                    expectOutBoundY = (target.position.y - boundYMargin) < bottomLeftWorldPoint.y;
+
+                    if (expectOutBoundY) {
+
+                        if (!isInitStickY && currentVerticalDistance == 0.0f) {
+                            currentVerticalDistance = 0.0f;
+                            isInitStickY = true;
+                        }
+
+                        isStickY = true;
+                    }
+
+                    if (isStickY) {
+                        _StickYAxis();
+                        isNeedFollowY = false;
                     }
                     else {
-                        _FollowHorizontal(dampSpeedX);
+                        isNeedFollowY = true;
+                    }
+
+                    if (isNeedFollowX) {
+
+                        if (isSlowFollowX) {
+                            _FollowHorizontal(slowDampSpeedX);
+                        }
+                        else {
+                            _FollowHorizontal(dampSpeedX);
+                        }
+                    }
+
+                    if (isNeedFollowY) {
+                        _FollowVertical();
                     }
                 }
-
-                if (isNeedFollowY) {
-                    _FollowVertical();
-                }
             }
+        }
+
+        void _Follow(Vector3 targetPos, float dampSpeed) {
+            targetPos.y += offsetY;
+
+            var currentVelocity = Vector3.zero;
+            var newPos = Vector3.SmoothDamp(transform.position, targetPos, ref currentVelocity, dampSpeed);
+
+            newPos.z = POSITION_Z;
+            transform.position = newPos;
         }
 
         void _FollowHorizontal(float dampSpeed)
@@ -183,12 +200,13 @@ namespace DG
 
         public void LockCamera()
         {
-            isEnableFollowing = false;
+            lastPositionBeforeLock = target.position;
+            isLock = true;
         }
 
         public void UnlockCamera()
         {
-            isEnableFollowing = true;
+            isLock = false;
         }
 
         public void ToggleFollow()

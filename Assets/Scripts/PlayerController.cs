@@ -97,15 +97,8 @@ namespace DG
                 render.maskInteraction = SpriteMaskInteraction.None;
             }
 
+            //test
             if (!isMain) {
-                //test
-                //It shoud be
-                //- set only visible on mask
-                //- forget physics, make y axis to be the same as player's main
-                //- x axis control by world wrapping?
-                //- how we gonna reset its place?
-                //- Who inside the world wrapping area most = main?
-                //And in world wrapping mode -> camera should focus on the center of its wold wrapping.
                 gameObject.SetActive(false);
             }
         }
@@ -200,20 +193,9 @@ namespace DG
             materialRay = Physics2D.CircleCast(feet.position, 0.02f, Vector2.down, 1.0f, footstepMask);
 
             velocity.x = input.x * moveForce; 
+
             velocity.y = rigid.velocity.y;
             velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
-
-            //test
-            /*
-            if (worldWrappingControl.IsUseFocus) {
-                if (rigid.velocity.y < 0.0f) {
-                    velocity.y = Mathf.Clamp(velocity.y, -8.0f, 8.0f);
-                }
-            }
-            else {
-                velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
-            }
-            */
 
             rigid.velocity = velocity;
         }
@@ -271,13 +253,10 @@ namespace DG
 
             if (isUseFocus) {
                 render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
-
-                //test camera.. <-- need to smooth after call lock..
                 cameraFollow.LockCamera();
             }
             else {
                 render.maskInteraction = SpriteMaskInteraction.None;
-                //test camera..
                 cameraFollow.UnlockCamera();
             }
 

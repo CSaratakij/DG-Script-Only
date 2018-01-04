@@ -47,6 +47,9 @@ namespace DG
         RaycastHit2D ray_LeftToRight;
         RaycastHit2D ray_RightToLeft;
 
+        Collider2D boxLeft;
+        Collider2D boxRight;
+
         Vector3[] currentLinePoints;
         LineRenderer lineRenderer;
 
@@ -67,15 +70,24 @@ namespace DG
 
         void FixedUpdate()
         {
-            var originUpper = new Vector2(target.position.x, currentLinePoints[0].y + 0.05f);
-            var originLower = new Vector2(target.position.x, currentLinePoints[2].y - 0.05f);
-            var originLeft = new Vector2(currentLinePoints[0].x, target.position.y);
-            var originRight = new Vector2(currentLinePoints[1].x, target.position.y);
+            if (isEnableFocus) {
 
-            ray_UpperToLower = Physics2D.Raycast(originUpper, Vector2.down, 1000.0f, boundMask);
-            ray_LowerToUpper = Physics2D.Raycast(originLower, Vector2.up, 1000.0f, boundMask);
-            ray_LeftToRight = Physics2D.Raycast(originLeft, Vector2.right, 1000.0f, boundMask);
-            ray_RightToLeft = Physics2D.Raycast(originRight, Vector2.left, 1000.0f, boundMask);
+                var originUpper = new Vector2(target.position.x, currentLinePoints[0].y + 0.05f);
+                var originLower = new Vector2(target.position.x, currentLinePoints[2].y - 0.05f);
+                var originLeft = new Vector2(currentLinePoints[0].x, target.position.y);
+                var originRight = new Vector2(currentLinePoints[1].x, target.position.y);
+
+                var originCircleLeft = new Vector2(currentLinePoints[0].x, target.position.y);
+                var originCircleRight = new Vector2(currentLinePoints[1].x, target.position.y);
+
+                ray_UpperToLower = Physics2D.Raycast(originUpper, Vector2.down, 1000.0f, boundMask);
+                ray_LowerToUpper = Physics2D.Raycast(originLower, Vector2.up, 1000.0f, boundMask);
+                ray_LeftToRight = Physics2D.Raycast(originLeft, Vector2.right, 1000.0f, boundMask);
+                ray_RightToLeft = Physics2D.Raycast(originRight, Vector2.left, 1000.0f, boundMask);
+
+                boxLeft = Physics2D.OverlapBox(originLeft, new Vector2(0.25f, 1.0f), 0.0f, boundMask);
+                boxRight = Physics2D.OverlapBox(originRight, new Vector2(0.25f, 1.0f), 0.0f, boundMask);
+            }
         }
 
         void _Initialize()
@@ -91,7 +103,7 @@ namespace DG
 
         void _FocusHandler()
         {
-            var offsetX = 0.25f;
+            var offsetX = 0.3f;
             var offsetY = 0.6f;
 
             if (target) {
@@ -117,20 +129,23 @@ namespace DG
 
                 //right detect
                 //swapp main instead of change position??
-                if (target.position.x > (currentLinePoints[1].x + offsetX)) {
+                //if (target.position.x > (currentLinePoints[1].x + offsetX)) {
+                if (target.position.x > currentLinePoints[1].x) {
                     var newPos = target.position;
-                    newPos.x = currentLinePoints[0].x;
+                    newPos.x = currentLinePoints[0].x + offsetX;
                     target.position = newPos;
                 }
+
                 //left detect
                 //swapp main instead of change position??
                 //------------------------------
                 //possible solution to fix a bug abous world wrapping from horizontal
                 //(if about to go to the left but target position is less than edge (right) y axis raycast (upper to lower ray) -> set axis y of target to the result of raycast)
                 //------------------------------
-                else if (target.position.x < (currentLinePoints[0].x - offsetX)) {
+                //else if (target.position.x < (currentLinePoints[0].x - offsetX)) {
+                else if (target.position.x < currentLinePoints[0].x) {
                     var newPos = target.position;
-                    newPos.x = currentLinePoints[1].x;
+                    newPos.x = currentLinePoints[1].x - offsetX;
                     target.position = newPos;
                 }
 
@@ -189,20 +204,30 @@ namespace DG
             var expectPosRight = target.position;
             var expectPosLeft = target.position;
 
-            if (ray_LeftToRight) {
-                expectPosRight.x = currentLinePoints[1].x + ray_LeftToRight.distance;
+            if (boxLeft) {
+                expectPosRight.x = currentLinePoints[1].x;
             }
             else {
-                expectPosRight.x = currentLinePoints[1].x + boundfreeOffset.x;
+                if (ray_LeftToRight) {
+                    expectPosRight.x = currentLinePoints[1].x + ray_LeftToRight.distance;
+                }
+                else {
+                    expectPosRight.x = currentLinePoints[1].x + boundfreeOffset.x;
+                }
             }
             
             rightBound.position = expectPosRight;
 
-            if (ray_RightToLeft) {
-                expectPosLeft.x = currentLinePoints[0].x - ray_RightToLeft.distance;
+            if (boxRight) {
+                expectPosLeft.x = currentLinePoints[0].x;
             }
             else {
-                expectPosLeft.x = currentLinePoints[0].x - boundfreeOffset.x;
+                if (ray_RightToLeft) {
+                    expectPosLeft.x = currentLinePoints[0].x - ray_RightToLeft.distance;
+                }
+                else {
+                    expectPosLeft.x = currentLinePoints[0].x - boundfreeOffset.x;
+                }
             }
 
             leftBound.position = expectPosLeft;

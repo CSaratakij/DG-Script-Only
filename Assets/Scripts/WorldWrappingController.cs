@@ -103,10 +103,11 @@ namespace DG
 
         void _FocusHandler()
         {
-            var offsetX = 0.3f;
-            var offsetY = 0.6f;
+            var offsetX = 0.25f;
+            var offsetY = 0.55f;
 
             if (target) {
+
                 _MoveBoundPosition();
 
                 //Conflict at the moment..

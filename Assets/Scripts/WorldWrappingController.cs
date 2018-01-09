@@ -19,6 +19,24 @@ namespace DG
         Vector2 offsetArea;
 
         [SerializeField]
+        float offsetArea_Upper;
+
+        [SerializeField]
+        float offsetArea_Lower;
+
+        [SerializeField]
+        float offsetArea_Left;
+
+        [SerializeField]
+        float offsetArea_Right;
+
+        [SerializeField]
+        float marginX;
+
+        [SerializeField]
+        float marginY;
+
+        [SerializeField]
         Vector2 boundfreeOffset;
 
         [SerializeField]
@@ -36,11 +54,28 @@ namespace DG
         [SerializeField]
         Transform leftBound;
 
+        [SerializeField]
+        LineRenderer highlightLineRenderer;
+
+        [SerializeField]
+        Gradient normalModeLineColor;
+
+        [SerializeField]
+        Gradient editModeLineColor;
+
+        [SerializeField]
+        Gradient selectSideLineColor;
+
 
         public bool IsUseFocus { get { return isUseFocus; } }
+        public bool IsInEditMode { get { return isInEditMode; } }
 
 
         bool isUseFocus;
+        bool isInEditMode;
+
+        bool isUseAxisX;
+        bool isUseAxisY;
 
         RaycastHit2D ray_UpperToLower;
         RaycastHit2D ray_LowerToUpper;
@@ -50,7 +85,13 @@ namespace DG
         Collider2D boxLeft;
         Collider2D boxRight;
 
+        Vector2 lastSelectedSide;
+
         Vector3[] currentLinePoints;
+        Vector3[] currentHighlightLinePoints;
+
+        Vector3 originWorldWrappingPoint;
+
         LineRenderer lineRenderer;
 
 
@@ -59,11 +100,39 @@ namespace DG
             _Initialize();
         }
 
+        void Start()
+        {
+            currentLinePoints[0].x = originWorldWrappingPoint.x - offsetArea.x;
+            currentLinePoints[0].y = originWorldWrappingPoint.y + offsetArea.y;
+
+            currentLinePoints[1].x = originWorldWrappingPoint.x + offsetArea.x;
+            currentLinePoints[1].y = originWorldWrappingPoint.y + offsetArea.y;
+
+            currentLinePoints[2].x = originWorldWrappingPoint.x + offsetArea.x;
+            currentLinePoints[2].y = originWorldWrappingPoint.y - offsetArea.y;
+
+            currentLinePoints[3].x = originWorldWrappingPoint.x - offsetArea.x;
+            currentLinePoints[3].y = originWorldWrappingPoint.y - offsetArea.y;
+
+            lineRenderer.colorGradient = normalModeLineColor;
+
+            highlightLineRenderer.colorGradient = selectSideLineColor;
+            originWorldWrappingPoint = target.position;
+        }
+
         void Update()
         {
             _InputHandler();
 
             if (isEnableFocus && isUseFocus) {
+
+                if (isInEditMode) {
+                    _EditModeHandler();
+                }
+                else {
+                    _ClearEditMode();
+                }
+
                 _FocusHandler();
             }
         }
@@ -72,96 +141,341 @@ namespace DG
         {
             if (isEnableFocus) {
 
-                var originUpper = new Vector2(target.position.x, currentLinePoints[0].y + 0.05f);
-                var originLower = new Vector2(target.position.x, currentLinePoints[2].y - 0.05f);
+                var originUpper = new Vector2(target.position.x, currentLinePoints[0].y + 0.03f);
+                var originLower = new Vector2(target.position.x, currentLinePoints[2].y - 0.03f);
+
                 var originLeft = new Vector2(currentLinePoints[0].x, target.position.y);
                 var originRight = new Vector2(currentLinePoints[1].x, target.position.y);
 
-                var originCircleLeft = new Vector2(currentLinePoints[0].x, target.position.y);
-                var originCircleRight = new Vector2(currentLinePoints[1].x, target.position.y);
-
                 ray_UpperToLower = Physics2D.Raycast(originUpper, Vector2.down, 1000.0f, boundMask);
                 ray_LowerToUpper = Physics2D.Raycast(originLower, Vector2.up, 1000.0f, boundMask);
+
                 ray_LeftToRight = Physics2D.Raycast(originLeft, Vector2.right, 1000.0f, boundMask);
                 ray_RightToLeft = Physics2D.Raycast(originRight, Vector2.left, 1000.0f, boundMask);
 
-                boxLeft = Physics2D.OverlapBox(originLeft, new Vector2(0.25f, 1.0f), 0.0f, boundMask);
-                boxRight = Physics2D.OverlapBox(originRight, new Vector2(0.25f, 1.0f), 0.0f, boundMask);
+                boxLeft = Physics2D.OverlapBox(originLeft, new Vector2(0.25f, 1.4f), 0.0f, boundMask);
+                boxRight = Physics2D.OverlapBox(originRight, new Vector2(0.25f, 1.4f), 0.0f, boundMask);
             }
         }
 
         void _Initialize()
         {
             currentLinePoints = new Vector3[4];
+            currentHighlightLinePoints = new Vector3[2];
             lineRenderer = GetComponent<LineRenderer>();
+            lastSelectedSide = Vector2.right;
         }
 
         void _InputHandler()
         {
-            //handle player's input for expand world wrapping area..
+            if (Input.GetButtonUp("Resize")) {
+                isUseAxisX = false;
+            }
+
+            if (Input.GetButtonUp("Resize")) {
+                isUseAxisY = false;
+            }
+        }
+
+        void _EditModeHandler()
+        {
+            _SelectSideHandler();
+            _RedrawHighlightLine();
+            _EditModeHandler_Horizontal();
+            _EditModeHandler_Vertical();
+        }
+
+        void _SelectSideHandler()
+        {
+            _SelectSideHandler_Horizontal();
+            _SelectSideHandler_Vertical();
+        }
+
+        void _SelectSideHandler_Horizontal()
+        {
+            var axisX = Input.GetAxisRaw("Horizontal");
+
+            if (axisX > 0.0f) {
+                lastSelectedSide = Vector2.right;
+            }
+            else if (axisX < 0.0f) {
+                lastSelectedSide = Vector2.left;
+            }
+        }
+
+        void _SelectSideHandler_Vertical()
+        {
+            var axisY = Input.GetAxisRaw("Vertical");
+
+            if (axisY > 0.0f) {
+                lastSelectedSide = Vector2.up;
+            }
+            else if (axisY < 0.0f) {
+                lastSelectedSide = Vector2.down;
+            }
+        }
+
+        void _RedrawHighlightLine()
+        {
+            if (Vector2.up == lastSelectedSide) {
+                currentHighlightLinePoints[0] = currentLinePoints[0];
+                currentHighlightLinePoints[1] = currentLinePoints[1];
+
+                highlightLineRenderer.positionCount = 2;
+                highlightLineRenderer.SetPositions(currentHighlightLinePoints);
+            }
+            else if (Vector2.down == lastSelectedSide) {
+                currentHighlightLinePoints[0] = currentLinePoints[3];
+                currentHighlightLinePoints[1] = currentLinePoints[2];
+
+                highlightLineRenderer.positionCount = 2;
+                highlightLineRenderer.SetPositions(currentHighlightLinePoints);
+            }
+            else if (Vector2.left == lastSelectedSide) {
+                currentHighlightLinePoints[0] = currentLinePoints[0];
+                currentHighlightLinePoints[1] = currentLinePoints[3];
+
+                highlightLineRenderer.positionCount = 2;
+                highlightLineRenderer.SetPositions(currentHighlightLinePoints);
+            }
+            else if (Vector2.right == lastSelectedSide) {
+                currentHighlightLinePoints[0] = currentLinePoints[1];
+                currentHighlightLinePoints[1] = currentLinePoints[2];
+
+                highlightLineRenderer.positionCount = 2;
+                highlightLineRenderer.SetPositions(currentHighlightLinePoints);
+            }
+        }
+
+        void _EditModeHandler_Horizontal()
+        {
+            var axisX = Input.GetAxisRaw("Resize");
+
+            if (lastSelectedSide == Vector2.right) {
+
+                if (!isUseAxisX) {
+
+                    if (axisX > 0.0f) {
+                        Debug.Log("Increase side right...");
+
+                        isUseAxisX = true;
+
+                        var boundOffset = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
+
+                        if (currentLinePoints[1].x + 2 < boundOffset.x) {
+                            currentLinePoints[1].x += 2;
+                            currentLinePoints[2].x += 2;
+                        }
+
+                        _RepositionWorldWrappingRect();
+                    }
+                    else if (axisX < 0.0f) {
+                        Debug.Log("Decrease side right...");
+
+                        isUseAxisX = true;
+
+                        var isInWorldWrappingRect = _IsInWorldWrappingRect_Horizontal(
+                                currentLinePoints[0],
+                                new Vector2(currentLinePoints[1].x - (marginX + 2), 0.0f),
+                                target.position
+                        );
+
+                        if (isInWorldWrappingRect) {
+                            currentLinePoints[1].x -= 2;
+                            currentLinePoints[2].x -= 2;
+
+                            _RepositionWorldWrappingRect();
+                        }
+                        else {
+                            Debug.Log("Can't, you dumbass...");
+                        }
+                    }
+                }
+            }
+            else if (lastSelectedSide == Vector2.left) {
+
+                if (!isUseAxisX) {
+
+                    if (axisX > 0.0f) {
+                        Debug.Log("Increase side left...");
+
+                        isUseAxisX = true;
+
+                        var boundOffset = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, Camera.main.nearClipPlane));
+
+                        if (currentLinePoints[0].x - 2 > boundOffset.x) {
+                            currentLinePoints[0].x -= 2;
+                            currentLinePoints[3].x -= 2;
+                        }
+
+                        _RepositionWorldWrappingRect();
+                    }
+                    else if (axisX < 0.0f) {
+                        Debug.Log("Decrease side left...");
+                        isUseAxisX = true;
+
+
+                        var isInWorldWrappingRect = _IsInWorldWrappingRect_Horizontal(
+                                new Vector2(currentLinePoints[0].x + (marginX + 2), 0.0f),
+                                currentLinePoints[1],
+                                target.position
+                        );
+
+                        if (isInWorldWrappingRect) {
+                            currentLinePoints[0].x += 2;
+                            currentLinePoints[3].x += 2;
+
+                            _RepositionWorldWrappingRect();
+                        }
+                        else {
+                            Debug.Log("Can't, you dumbass...");
+                        }
+                    }
+                }
+            }
+        }
+
+        void _EditModeHandler_Vertical()
+        {
+            var axisY = Input.GetAxisRaw("Resize");
+
+            if (lastSelectedSide == Vector2.up) {
+
+                if (!isUseAxisY) {
+
+                    if (axisY > 0.0f) {
+                        Debug.Log("Increase side up...");
+
+                        isUseAxisY = true;
+
+                        var boundOffset = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
+
+                        if (currentLinePoints[0].y + 1 < boundOffset.y) {
+                            currentLinePoints[0].y += 1;
+                            currentLinePoints[1].y += 1;
+                        }
+
+                        _RepositionWorldWrappingRect();
+                    }
+                    else if (axisY < 0.0f) {
+                        Debug.Log("Decrease side up...");
+
+                        isUseAxisY = true;
+
+                        var isInWorldWrappingRect = _IsInWorldWrappingRect_Vertical(
+                            new Vector2(0.0f, currentLinePoints[0].y - (marginY + 1)),
+                            currentLinePoints[2],
+                            target.position
+                        );
+
+                        if (isInWorldWrappingRect) {
+                            currentLinePoints[0].y -= 1;
+                            currentLinePoints[1].y -= 1;
+
+                            _RepositionWorldWrappingRect();
+                        }
+                        else {
+                            Debug.Log("Can't, you dumbass...");
+                        }
+                    }
+                }
+            }
+            else if (lastSelectedSide == Vector2.down) {
+
+                if (!isUseAxisY) {
+
+                    if (axisY > 0.0f) {
+                        Debug.Log("Increase side down...");
+
+                        isUseAxisY = true;
+
+                        var boundOffset = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Camera.main.nearClipPlane));
+
+                        if (currentLinePoints[2].y - 1 > boundOffset.y) {
+                            currentLinePoints[2].y -= 1;
+                            currentLinePoints[3].y -= 1;
+                        }
+
+                        _RepositionWorldWrappingRect();
+                    }
+                    else if (axisY < 0.0f) {
+                        Debug.Log("Decrease side down...");
+
+                        isUseAxisY = true;
+
+                        var isInWorldWrappingRect = _IsInWorldWrappingRect_Vertical(
+                            currentLinePoints[0],
+                            new Vector2(0.0f, currentLinePoints[2].y + (marginY + 1)),
+                            target.position
+                        );
+
+                        if (isInWorldWrappingRect) {
+                            currentLinePoints[2].y += 1;
+                            currentLinePoints[3].y += 1;
+
+                            _RepositionWorldWrappingRect();
+                        }
+                        else {
+                            Debug.Log("Can't, you dumbass...");
+                        }
+                    }
+                }
+            }
         }
 
         void _FocusHandler()
         {
-            var offsetX = 0.25f;
-            var offsetY = 0.55f;
-
             if (target) {
 
                 _MoveBoundPosition();
 
-                //Conflict at the moment..
-
-                //horizontal
-                //Condition..
-                //- If about to be the edge -> display second player sprite
-                //- If about to be the edge + offset -> change main..
-
-                //left..
-                /*
-                //swapp main instead of change position??
-                if (target.position.x < currentLinePoints[0].x) {
-
-                    var newPos = target.position;
-                    newPos.x = currentLinePoints[1].x;
-                    target.position = newPos;
-                }
-                */
-
-                //right detect
-                //swapp main instead of change position??
-                //if (target.position.x > (currentLinePoints[1].x + offsetX)) {
                 if (target.position.x > currentLinePoints[1].x) {
                     var newPos = target.position;
-                    newPos.x = currentLinePoints[0].x + offsetX;
+                    newPos.x = currentLinePoints[0].x + marginX;
                     target.position = newPos;
                 }
 
-                //left detect
-                //swapp main instead of change position??
-                //------------------------------
-                //possible solution to fix a bug abous world wrapping from horizontal
-                //(if about to go to the left but target position is less than edge (right) y axis raycast (upper to lower ray) -> set axis y of target to the result of raycast)
-                //------------------------------
-                //else if (target.position.x < (currentLinePoints[0].x - offsetX)) {
                 else if (target.position.x < currentLinePoints[0].x) {
                     var newPos = target.position;
-                    newPos.x = currentLinePoints[1].x - offsetX;
+                    newPos.x = currentLinePoints[1].x - marginX;
                     target.position = newPos;
                 }
 
-                //vertical
-                //upper
-                if (target.position.y > (currentLinePoints[1].y + offsetY)) {
+                if (target.position.y > (currentLinePoints[1].y + marginY)) {
                     var newPos = target.position;
-                    newPos.y = currentLinePoints[2].y;
+
+                    if (ray_LowerToUpper) {
+
+                        if (ray_LowerToUpper.distance < 1.2f) {
+                            newPos.y = originWorldWrappingPoint.y;
+                        }
+                        else {
+                            newPos.y = currentLinePoints[2].y;
+                        }
+                    }
+                    else {
+                        newPos.y = currentLinePoints[2].y;
+                    }
+
                     target.position = newPos;
                 }
 
-                //lower
-                if (target.position.y < (currentLinePoints[2].y - offsetY)) {
+                if (target.position.y < (currentLinePoints[2].y - marginY)) {
                     var newPos = target.position;
-                    newPos.y = currentLinePoints[1].y;
+
+                    if (ray_UpperToLower) {
+
+                        if (ray_UpperToLower.distance < 1.2f) {
+                            newPos.y = originWorldWrappingPoint.y;
+                        }
+                        else {
+                            newPos.y = currentLinePoints[1].y;
+                        }
+                    }
+                    else {
+                        newPos.y = currentLinePoints[1].y;
+                    }
+
                     target.position = newPos;
                 }
             }
@@ -172,14 +486,14 @@ namespace DG
 
         void _MoveBoundPosition()
         {
-            _MoveBoundVertical();
-            _MoveBoundHorizontal();
+            _MoveBound_Vertical();
+            _MoveBound_Horizontal();
         }
 
-        void _MoveBoundVertical()
+        void _MoveBound_Vertical()
         {
-            var expectPosUp = target.position;
-            var expectPosDown = target.position;
+            var expectPosUp = originWorldWrappingPoint;
+            var expectPosDown = originWorldWrappingPoint;
 
             if (ray_LowerToUpper) {
                 expectPosUp.y = currentLinePoints[0].y + ray_LowerToUpper.distance;
@@ -200,10 +514,10 @@ namespace DG
             lowerBound.position = expectPosDown;
         }
 
-        void _MoveBoundHorizontal()
+        void _MoveBound_Horizontal()
         {
-            var expectPosRight = target.position;
-            var expectPosLeft = target.position;
+            var expectPosRight = originWorldWrappingPoint;
+            var expectPosLeft = originWorldWrappingPoint;
 
             if (boxLeft) {
                 expectPosRight.x = currentLinePoints[1].x;
@@ -234,6 +548,32 @@ namespace DG
             leftBound.position = expectPosLeft;
         }
 
+        void _MaintainWorldWrappingOffset()
+        {
+            _MaintainWorldWrappingOffset_Horizontal();
+            _MaintainWorldWrappingOffset_Vertical();
+        }
+
+        void _MaintainWorldWrappingOffset_Horizontal()
+        {
+            var offsetX = originWorldWrappingPoint.x - target.position.x;
+
+            currentLinePoints[0].x -= offsetX;
+            currentLinePoints[1].x -= offsetX;
+            currentLinePoints[2].x -= offsetX;
+            currentLinePoints[3].x -= offsetX;
+        }
+
+        void _MaintainWorldWrappingOffset_Vertical()
+        {
+            var offsetY = originWorldWrappingPoint.y - target.position.y;
+
+            currentLinePoints[0].y -= offsetY;
+            currentLinePoints[1].y -= offsetY;
+            currentLinePoints[2].y -= offsetY;
+            currentLinePoints[3].y -= offsetY;
+        }
+
         void _RepositionWorldWrappingRect()
         {
             _RedrawWorldWrappingAreaLine();
@@ -243,34 +583,34 @@ namespace DG
 
         void _RepositionBound()
         {
-            _RepositionBoundVertical();
-            _RepositionBoundHorizontal();
+            _RepositionBound_Vertical();
+            _RepositionBound_Horizontal();
         }
 
-        void _RepositionBoundVertical()
+        void _RepositionBound_Vertical()
         {
-            var newPos = target.position;
+            var newPos = originWorldWrappingPoint;
             newPos.y += boundfreeOffset.y;
 
             upperBound.position = newPos;
             upperBound.gameObject.SetActive(true);
 
-            newPos = target.position;
+            newPos = originWorldWrappingPoint;
             newPos.y -= boundfreeOffset.y;
 
             lowerBound.position = newPos;
             lowerBound.gameObject.SetActive(true);
         }
 
-        void _RepositionBoundHorizontal()
+        void _RepositionBound_Horizontal()
         {
-            var newPos = target.position;
+            var newPos = originWorldWrappingPoint;
             newPos.x += boundfreeOffset.x;
 
             rightBound.position = newPos;
             rightBound.gameObject.SetActive(true);
 
-            newPos = target.position;
+            newPos = originWorldWrappingPoint;
             newPos.x -= boundfreeOffset.x;
 
             leftBound.position = newPos;
@@ -279,18 +619,6 @@ namespace DG
 
         void _RedrawWorldWrappingAreaLine()
         {
-            currentLinePoints[0].x = transform.position.x - offsetArea.x;
-            currentLinePoints[0].y = transform.position.y + offsetArea.y;
-
-            currentLinePoints[1].x = transform.position.x + offsetArea.x;
-            currentLinePoints[1].y = transform.position.y + offsetArea.y;
-
-            currentLinePoints[2].x = transform.position.x + offsetArea.x;
-            currentLinePoints[2].y = transform.position.y - offsetArea.y;
-
-            currentLinePoints[3].x = transform.position.x - offsetArea.x;
-            currentLinePoints[3].y = transform.position.y - offsetArea.y;
-
             lineRenderer.positionCount = currentLinePoints.Length;
             lineRenderer.SetPositions(currentLinePoints);
         }
@@ -298,10 +626,16 @@ namespace DG
         void _ResizeSpriteMask()
         {
             if (mask) {
-                var scale = new Vector3(offsetArea.x * 2, offsetArea.y * 2, mask.localScale.z);
+
+                var offsetX = currentLinePoints[1].x - currentLinePoints[0].x;
+                var offsetY = currentLinePoints[0].y - currentLinePoints[2].y;
+
+                var scale = new Vector3(offsetX, offsetY, mask.localScale.z);
                 mask.localScale = scale;
 
-                mask.position = transform.position;
+                var newPos = new Vector3(currentLinePoints[0].x + (offsetX / 2), currentLinePoints[2].y + (offsetY / 2), 1.0f);
+                mask.position = newPos;
+
                 mask.gameObject.SetActive(true);
             }
             else {
@@ -311,12 +645,27 @@ namespace DG
 
         void _ClearWorldWrapping()
         {
+            _ClearEditMode();
+
             lineRenderer.positionCount = 0;
             mask.gameObject.SetActive(false);
             upperBound.gameObject.SetActive(false);
             lowerBound.gameObject.SetActive(false);
             rightBound.gameObject.SetActive(false);
             leftBound.gameObject.SetActive(false);
+        }
+
+        void _ClearEditMode()
+        {
+            highlightLineRenderer.positionCount = 0;
+        }
+
+        bool _IsInWorldWrappingRect_Horizontal(Vector2 refLeftPos, Vector2 refRightPos, Vector2 pos) {
+            return (pos.x > refLeftPos.x && pos.x < refRightPos.x);
+        }
+        
+        bool _IsInWorldWrappingRect_Vertical(Vector2 refUpperPos, Vector2 refLowerPos, Vector2 pos) {
+            return (pos.y < refUpperPos.y && pos.y > refLowerPos.y);
         }
 
         public void AllowFocus(bool value)
@@ -327,6 +676,8 @@ namespace DG
         public void UseFocus(bool value)
         {
             if (value) {
+                _MaintainWorldWrappingOffset();
+                originWorldWrappingPoint = target.position;
                 _RepositionWorldWrappingRect();
             }
             else {
@@ -334,6 +685,12 @@ namespace DG
             }
 
             isUseFocus = value;
+        }
+
+        public void UseEditMode(bool value)
+        {
+            lineRenderer.colorGradient = (value) ? editModeLineColor : normalModeLineColor;
+            isInEditMode = value;
         }
     }
 }

@@ -37,6 +37,7 @@ namespace DG
         AudioClip jumpSound;
 
 
+        bool isControlable;
         bool isPressedJump;
         bool isGrounded;
         bool isFalling;
@@ -60,7 +61,6 @@ namespace DG
 
         WorldWrappingController worldWrappingControl;
         SpriteRenderer render;
-
 
 
         void Awake()
@@ -105,14 +105,19 @@ namespace DG
 
         void Update()
         {
+            _InputHandler();
+
             if (rigid.velocity.y < 0.0f) {
                 isFalling = true;
             }
 
-            _InputHandler();
-            _FlipXHandler();
+            if (isControlable) {
+                _FlipXHandler();
+            }
+
             _AnimationHandler();
             _FootStepHandler();
+            _FocusHandler();
 
             //Temp
             _ResetPosition();
@@ -120,6 +125,9 @@ namespace DG
 
         void FixedUpdate()
         {
+            isGrounded = Physics2D.OverlapCircle(ground.position, 0.02f, groundMask);
+            materialRay = Physics2D.CircleCast(feet.position, 0.02f, Vector2.down, 1.0f, footstepMask);
+
             _JumpHandler();
             _MovementHandler();
         }
@@ -143,6 +151,7 @@ namespace DG
             newScale = transform.localScale;
             worldWrappingControl = GetComponent<WorldWrappingController>();
             render = GetComponent<SpriteRenderer>();
+            isControlable = true;
         }
 
         void _InputHandler()
@@ -153,51 +162,68 @@ namespace DG
                 input.x *= -1.0f;
             }
 
-            if (Input.GetButtonDown("Jump")) {
-                isPressedJump = true;
+            if (isControlable) {
+                if (Input.GetButtonDown("Jump")) {
+                    isPressedJump = true;
+                }
             }
 
-            if (Input.GetButtonDown("Focus")) {
-                _FocusHandler();
+            //if (Input.GetButtonDown("Focus")) {
+            if (!worldWrappingControl.IsUseFocus) {
+                if (isGrounded && Input.GetButtonDown("Focus")) {
+                    _ToggleFocus();
+                }
             }
-
-            //test
-            if (Input.GetKeyDown(KeyCode.L)) {
-                cameraFollow.LockCamera();
-            }
-            else if (Input.GetKeyDown(KeyCode.U)) {
-                cameraFollow.UnlockCamera();
+            else {
+                if (Input.GetButtonDown("Focus")) {
+                    _ToggleFocus();
+                }
             }
         }
 
         void _AnimationHandler()
         {
-            if (isGrounded) {
-                if (Input.GetAxisRaw("Horizontal") != 0.0f) {
-                    anim.Play("Run");
+            if (isControlable) {
+                if (isGrounded) {
+                    if (input.x != 0.0f) {
+                        anim.Play("Run");
+                    }
+                    else {
+                        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                            anim.Play("Falling Impact");
+                        }
+                    }
                 }
                 else {
-                    if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-                        anim.Play("Falling Impact");
-                    }
+                    anim.Play("Fall");
                 }
             }
             else {
-                anim.Play("Fall");
+                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                    anim.Play("Falling Impact");
+                }
             }
         }
 
         void _MovementHandler()
         {
-            isGrounded = Physics2D.OverlapCircle(ground.position, 0.02f, groundMask);
-            materialRay = Physics2D.CircleCast(feet.position, 0.02f, Vector2.down, 1.0f, footstepMask);
+            if (isControlable) {
 
-            velocity.x = input.x * moveForce; 
+                velocity.x = input.x * moveForce; 
+                velocity.y = rigid.velocity.y;
 
-            velocity.y = rigid.velocity.y;
-            velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
+                velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
+                rigid.velocity = velocity;
+            }
+            else {
 
-            rigid.velocity = velocity;
+                velocity = Vector2.zero;
+
+                velocity.y = rigid.velocity.y;
+                velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
+
+                rigid.velocity = velocity;
+            }
         }
 
         void _FootStepHandler()
@@ -211,8 +237,10 @@ namespace DG
                         isFalling = false;
                     }
 
-                    if (Input.GetAxisRaw("Horizontal") != 0.0f && materialRay) {
-                        footStepAudioPlayer.Play(materialRay.transform.tag);
+                    if (isControlable) {
+                        if (input.x != 0.0f && materialRay) {
+                            footStepAudioPlayer.Play(materialRay.transform.tag);
+                        }
                     }
                 }
             }
@@ -247,7 +275,7 @@ namespace DG
             }
         }
 
-        void _FocusHandler()
+        void _ToggleFocus()
         {
             var isUseFocus = !worldWrappingControl.IsUseFocus;
 
@@ -261,6 +289,40 @@ namespace DG
             }
 
             worldWrappingControl.UseFocus(isUseFocus);
+        }
+
+        void _FocusHandler()
+        {
+            if (worldWrappingControl.IsUseFocus) {
+                if (isGrounded && Input.GetButtonDown("FocusEditMode")) {
+                    _ToggleEditMode();
+                }
+            }
+            else {
+                worldWrappingControl.UseEditMode(false);
+                _Controlable(true);
+                render.maskInteraction = SpriteMaskInteraction.None;
+            }
+        }
+
+        void _ToggleEditMode()
+        {
+            var isInEditMode = worldWrappingControl.IsInEditMode;
+
+            if (isInEditMode) {
+                worldWrappingControl.UseEditMode(false);
+                _Controlable(true);
+                render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            }
+            else {
+                worldWrappingControl.UseEditMode(true);
+                _Controlable(false);
+                render.maskInteraction = SpriteMaskInteraction.None;
+            }
+        }
+
+        void _Controlable(bool value) {
+            isControlable = value;
         }
 
         //Temp

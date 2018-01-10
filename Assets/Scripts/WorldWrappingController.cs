@@ -126,20 +126,8 @@ namespace DG
             _InputHandler();
 
             if (isEnableFocus && isUseFocus) {
-
-                if (isCanMoveMode && isInMoveMode) {
-                    _MoveModeHandler();
-                }
-                else {
-                    if (isCanEditMode && isInEditMode) {
-                        _EditModeHandler();
-                    }
-                    else {
-                        _ClearEditMode();
-                    }
-                }
-
                 _FocusHandler();
+                _WorldWrappingHandler();
             }
         }
 
@@ -180,6 +168,25 @@ namespace DG
 
             if (Input.GetButtonUp("Resize")) {
                 isUseAxisY = false;
+            }
+        }
+
+        void _FocusHandler()
+        {
+            if (isCanMoveMode && isInMoveMode) {
+                _MoveModeHandler();
+                _MoveBound_Vertical();
+            }
+            else {
+
+                if (isCanEditMode && isInEditMode) {
+                    _EditModeHandler();
+                }
+                else {
+                    _ClearEditMode();
+                }
+
+                _MoveBoundPosition();
             }
         }
 
@@ -545,11 +552,9 @@ namespace DG
             }
         }
 
-        void _FocusHandler()
+        void _WorldWrappingHandler()
         {
             if (target) {
-
-                _MoveBoundPosition();
 
                 if (target.position.x > currentLinePoints[1].x) {
                     var newPos = target.position;
@@ -608,32 +613,8 @@ namespace DG
 
         void _MoveBoundPosition()
         {
-            _MoveBound_Vertical();
             _MoveBound_Horizontal();
-        }
-
-        void _MoveBound_Vertical()
-        {
-            var expectPosUp = originWorldWrappingPoint;
-            var expectPosDown = originWorldWrappingPoint;
-
-            if (ray_LowerToUpper) {
-                expectPosUp.y = currentLinePoints[0].y + ray_LowerToUpper.distance;
-            }
-            else {
-                expectPosUp.y = currentLinePoints[0].y + boundfreeOffset.y;
-            }
-
-            upperBound.position = expectPosUp;
-
-            if (ray_UpperToLower) {
-                expectPosDown.y = currentLinePoints[2].y - ray_UpperToLower.distance;
-            }
-            else {
-                expectPosDown.y = currentLinePoints[2].y - boundfreeOffset.y;
-            }
-
-            lowerBound.position = expectPosDown;
+            _MoveBound_Vertical();
         }
 
         void _MoveBound_Horizontal()
@@ -669,6 +650,31 @@ namespace DG
 
             leftBound.position = expectPosLeft;
         }
+
+        void _MoveBound_Vertical()
+        {
+            var expectPosUp = originWorldWrappingPoint;
+            var expectPosDown = originWorldWrappingPoint;
+
+            if (ray_LowerToUpper) {
+                expectPosUp.y = currentLinePoints[0].y + ray_LowerToUpper.distance;
+            }
+            else {
+                expectPosUp.y = currentLinePoints[0].y + boundfreeOffset.y;
+            }
+
+            upperBound.position = expectPosUp;
+
+            if (ray_UpperToLower) {
+                expectPosDown.y = currentLinePoints[2].y - ray_UpperToLower.distance;
+            }
+            else {
+                expectPosDown.y = currentLinePoints[2].y - boundfreeOffset.y;
+            }
+
+            lowerBound.position = expectPosDown;
+        }
+
 
         void _MaintainWorldWrappingOffset()
         {

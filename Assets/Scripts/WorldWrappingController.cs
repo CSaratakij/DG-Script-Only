@@ -266,6 +266,10 @@ namespace DG
                             currentLinePoints[1].x += 2;
                             currentLinePoints[2].x += 2;
                         }
+                        else {
+                            currentLinePoints[1].x = boundOffset.x;
+                            currentLinePoints[2].x = boundOffset.x;
+                        }
 
                         _RepositionWorldWrappingRect();
                     }
@@ -306,6 +310,10 @@ namespace DG
                         if (currentLinePoints[0].x - 2 > boundOffset.x) {
                             currentLinePoints[0].x -= 2;
                             currentLinePoints[3].x -= 2;
+                        }
+                        else {
+                            currentLinePoints[0].x = boundOffset.x;
+                            currentLinePoints[3].x = boundOffset.x;
                         }
 
                         _RepositionWorldWrappingRect();
@@ -354,6 +362,10 @@ namespace DG
                             currentLinePoints[0].y += 1;
                             currentLinePoints[1].y += 1;
                         }
+                        else {
+                            currentLinePoints[0].y = boundOffset.y;
+                            currentLinePoints[1].y = boundOffset.y;
+                        }
 
                         _RepositionWorldWrappingRect();
                     }
@@ -394,6 +406,10 @@ namespace DG
                         if (currentLinePoints[2].y - 1 > boundOffset.y) {
                             currentLinePoints[2].y -= 1;
                             currentLinePoints[3].y -= 1;
+                        }
+                        else {
+                            currentLinePoints[2].y = boundOffset.y;
+                            currentLinePoints[3].y = boundOffset.y;
                         }
 
                         _RepositionWorldWrappingRect();
@@ -682,7 +698,11 @@ namespace DG
             }
             else {
                 _ClearWorldWrapping();
-                originWorldWrappingPoint = target.position;
+
+                var offsetX = currentLinePoints[1].x - currentLinePoints[0].x;
+                var newPos = new Vector3(currentLinePoints[0].x + (offsetX / 2), target.position.y, 1.0f);
+
+                originWorldWrappingPoint = newPos;
             }
 
             isUseFocus = value;

@@ -169,6 +169,7 @@ namespace DG
             }
 
             if (worldWrappingControl.IsUseFocus) {
+
                 if (Input.GetButtonDown("Focus")) {
                     if (worldWrappingControl.IsInEditMode) {
                         _ToggleEditMode();
@@ -177,22 +178,22 @@ namespace DG
                         _ToggleFocus();
                     }
                 }
+
+                var isUseMoveMode = Input.GetButton("MoveMode");
+
+                if (isUseMoveMode) {
+                    worldWrappingControl.UseMoveMode(true);
+                    _Controlable(false);
+                }
+                else {
+                    _Controlable(!worldWrappingControl.IsInEditMode);
+                    worldWrappingControl.UseMoveMode(false);
+                }
             }
             else {
                 if (isGrounded && Input.GetButtonDown("Focus")) {
                     _ToggleFocus();
                 }
-            }
-
-            var isUseMoveMode = Input.GetButton("MoveMode");
-
-            if (isUseMoveMode) {
-                worldWrappingControl.UseMoveMode(true);
-                _Controlable(false);
-            }
-            else {
-                _Controlable(!worldWrappingControl.IsInEditMode);
-                worldWrappingControl.UseMoveMode(false);
             }
         }
 

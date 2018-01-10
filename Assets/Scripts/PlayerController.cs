@@ -37,6 +37,7 @@ namespace DG
         AudioClip jumpSound;
 
 
+        bool isControlable;
         bool isPressedJump;
         bool isGrounded;
         bool isFalling;
@@ -60,7 +61,6 @@ namespace DG
 
         WorldWrappingController worldWrappingControl;
         SpriteRenderer render;
-
 
 
         void Awake()
@@ -97,29 +97,27 @@ namespace DG
                 render.maskInteraction = SpriteMaskInteraction.None;
             }
 
+            //test
             if (!isMain) {
-                //test
-                //It shoud be
-                //- set only visible on mask
-                //- forget physics, make y axis to be the same as player's main
-                //- x axis control by world wrapping?
-                //- how we gonna reset its place?
-                //- Who inside the world wrapping area most = main?
-                //And in world wrapping mode -> camera should focus on the center of its wold wrapping.
                 gameObject.SetActive(false);
             }
         }
 
         void Update()
         {
+            _InputHandler();
+
             if (rigid.velocity.y < 0.0f) {
                 isFalling = true;
             }
 
-            _InputHandler();
-            _FlipXHandler();
+            if (isControlable) {
+                _FlipXHandler();
+            }
+
             _AnimationHandler();
             _FootStepHandler();
+            _FocusHandler();
 
             //Temp
             _ResetPosition();
@@ -127,6 +125,9 @@ namespace DG
 
         void FixedUpdate()
         {
+            isGrounded = Physics2D.OverlapCircle(ground.position, 0.02f, groundMask);
+            materialRay = Physics2D.CircleCast(feet.position, 0.02f, Vector2.down, 1.0f, footstepMask);
+
             _JumpHandler();
             _MovementHandler();
         }
@@ -150,6 +151,7 @@ namespace DG
             newScale = transform.localScale;
             worldWrappingControl = GetComponent<WorldWrappingController>();
             render = GetComponent<SpriteRenderer>();
+            isControlable = true;
         }
 
         void _InputHandler()
@@ -160,50 +162,89 @@ namespace DG
                 input.x *= -1.0f;
             }
 
-            if (Input.GetButtonDown("Jump")) {
-                isPressedJump = true;
+            if (isControlable) {
+                if (Input.GetButtonDown("Jump")) {
+                    isPressedJump = true;
+                }
             }
 
-            if (Input.GetButtonDown("Focus")) {
-                _FocusHandler();
-            }
+            if (worldWrappingControl.IsUseFocus) {
 
-            //test
-            if (Input.GetKeyDown(KeyCode.L)) {
-                cameraFollow.LockCamera();
+                if (Input.GetButtonDown("Focus")) {
+                    if (worldWrappingControl.IsInEditMode) {
+                        _ToggleEditMode();
+                    }
+                    else {
+                        _ToggleFocus();
+                    }
+                }
+
+                var isUseMoveMode = Input.GetButton("MoveMode");
+
+                if (isUseMoveMode) {
+                    worldWrappingControl.UseMoveMode(true);
+                    render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+                    _Controlable(false);
+                }
+                else {
+                    if (worldWrappingControl.IsInEditMode) {
+                        render.maskInteraction = SpriteMaskInteraction.None;
+                    }
+
+                    _Controlable(!worldWrappingControl.IsInEditMode);
+                    worldWrappingControl.UseMoveMode(false);
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.U)) {
-                cameraFollow.UnlockCamera();
+            else {
+                if (isGrounded && Input.GetButtonDown("Focus")) {
+                    _ToggleFocus();
+                }
             }
         }
 
         void _AnimationHandler()
         {
-            if (isGrounded) {
-                if (Input.GetAxisRaw("Horizontal") != 0.0f) {
-                    anim.Play("Run");
+            if (isControlable) {
+                if (isGrounded) {
+                    if (input.x != 0.0f) {
+                        anim.Play("Run");
+                    }
+                    else {
+                        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                            anim.Play("Falling Impact");
+                        }
+                    }
                 }
                 else {
-                    if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-                        anim.Play("Falling Impact");
-                    }
+                    anim.Play("Fall");
                 }
             }
             else {
-                anim.Play("Fall");
+                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                    anim.Play("Falling Impact");
+                }
             }
         }
 
         void _MovementHandler()
         {
-            isGrounded = Physics2D.OverlapCircle(ground.position, 0.02f, groundMask);
-            materialRay = Physics2D.CircleCast(feet.position, 0.02f, Vector2.down, 1.0f, footstepMask);
+            if (isControlable) {
 
-            velocity.x = input.x * moveForce; 
-            velocity.y = rigid.velocity.y;
-            velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
+                velocity.x = input.x * moveForce; 
+                velocity.y = rigid.velocity.y;
 
-            rigid.velocity = velocity;
+                velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
+                rigid.velocity = velocity;
+            }
+            else {
+
+                velocity = Vector2.zero;
+
+                velocity.y = rigid.velocity.y;
+                velocity.y = Mathf.Clamp(velocity.y, -maxVelocityY, maxVelocityY);
+
+                rigid.velocity = velocity;
+            }
         }
 
         void _FootStepHandler()
@@ -217,8 +258,10 @@ namespace DG
                         isFalling = false;
                     }
 
-                    if (Input.GetAxisRaw("Horizontal") != 0.0f && materialRay) {
-                        footStepAudioPlayer.Play(materialRay.transform.tag);
+                    if (isControlable) {
+                        if (input.x != 0.0f && materialRay) {
+                            footStepAudioPlayer.Play(materialRay.transform.tag);
+                        }
                     }
                 }
             }
@@ -253,18 +296,54 @@ namespace DG
             }
         }
 
-        void _FocusHandler()
+        void _ToggleFocus()
         {
             var isUseFocus = !worldWrappingControl.IsUseFocus;
 
             if (isUseFocus) {
                 render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+                cameraFollow.LockCamera();
             }
             else {
                 render.maskInteraction = SpriteMaskInteraction.None;
+                cameraFollow.UnlockCamera();
             }
 
             worldWrappingControl.UseFocus(isUseFocus);
+        }
+
+        void _FocusHandler()
+        {
+            if (worldWrappingControl.IsUseFocus) {
+                if (Input.GetButtonDown("FocusEditMode")) {
+                    _ToggleEditMode();
+                }
+            }
+            else {
+                worldWrappingControl.UseEditMode(false);
+                _Controlable(true);
+                render.maskInteraction = SpriteMaskInteraction.None;
+            }
+        }
+
+        void _ToggleEditMode()
+        {
+            var isInEditMode = worldWrappingControl.IsInEditMode;
+
+            if (isInEditMode) {
+                worldWrappingControl.UseEditMode(false);
+                _Controlable(true);
+                render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            }
+            else {
+                worldWrappingControl.UseEditMode(true);
+                _Controlable(false);
+                render.maskInteraction = SpriteMaskInteraction.None;
+            }
+        }
+
+        void _Controlable(bool value) {
+            isControlable = value;
         }
 
         //Temp

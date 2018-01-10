@@ -315,7 +315,7 @@ namespace DG
         void _FocusHandler()
         {
             if (worldWrappingControl.IsUseFocus) {
-                if (isGrounded && Input.GetButtonDown("FocusEditMode")) {
+                if (Input.GetButtonDown("FocusEditMode")) {
                     _ToggleEditMode();
                 }
             }

@@ -10,6 +10,12 @@ namespace DG
         bool isEnableFocus;
 
         [SerializeField]
+        bool isCanEditMode;
+
+        [SerializeField]
+        bool isCanMoveMode;
+
+        [SerializeField]
         Transform mask;
 
         [SerializeField]
@@ -19,22 +25,13 @@ namespace DG
         Vector2 offsetArea;
 
         [SerializeField]
-        float offsetArea_Upper;
-
-        [SerializeField]
-        float offsetArea_Lower;
-
-        [SerializeField]
-        float offsetArea_Left;
-
-        [SerializeField]
-        float offsetArea_Right;
-
-        [SerializeField]
         float marginX;
 
         [SerializeField]
         float marginY;
+
+        [SerializeField]
+        float moveModeSpeed;
 
         [SerializeField]
         Vector2 boundfreeOffset;
@@ -66,6 +63,9 @@ namespace DG
         [SerializeField]
         Gradient selectSideLineColor;
 
+        [SerializeField]
+        Gradient moveModeLineColor;
+
 
         public bool IsUseFocus { get { return isUseFocus; } }
         public bool IsInEditMode { get { return isInEditMode; } }
@@ -73,6 +73,7 @@ namespace DG
 
         bool isUseFocus;
         bool isInEditMode;
+        bool isInMoveMode;
 
         bool isUseAxisX;
         bool isUseAxisY;
@@ -126,16 +127,20 @@ namespace DG
 
             if (isEnableFocus && isUseFocus) {
 
-                if (isInEditMode) {
-                    _EditModeHandler();
+                if (isCanMoveMode && isInMoveMode) {
+                    _MoveModeHandler();
                 }
                 else {
-                    _ClearEditMode();
+                    if (isCanEditMode && isInEditMode) {
+                        _EditModeHandler();
+                    }
+                    else {
+                        _ClearEditMode();
+                    }
                 }
 
                 _FocusHandler();
             }
-
         }
 
         void FixedUpdate()
@@ -175,6 +180,98 @@ namespace DG
 
             if (Input.GetButtonUp("Resize")) {
                 isUseAxisY = false;
+            }
+        }
+
+        void _MoveModeHandler()
+        {
+            _MoveModeHandler_Horizontal();
+            _MoveModeHandler_Vertical();
+        }
+
+        void _MoveModeHandler_Horizontal()
+        {
+            var axisX = Input.GetAxisRaw("Horizontal");
+
+            var boundOffset_Right = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0));
+            var boundOffset_Left = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+
+            if (axisX > 0.0f) {
+                var isCanMove = (currentLinePoints[0].x + marginX < target.position.x) && (currentLinePoints[1].x < boundOffset_Right.x);
+
+                if (isCanMove) {
+                    originWorldWrappingPoint.x += (axisX * moveModeSpeed) * Time.deltaTime;
+
+                    currentLinePoints[0].x += (axisX * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[1].x += (axisX * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[2].x += (axisX * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[3].x += (axisX * moveModeSpeed) * Time.deltaTime;
+
+                    _RepositionWorldWrappingRect();
+
+                    _SelectSideHandler();
+                    _RedrawHighlightLine();
+                }
+            }
+            else if (axisX < 0.0f) {
+                var isCanMove = (currentLinePoints[1].x - marginX > target.position.x) && (currentLinePoints[0].x > boundOffset_Left.x);
+
+                if (isCanMove) {
+                    originWorldWrappingPoint.x += (axisX * moveModeSpeed) * Time.deltaTime;
+
+                    currentLinePoints[0].x += (axisX * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[1].x += (axisX * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[2].x += (axisX * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[3].x += (axisX * moveModeSpeed) * Time.deltaTime;
+
+                    _RepositionWorldWrappingRect();
+
+                    _SelectSideHandler();
+                    _RedrawHighlightLine();
+                }
+            }
+        }
+
+        void _MoveModeHandler_Vertical()
+        {
+            var axisY = Input.GetAxisRaw("Vertical");
+
+            var boundOffset_Upper = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0));
+            var boundOffset_Lower = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+
+            if (axisY > 0.0f) {
+                var isCanMove = (currentLinePoints[2].y + marginY < target.position.y) && (currentLinePoints[0].y < boundOffset_Upper.y);
+
+                if (isCanMove) {
+                    originWorldWrappingPoint.y += (axisY * moveModeSpeed) * Time.deltaTime;
+
+                    currentLinePoints[0].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[1].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[2].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[3].y += (axisY * moveModeSpeed) * Time.deltaTime;
+
+                    _RepositionWorldWrappingRect();
+
+                    _SelectSideHandler();
+                    _RedrawHighlightLine();
+                }
+            }
+            else if (axisY < 0.0f) {
+                var isCanMove = (currentLinePoints[0].y - marginY > target.position.y) && (currentLinePoints[2].y > boundOffset_Lower.y);
+
+                if (isCanMove) {
+                    originWorldWrappingPoint.y += (axisY * moveModeSpeed) * Time.deltaTime;
+
+                    currentLinePoints[0].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[1].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[2].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                    currentLinePoints[3].y += (axisY * moveModeSpeed) * Time.deltaTime;
+
+                    _RepositionWorldWrappingRect();
+
+                    _SelectSideHandler();
+                    _RedrawHighlightLine();
+                }
             }
         }
 
@@ -735,6 +832,18 @@ namespace DG
         {
             lineRenderer.colorGradient = (value) ? editModeLineColor : normalModeLineColor;
             isInEditMode = value;
+        }
+
+        public void UseMoveMode(bool value)
+        {
+            if (value) {
+                lineRenderer.colorGradient = moveModeLineColor;
+            }
+            else {
+                lineRenderer.colorGradient = (isInEditMode) ? editModeLineColor : normalModeLineColor;
+            }
+
+            isInMoveMode = value;
         }
     }
 }

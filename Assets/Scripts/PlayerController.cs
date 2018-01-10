@@ -183,6 +183,17 @@ namespace DG
                     _ToggleFocus();
                 }
             }
+
+            var isUseMoveMode = Input.GetButton("MoveMode");
+
+            if (isUseMoveMode) {
+                worldWrappingControl.UseMoveMode(true);
+                _Controlable(false);
+            }
+            else {
+                _Controlable(!worldWrappingControl.IsInEditMode);
+                worldWrappingControl.UseMoveMode(false);
+            }
         }
 
         void _AnimationHandler()

@@ -183,9 +183,14 @@ namespace DG
 
                 if (isUseMoveMode) {
                     worldWrappingControl.UseMoveMode(true);
+                    render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
                     _Controlable(false);
                 }
                 else {
+                    if (worldWrappingControl.IsInEditMode) {
+                        render.maskInteraction = SpriteMaskInteraction.None;
+                    }
+
                     _Controlable(!worldWrappingControl.IsInEditMode);
                     worldWrappingControl.UseMoveMode(false);
                 }

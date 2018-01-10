@@ -102,6 +102,8 @@ namespace DG
 
         void Start()
         {
+            originWorldWrappingPoint = target.position;
+
             currentLinePoints[0].x = originWorldWrappingPoint.x - offsetArea.x;
             currentLinePoints[0].y = originWorldWrappingPoint.y + offsetArea.y;
 
@@ -115,9 +117,7 @@ namespace DG
             currentLinePoints[3].y = originWorldWrappingPoint.y - offsetArea.y;
 
             lineRenderer.colorGradient = normalModeLineColor;
-
             highlightLineRenderer.colorGradient = selectSideLineColor;
-            originWorldWrappingPoint = target.position;
         }
 
         void Update()
@@ -135,6 +135,7 @@ namespace DG
 
                 _FocusHandler();
             }
+
         }
 
         void FixedUpdate()
@@ -271,6 +272,7 @@ namespace DG
                             currentLinePoints[2].x = boundOffset.x;
                         }
 
+                        _RecalculateWorldWrappingCenter();
                         _RepositionWorldWrappingRect();
                     }
                     else if (axisX < 0.0f) {
@@ -288,6 +290,7 @@ namespace DG
                             currentLinePoints[1].x -= 2;
                             currentLinePoints[2].x -= 2;
 
+                            _RecalculateWorldWrappingCenter();
                             _RepositionWorldWrappingRect();
                         }
                         else {
@@ -316,6 +319,7 @@ namespace DG
                             currentLinePoints[3].x = boundOffset.x;
                         }
 
+                        _RecalculateWorldWrappingCenter();
                         _RepositionWorldWrappingRect();
                     }
                     else if (axisX < 0.0f) {
@@ -333,6 +337,7 @@ namespace DG
                             currentLinePoints[0].x += 2;
                             currentLinePoints[3].x += 2;
 
+                            _RecalculateWorldWrappingCenter();
                             _RepositionWorldWrappingRect();
                         }
                         else {
@@ -367,6 +372,7 @@ namespace DG
                             currentLinePoints[1].y = boundOffset.y;
                         }
 
+                        _RecalculateWorldWrappingCenter();
                         _RepositionWorldWrappingRect();
                     }
                     else if (axisY < 0.0f) {
@@ -384,6 +390,7 @@ namespace DG
                             currentLinePoints[0].y -= 1;
                             currentLinePoints[1].y -= 1;
 
+                            _RecalculateWorldWrappingCenter();
                             _RepositionWorldWrappingRect();
                         }
                         else {
@@ -412,6 +419,7 @@ namespace DG
                             currentLinePoints[3].y = boundOffset.y;
                         }
 
+                        _RecalculateWorldWrappingCenter();
                         _RepositionWorldWrappingRect();
                     }
                     else if (axisY < 0.0f) {
@@ -429,6 +437,7 @@ namespace DG
                             currentLinePoints[2].y += 1;
                             currentLinePoints[3].y += 1;
 
+                            _RecalculateWorldWrappingCenter();
                             _RepositionWorldWrappingRect();
                         }
                         else {
@@ -659,6 +668,25 @@ namespace DG
             }
         }
 
+        void _RecalculateWorldWrappingCenter()
+        {
+            var offsetX = currentLinePoints[1].x - currentLinePoints[0].x;
+            var offsetY = currentLinePoints[0].y - currentLinePoints[2].y;
+
+            var center = new Vector3(currentLinePoints[0].x + (offsetX / 2), currentLinePoints[0].y - (offsetY / 2), 1.0f);
+            var newPosY = center.y;
+
+            if (target.position.y < center.y) {
+                newPosY = center.y - (center.y - target.position.y);
+            }
+            else if (target.position.y > center.y) {
+                newPosY = center.y + (center.y - target.position.y);
+            }
+
+            originWorldWrappingPoint.x = center.x;
+            originWorldWrappingPoint.y = newPosY;
+        }
+
         void _ClearWorldWrapping()
         {
             _ClearEditMode();
@@ -698,11 +726,6 @@ namespace DG
             }
             else {
                 _ClearWorldWrapping();
-
-                var offsetX = currentLinePoints[1].x - currentLinePoints[0].x;
-                var newPos = new Vector3(currentLinePoints[0].x + (offsetX / 2), target.position.y, 1.0f);
-
-                originWorldWrappingPoint = newPos;
             }
 
             isUseFocus = value;

@@ -168,14 +168,18 @@ namespace DG
                 }
             }
 
-            //if (Input.GetButtonDown("Focus")) {
-            if (!worldWrappingControl.IsUseFocus) {
-                if (isGrounded && Input.GetButtonDown("Focus")) {
-                    _ToggleFocus();
+            if (worldWrappingControl.IsUseFocus) {
+                if (Input.GetButtonDown("Focus")) {
+                    if (worldWrappingControl.IsInEditMode) {
+                        _ToggleEditMode();
+                    }
+                    else {
+                        _ToggleFocus();
+                    }
                 }
             }
             else {
-                if (Input.GetButtonDown("Focus")) {
+                if (isGrounded && Input.GetButtonDown("Focus")) {
                     _ToggleFocus();
                 }
             }

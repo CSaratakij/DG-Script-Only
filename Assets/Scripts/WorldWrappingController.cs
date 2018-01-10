@@ -682,6 +682,7 @@ namespace DG
             }
             else {
                 _ClearWorldWrapping();
+                originWorldWrappingPoint = target.position;
             }
 
             isUseFocus = value;

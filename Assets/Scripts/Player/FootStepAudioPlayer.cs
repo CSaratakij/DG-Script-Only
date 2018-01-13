@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DG
@@ -11,6 +12,12 @@ namespace DG
 
         [SerializeField]
         AudioClip[] impactClips;
+
+        [SerializeField]
+        string[] tagAsGrass;
+
+        [SerializeField]
+        string[] tagAsStones;
 
 
         AudioSource footstepAudioSource;
@@ -47,7 +54,15 @@ namespace DG
                     break;
 
                     default:
-                        Debug.Log("Cannot find key : " + key);
+                        if (tagAsGrass.Contains(key)) {
+                            footstepAudioSource.PlayOneShot(footstepClips[0]);
+                        }
+                        else if (tagAsStones.Contains(key)) {
+                            footstepAudioSource.PlayOneShot(footstepClips[1]);
+                        }
+                        else {
+                            Debug.Log("Cannot find key : " + key);
+                        }
                     break;
                 }
             }
@@ -67,7 +82,15 @@ namespace DG
                     break;
 
                     default:
-                        Debug.Log("Cannot find key : " + key);
+                        if (tagAsGrass.Contains(key)) {
+                            impactAudioSource.PlayOneShot(impactClips[0]);
+                        }
+                        else if (tagAsStones.Contains(key)) {
+                            impactAudioSource.PlayOneShot(impactClips[1]);
+                        }
+                        else {
+                            Debug.Log("Cannot find key : " + key);
+                        }
                     break;
                 }
             }

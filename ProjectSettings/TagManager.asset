@@ -6,6 +6,9 @@ TagManager:
   tags:
   - grass
   - stone
+  - door
+  - switch
+  - box
   layers:
   - Default
   - TransparentFX
@@ -18,7 +21,7 @@ TagManager:
   - Player
   - FootStep
   - Bound
-  - 
+  - Box
   - 
   - 
   - 

@@ -52,8 +52,12 @@ namespace DG
 
          void _InputHandler()
          {
-             if (Input.GetButtonDown("Interact") && isAllowEnter && hit) {
-                 this.Enter(hit.transform);
+             var axisY = Input.GetAxisRaw("Vertical");
+
+             if (axisY > 0.0f && Input.GetButtonDown("Vertical")) {
+                 if (isAllowEnter && hit) {
+                     this.Enter(hit.transform);
+                 }
              }
          }
 

@@ -358,5 +358,11 @@ namespace DG
                 transform.position = newPos;
             }
         }
+
+        public void StopUsingFocus()
+        {
+            worldWrappingControl.UseFocus(false);
+            cameraFollow.UnlockCamera();
+        }
     }
 }

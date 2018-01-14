@@ -79,7 +79,14 @@ namespace DG
         protected virtual void Enter(Transform obj)
         {
             if (isAllowEnter) {
+
                 if (targetDoor) {
+
+                    if (obj.gameObject.tag == "Player") {
+                        var playerController = obj.gameObject.GetComponent<PlayerController>();
+                        playerController.StopUsingFocus();
+                    }
+
                     obj.position = targetDoor.position;
                 }
                 else {

@@ -22,12 +22,14 @@ namespace DG
             signalReceiver = GetComponent<SwitchSignalReceiver>();
         }
 
-        void Start()
+        protected override void Update()
         {
+            base.Update();
+            isAllowEnter = IsAllowOpen;
             _ToggleOpen();
         }
 
-        void Update()
+        void Start()
         {
             _ToggleOpen();
         }

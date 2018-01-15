@@ -32,6 +32,8 @@ namespace DG
         protected bool isOpen;
 
 
+        bool isUseAxisY;
+
         Animator anim;
         Collider2D hit;
 
@@ -54,10 +56,16 @@ namespace DG
          {
              var axisY = Input.GetAxisRaw("Vertical");
 
-             if (axisY > 0.0f && Input.GetButtonDown("Vertical")) {
+             if (axisY > 0.0f && !isUseAxisY) {
                  if (isAllowEnter && hit) {
                      this.Enter(hit.transform);
                  }
+
+                 isUseAxisY = true;
+             }
+
+             if (axisY == 0.0f) {
+                 isUseAxisY = false;
              }
          }
 

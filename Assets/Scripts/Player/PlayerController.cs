@@ -180,8 +180,9 @@ namespace DG
                 }
 
                 var isUseMoveMode = Input.GetButton("MoveMode");
+                var isUseMoveModeByAxis = Input.GetAxisRaw("MoveMode");
 
-                if (isUseMoveMode) {
+                if (isUseMoveMode || isUseMoveModeByAxis == 1.0f) {
                     worldWrappingControl.UseMoveMode(true);
                     render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
                     _Controlable(false);

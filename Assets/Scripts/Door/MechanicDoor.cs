@@ -11,6 +11,8 @@ namespace DG
         bool useInstantOpen = true;
 
         public bool IsAllowOpen { get { return signalReceiver.IsTurnOn; } }
+        public bool IsUseInstantOpen { get { return useInstantOpen; } set { useInstantOpen = value; } }
+        public SwitchSignalReceiver Receiver { get { return signalReceiver; } }
 
 
         SwitchSignalReceiver signalReceiver;

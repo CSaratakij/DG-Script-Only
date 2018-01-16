@@ -70,6 +70,9 @@ namespace DG
         public bool IsUseFocus { get { return isUseFocus; } }
         public bool IsInEditMode { get { return isInEditMode; } }
 
+        public bool IsCanMoveMode { get { return isCanMoveMode; } set { isCanMoveMode = value; } }
+        public bool IsCanEditMode { get { return isCanEditMode; } set { isCanEditMode = value; } }
+
 
         bool isUseFocus;
         bool isInEditMode;

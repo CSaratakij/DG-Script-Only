@@ -45,7 +45,8 @@ GameObject:
   - component: {fileID: 120837620513368794}
   - component: {fileID: 114843326260860594}
   - component: {fileID: 114154704016030812}
-  - component: {fileID: 114886558457249222}
+  - component: {fileID: 114552669417702694}
+  - component: {fileID: 114816856488679772}
   m_Layer: 8
   m_Name: p_Human(Main)
   m_TagString: Player
@@ -576,6 +577,20 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+--- !u!114 &114552669417702694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1734323495493400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf8b879f0a9e4144af9db0d5585b8ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  makeUnique: 0
+  key: Player
+  id: 0
 --- !u!114 &114761246687471006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -596,6 +611,20 @@ MonoBehaviour:
   tagAsGrass: []
   tagAsStones:
   - box
+--- !u!114 &114816856488679772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1734323495493400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3813e92ee517410418b1f369fa3794a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  makeUnique: 1
+  key: Focus
+  id: 0
 --- !u!114 &114843326260860594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -621,19 +650,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   jumpSound: {fileID: 8300000, guid: 67ad42ea2d5551940bc2735634a3f323, type: 3}
---- !u!114 &114886558457249222
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1734323495493400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cf8b879f0a9e4144af9db0d5585b8ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  key: Player
-  id: 0
 --- !u!120 &120837620513368794
 LineRenderer:
   m_ObjectHideFlags: 1

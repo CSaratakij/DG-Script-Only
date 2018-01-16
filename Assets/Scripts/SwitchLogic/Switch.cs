@@ -8,7 +8,7 @@ namespace DG
     {
         protected bool isTurnOn;
 
-        public bool IsTurnOn { get { return isTurnOn; } }
+        public bool IsTurnOn { get { return isTurnOn; } set { isTurnOn = value; } }
 
 
         public Switch()

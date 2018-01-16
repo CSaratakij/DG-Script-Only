@@ -33,6 +33,8 @@ namespace DG
             if (hit) {
                 _InputHandler();
             }
+
+            _AnimationHandler();
         }
 
         void FixedUpdate()
@@ -53,14 +55,26 @@ namespace DG
             }
         }
 
+        void _AnimationHandler()
+        {
+            if (switchObj.IsTurnOn) {
+                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Open")) {
+                    anim.Play("Open");
+                }
+            }
+            else {
+                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Close")) {
+                    anim.Play("Close");
+                }
+            }
+        }
+
         void _ToggleOpen()
         {
             if (switchObj.IsTurnOn) {
-                anim.Play("Close");
                 switchObj.TurnOff();
             }
             else {
-                anim.Play("Open");
                 switchObj.TurnOn();
             }
         }

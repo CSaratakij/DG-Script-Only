@@ -24,8 +24,8 @@ namespace DG
         LayerMask allowEnterMask;
 
 
-        public bool IsOpen { get { return isOpen; } }
-        public bool IsAllowEnter { get { return isAllowEnter; } }
+        public bool IsOpen { get { return isOpen; } set { isOpen = value; } }
+        public bool IsAllowEnter { get { return isAllowEnter; } set { isAllowEnter = value; } }
 
         public Transform TargetDoor { get { return targetDoor; } }
 
@@ -69,6 +69,20 @@ namespace DG
              }
          }
 
+         void _AnimationHandler()
+         {
+             if (isOpen) {
+                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Open")) {
+                    anim.Play("Open");
+                }
+             }
+             else {
+                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Close")) {
+                    anim.Play("Close");
+                }
+             }
+         }
+
         protected virtual void Awake()
         {
             anim = GetComponent<Animator>();
@@ -77,6 +91,7 @@ namespace DG
         protected virtual void Update()
         {
             _InputHandler();
+            _AnimationHandler();
         }
 
         protected virtual void FixedUpdate()
@@ -109,7 +124,6 @@ namespace DG
         public void Open()
         {
             if (!isOpen) {
-                anim.Play("Open");
                 isOpen = true;
             }
         }
@@ -117,7 +131,6 @@ namespace DG
         public void Close()
         {
             if (isOpen) {
-                anim.Play("Close");
                 isOpen = false;
             }
         }

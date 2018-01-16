@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 95623847068519064}
   - component: {fileID: 114930307960492092}
   - component: {fileID: 114262601618066094}
+  - component: {fileID: 114258452831080056}
   m_Layer: 0
   m_Name: MechanicDoor
   m_TagString: Untagged
@@ -60,6 +61,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114258452831080056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1398533105585816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b5a51ca7a389a4ba9e2c5252a7bb3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  makeUnique: 0
+  key: MechanicDoor
+  id: 0
 --- !u!114 &114262601618066094
 MonoBehaviour:
   m_ObjectHideFlags: 1

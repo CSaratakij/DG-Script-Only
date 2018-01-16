@@ -11,6 +11,9 @@ namespace DG
         Switch[] switches;
 
 
+        public Switch[] Switches { get { return switches; } }
+
+
         void Update()
         {
             _CheckAllSwitch();

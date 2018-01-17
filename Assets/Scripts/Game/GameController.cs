@@ -18,9 +18,6 @@ namespace DG
         {
             gameSaveAgent = GetComponent<GameSaveAgent>();
 
-            //test load last save..
-            //need remove
-            GameController.GameInit(true);
         }
 
         void Start()
@@ -30,30 +27,24 @@ namespace DG
 
         void Update()
         {
-            //Test..
-            if (Input.GetKeyDown(KeyCode.S)) {
-                SaveInstance.FireEvent_OnSave();
-            }
-            else if (Input.GetKeyDown(KeyCode.L)) {
-                SaveInstance.FireEvent_OnLoad();
-            }
+            _GameStartHandler();
+        }
 
-            if (Input.GetKeyDown(KeyCode.N)) {
-                MoveToScene("test");
-            }
-            else if (Input.GetKeyDown(KeyCode.M)) {
-                MoveToScene("test2");
-            }
-
-            //test
+        void _GameStartHandler()
+        {
             if (GameController.isGameInit && !GameController.isGameStarted && gameSaveAgent) {
 
                 var targetSceneName = gameSaveAgent.LastActiveScene;
                 if (targetSceneName != null) {
+                    //load scene async here...?
                     SceneManager.LoadScene(gameSaveAgent.LastActiveScene);
                 }
+                else {
+                    //load scene async here...?
+                    SceneManager.LoadScene(1);
+                }
 
-                GameController.isGameStarted = true;
+                GameController.GameStart(true);
             }
         }
 

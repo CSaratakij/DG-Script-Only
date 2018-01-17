@@ -23,8 +23,14 @@ namespace DG
         public static string SavePath = "";
         public delegate void SaveAndLoadFunc();
 
+        public static event SaveAndLoadFunc OnBeginSave;
         public static event SaveAndLoadFunc OnSave;
+        /* public static event SaveAndLoadFunc OnFinishSave; */
+
+        public static event SaveAndLoadFunc OnBeginLoad;
         public static event SaveAndLoadFunc OnLoad;
+        /* public static event SaveAndLoadFunc OnFinishLoad; */
+
 
         public static Dictionary<string, Dictionary<string, Dictionary<uint, string>>> saveGameDict;
 
@@ -36,6 +42,10 @@ namespace DG
 
         public static void FireEvent_OnSave()
         {
+            if (OnBeginSave != null) {
+                OnBeginSave();
+            }
+
             if (OnSave != null) {
                 OnSave();
             }
@@ -46,6 +56,10 @@ namespace DG
         public static void FireEvent_OnLoad()
         {
             if (_LoadFromDisk()) {
+                if (OnBeginLoad != null) {
+                    OnBeginLoad();
+                }
+
                 if (OnLoad != null) {
                     OnLoad();
                 }
@@ -110,7 +124,6 @@ namespace DG
         {
             var path = Application.persistentDataPath + "/savegame";
             var result = JsonConvert.SerializeObject(saveGameDict, Formatting.None);
-
             File.WriteAllText(path, result, Encoding.UTF8);
         }
 
@@ -138,18 +151,6 @@ namespace DG
         public static bool IsSaveFileExists()
         {
             return IsPathExist(Application.persistentDataPath + "/savegame");
-        }
-
-        public static void InsertMasterKey(string masterKey)
-        {
-            if (!saveGameDict.ContainsKey(masterKey)) {
-                saveGameDict.Add(masterKey, new Dictionary<string, Dictionary<uint, string>>());
-            }
-        }
-
-        public static void SaveAllScene()
-        {
-            //replace old file with current file
         }
 
         public virtual void Save()

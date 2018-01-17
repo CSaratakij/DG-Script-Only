@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
 namespace DG
 {
@@ -38,6 +41,7 @@ namespace DG
         Collider2D hit;
 
 
+#if UNITY_EDITOR
          void OnDrawGizmosSelected() {
              if (targetDoor) {
                 Gizmos.color = Color.red;
@@ -51,6 +55,7 @@ namespace DG
                 Handles.Label(transform.position + offset, "Trigger Area"); 
              }
         }
+#endif
 
          void _InputHandler()
          {

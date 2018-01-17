@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
 namespace DG
 {
@@ -47,11 +50,13 @@ namespace DG
             hit = Physics2D.OverlapBox(transform.position + offset, size, 0.0f, layerMask);
         }
 
+#if UNITY_EDITOR
         void OnDrawGizmosSelected() {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(transform.position + offset, size);
             Handles.Label(transform.position + offset, "Trigger Area");
         }
+#endif
 
         void _Open()
         {

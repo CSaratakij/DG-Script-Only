@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
 namespace DG
 {
@@ -36,6 +39,7 @@ namespace DG
             this.isTurnOn = isTurnOn;
         }
 
+#if UNITY_EDITOR
         void OnDrawGizmosSelected()
         {
             foreach (Switch obj in switches) {
@@ -46,6 +50,7 @@ namespace DG
                 }
             }
         }
+#endif
 
     }
 }

@@ -11,13 +11,13 @@ namespace DG
         public static bool isGameStarted = false;
 
 
+        AsyncOperation longOperation;
         GameSaveAgent gameSaveAgent;
 
 
         void Awake()
         {
             gameSaveAgent = GetComponent<GameSaveAgent>();
-
         }
 
         void Start()
@@ -27,25 +27,58 @@ namespace DG
 
         void Update()
         {
-            _GameStartHandler();
+            if (GameController.isGameInit) {
+                if (!GameController.isGameStarted && gameSaveAgent) {
+                    _StartGameHandler();
+                    GameController.GameStart(true);
+                }
+            }
         }
 
-        void _GameStartHandler()
+        void _StartGameHandler()
         {
-            if (GameController.isGameInit && !GameController.isGameStarted && gameSaveAgent) {
+            var targetSceneName = gameSaveAgent.LastActiveScene;
 
-                var targetSceneName = gameSaveAgent.LastActiveScene;
-                if (targetSceneName != null) {
-                    //load scene async here...?
-                    SceneManager.LoadScene(gameSaveAgent.LastActiveScene);
-                }
-                else {
-                    //load scene async here...?
-                    SceneManager.LoadScene(1);
-                }
-
-                GameController.GameStart(true);
+            if (targetSceneName != null) {
+                MoveToScene(targetSceneName, 2.0f, false);
             }
+            else {
+                MoveToScene(1, 2.0f, false);
+            }
+        }
+
+        IEnumerator _LoadSceneAsync(string target, float delay)
+        {
+            longOperation = SceneManager.LoadSceneAsync(target);
+            longOperation.allowSceneActivation = false;
+
+            while (!longOperation.isDone) {
+                Debug.Log("Progress : " + longOperation.progress);
+                if (longOperation.progress >= 0.9f) {
+                    break;
+                }
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(delay);
+            longOperation.allowSceneActivation = true;
+        }
+
+        IEnumerator _LoadSceneAsync(int target, float delay)
+        {
+            longOperation = SceneManager.LoadSceneAsync(target);
+            longOperation.allowSceneActivation = false;
+
+            while (!longOperation.isDone) {
+                Debug.Log("Progress : " + longOperation.progress);
+                if (longOperation.progress >= 0.9f) {
+                    break;
+                }
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(delay);
+            longOperation.allowSceneActivation = true;
         }
 
         public static void GameStart(bool value)
@@ -58,12 +91,22 @@ namespace DG
             isGameInit = value;
         }
 
-        public static void MoveToScene(string sceneName)
+        public void MoveToScene(string sceneName, float delay, bool needSaveCurrent = true)
         {
-            SaveInstance.FireEvent_OnSave();
+            if (needSaveCurrent) {
+                SaveInstance.FireEvent_OnSave();
+            }
 
-            //load another scene (load async?)
-            SceneManager.LoadScene(sceneName);
+            StartCoroutine(_LoadSceneAsync(sceneName, delay));
+        }
+
+        public void MoveToScene(int id, float delay, bool needSaveCurrent = true)
+        {
+            if (needSaveCurrent) {
+                SaveInstance.FireEvent_OnSave();
+            }
+
+            StartCoroutine(_LoadSceneAsync(id, delay));
         }
     }
 }

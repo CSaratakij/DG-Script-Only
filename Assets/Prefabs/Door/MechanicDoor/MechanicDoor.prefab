@@ -87,9 +87,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAllowEnter: 0
+  isUseTargetDoor: 1
+  isUseTargetScene: 0
   offset: {x: 0, y: 0, z: 0}
   size: {x: 1, y: 1}
   targetDoor: {fileID: 0}
+  targetSceneIndex: 1
   allowEnterMask:
     serializedVersion: 2
     m_Bits: 256

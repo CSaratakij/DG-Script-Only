@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
     using UnityEditor;
@@ -15,6 +16,12 @@ namespace DG
         protected bool isAllowEnter;
 
         [SerializeField]
+        protected bool isUseTargetDoor = true;
+
+        [SerializeField]
+        protected bool isUseTargetScene;
+
+        [SerializeField]
         Vector3 offset;
 
         [SerializeField]
@@ -24,6 +31,9 @@ namespace DG
         Transform targetDoor;
 
         [SerializeField]
+        int targetSceneIndex;
+
+        [SerializeField]
         LayerMask allowEnterMask;
 
 
@@ -31,6 +41,8 @@ namespace DG
         public bool IsAllowEnter { get { return isAllowEnter; } set { isAllowEnter = value; } }
 
         public Transform TargetDoor { get { return targetDoor; } }
+        public int TargetScene { get { return targetSceneIndex; } }
+
 
         protected bool isOpen;
 
@@ -42,10 +54,18 @@ namespace DG
 
 
 #if UNITY_EDITOR
+
+         void OnDrawGizmos() {
+            if (isUseTargetScene) {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireCube(transform.position, new Vector3(1, 2, 1));
+             }
+         }
+
          void OnDrawGizmosSelected() {
-             if (targetDoor) {
+             if (targetDoor && isUseTargetDoor) {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireCube(targetDoor.position, new Vector3(1, 1, 1));
+                Gizmos.DrawWireCube(targetDoor.position, new Vector3(1, 2, 1));
                 Gizmos.DrawLine(transform.position, targetDoor.position);
                 
                 Gizmos.color = Color.yellow;
@@ -53,6 +73,20 @@ namespace DG
 
                 Handles.Label(targetDoor.position, "Target Door"); 
                 Handles.Label(transform.position + offset, "Trigger Area"); 
+             }
+
+            if (isUseTargetScene) {
+
+                var sceneName = SceneUtility.GetScenePathByBuildIndex(targetSceneIndex);
+
+                if (sceneName != "") {
+                    var label = string.Format("[ Go to Scene : {0} ]", sceneName);
+                    Handles.Label(transform.position, label); 
+                }
+                else {
+                    var label = string.Format("[ No scene index : {0} in Build Setting ]", targetSceneIndex);
+                    Handles.Label(transform.position, label);
+                }
              }
         }
 #endif
@@ -108,21 +142,52 @@ namespace DG
         {
             if (isAllowEnter) {
 
-                if (targetDoor) {
+                if (obj.gameObject.tag == "Player") {
 
-                    if (obj.gameObject.tag == "Player") {
-                        var playerController = obj.gameObject.GetComponent<PlayerController>();
-                        playerController.StopUsingFocus();
+                    var playerController = obj.gameObject.GetComponent<PlayerController>();
+                    var worldWrappingController = obj.gameObject.GetComponent<WorldWrappingController>();
+
+                    if (worldWrappingController && playerController) {
+
+                        var isCanEnter = !(worldWrappingController.IsInEditMode || worldWrappingController.IsInMoveMode);
+
+                        if (isCanEnter) {
+                            playerController.StopUsingFocus();
+
+                            _TargetDoor_Handler(obj);
+                            _TargetScene_Handler(obj);
+                        }
                     }
-
-                    obj.position = targetDoor.position;
                 }
                 else {
-                    Debug.Log("Can't find target door..");
+                    _TargetDoor_Handler(obj);
+                    _TargetScene_Handler(obj);
                 }
             }
             else {
                 Debug.Log("The door is locked..");
+            }
+        }
+
+        void _TargetDoor_Handler(Transform obj)
+        {
+            if (targetDoor && isUseTargetDoor) {
+                obj.position = targetDoor.position;
+            }
+            else {
+                Debug.Log("Can't find target door..");
+            }
+        }
+
+        void _TargetScene_Handler(Transform obj)
+        {
+            //todo
+            if (isUseTargetScene) {
+                //check if can get scene firt..
+
+                //need to access GameController obj instance via sigleton
+                //and use MoveToScene(targetScene.name);
+                Debug.Log("About to move scene via Game Controller...");
             }
         }
 

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace DG
 {
+    //need sigleton pattern
     public class GameController : MonoBehaviour
     {
         public static bool isGameInit = false;

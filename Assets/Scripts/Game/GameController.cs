@@ -9,6 +9,12 @@ namespace DG
     {
         public static bool isGameInit = false;
         public static bool isGameStarted = false;
+        public static float loadingProgress = 0.0f;
+
+        public delegate void LoadingSceneFunc();
+
+        public static event LoadingSceneFunc OnLoadingScene;
+        public static event LoadingSceneFunc OnLoadedScene;
 
 
         AsyncOperation longOperation;
@@ -40,10 +46,10 @@ namespace DG
             var targetSceneName = gameSaveAgent.LastActiveScene;
 
             if (targetSceneName != null) {
-                MoveToScene(targetSceneName, 2.0f, false);
+                MoveToScene(targetSceneName, 3.0f, false);
             }
             else {
-                MoveToScene(1, 2.0f, false);
+                MoveToScene(1, 3.0f, false);
             }
         }
 
@@ -53,7 +59,8 @@ namespace DG
             longOperation.allowSceneActivation = false;
 
             while (!longOperation.isDone) {
-                Debug.Log("Progress : " + longOperation.progress);
+                GameController.loadingProgress = longOperation.progress;
+
                 if (longOperation.progress >= 0.9f) {
                     break;
                 }
@@ -62,6 +69,10 @@ namespace DG
 
             yield return new WaitForSeconds(delay);
             longOperation.allowSceneActivation = true;
+
+            if (OnLoadedScene != null) {
+                OnLoadedScene();
+            }
         }
 
         IEnumerator _LoadSceneAsync(int target, float delay)
@@ -70,7 +81,8 @@ namespace DG
             longOperation.allowSceneActivation = false;
 
             while (!longOperation.isDone) {
-                Debug.Log("Progress : " + longOperation.progress);
+                GameController.loadingProgress = longOperation.progress;
+
                 if (longOperation.progress >= 0.9f) {
                     break;
                 }
@@ -79,6 +91,10 @@ namespace DG
 
             yield return new WaitForSeconds(delay);
             longOperation.allowSceneActivation = true;
+
+            if (OnLoadedScene != null) {
+                OnLoadedScene();
+            }
         }
 
         public static void GameStart(bool value)
@@ -97,6 +113,12 @@ namespace DG
                 SaveInstance.FireEvent_OnSave();
             }
 
+            GameController.loadingProgress = 0.0f;
+
+            if (OnLoadingScene != null) {
+                OnLoadingScene();
+            }
+
             StartCoroutine(_LoadSceneAsync(sceneName, delay));
         }
 
@@ -106,7 +128,23 @@ namespace DG
                 SaveInstance.FireEvent_OnSave();
             }
 
+            GameController.loadingProgress = 0.0f;
+
+            if (OnLoadingScene != null) {
+                OnLoadingScene();
+            }
+
             StartCoroutine(_LoadSceneAsync(id, delay));
+        }
+
+        public float GetLoadSceneProgress()
+        {
+            if (longOperation != null) {
+                return longOperation.progress;
+            }
+            else {
+                return 0.0f;
+            }
         }
     }
 }

@@ -16,12 +16,6 @@ namespace DG
         protected bool isAllowEnter;
 
         [SerializeField]
-        protected bool isUseTargetDoor = true;
-
-        [SerializeField]
-        protected bool isUseTargetScene;
-
-        [SerializeField]
         Vector3 offset;
 
         [SerializeField]
@@ -36,12 +30,24 @@ namespace DG
         [SerializeField]
         LayerMask allowEnterMask;
 
+        [SerializeField]
+        TargetType targetType;
+
+
+        public enum TargetType
+        {
+            Door,
+            Scene
+        }
 
         public bool IsOpen { get { return isOpen; } set { isOpen = value; } }
         public bool IsAllowEnter { get { return isAllowEnter; } set { isAllowEnter = value; } }
 
         public Transform TargetDoor { get { return targetDoor; } }
         public int TargetScene { get { return targetSceneIndex; } }
+
+        public bool IsUseTargetDoor { get { return targetType == TargetType.Door; } }
+        public bool IsUseTargetScene { get { return targetType == TargetType.Scene; } }
 
 
         protected bool isOpen;
@@ -56,14 +62,15 @@ namespace DG
 #if UNITY_EDITOR
 
          void OnDrawGizmos() {
-            if (isUseTargetScene) {
+            if (targetType == TargetType.Scene) {
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireCube(transform.position, new Vector3(1, 2, 1));
              }
          }
 
          void OnDrawGizmosSelected() {
-             if (targetDoor && isUseTargetDoor) {
+
+             if (targetDoor && targetType == TargetType.Door) {
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireCube(targetDoor.position, new Vector3(1, 2, 1));
                 Gizmos.DrawLine(transform.position, targetDoor.position);
@@ -75,7 +82,7 @@ namespace DG
                 Handles.Label(transform.position + offset, "Trigger Area"); 
              }
 
-            if (isUseTargetScene) {
+            if (targetType == TargetType.Scene) {
 
                 var sceneName = SceneUtility.GetScenePathByBuildIndex(targetSceneIndex);
 
@@ -171,7 +178,7 @@ namespace DG
 
         void _TargetDoor_Handler(Transform obj)
         {
-            if (targetDoor && isUseTargetDoor) {
+            if (targetDoor && targetType == TargetType.Door) {
                 obj.position = targetDoor.position;
             }
             else {
@@ -182,7 +189,7 @@ namespace DG
         void _TargetScene_Handler(Transform obj)
         {
             //todo
-            if (isUseTargetScene) {
+            if (targetType == TargetType.Scene) {
                 //check if can get scene firt..
 
                 //need to access GameController obj instance via sigleton

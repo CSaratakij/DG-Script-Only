@@ -13,10 +13,10 @@ namespace DG
     public class ToggleSwitch : MonoBehaviour
     {
         [SerializeField]
-        Vector2 size;
+        LayerMask layerMask;
 
         [SerializeField]
-        LayerMask layerMask;
+        Vector2 size;
 
 
         Animator anim;

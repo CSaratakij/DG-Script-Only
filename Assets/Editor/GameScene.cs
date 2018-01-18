@@ -58,7 +58,7 @@ namespace DG.Editor
                     typeof(SceneAsset),
                     false);
 
-            if (GUILayout.Button("Load in Editor")) {
+            if (GUILayout.Button("Open in Editor")) {
                 if (!EditorApplication.isPlaying && !EditorApplication.isCompiling) {
                     if (targetEditorScene != null)
                     {

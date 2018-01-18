@@ -7,6 +7,9 @@ namespace DG
 {
     public class LoadingScreen : MonoBehaviour
     {
+        public static LoadingScreen instance = null;
+
+
         [SerializeField]
         Slider slider;
 
@@ -21,6 +24,14 @@ namespace DG
         {
             canvas = GetComponent<Canvas>();
             _Subscribe_Events();
+
+            if (instance == null) {
+                instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else {
+                Destroy(this.gameObject);
+            }
         }
 
         void _OnLoadingScene()
@@ -69,6 +80,14 @@ namespace DG
 
             sliderProgress = Mathf.Clamp(sliderProgress, 0.0f, maxProgress);
             slider.value = sliderProgress;
+
+            StartCoroutine(_Hide_CallBack());
+        }
+
+        IEnumerator _Hide_CallBack()
+        {
+            yield return new WaitForSeconds(0.3f);
+            canvas.enabled = false;
         }
 
         void OnDestroy()

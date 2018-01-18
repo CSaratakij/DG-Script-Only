@@ -40,6 +40,16 @@ namespace DG
                     GameController.GameStart(true);
                 }
             }
+
+            //test
+            if (GameController.isGameInit && GameController.isGameStarted) {
+                if (Input.GetKeyDown(KeyCode.N)) {
+                    MoveToScene(1, 3.0f);
+                }
+                else if (Input.GetKeyDown(KeyCode.M)) {
+                    MoveToScene(2, 3.0f);
+                }
+            }
         }
 
         void _StartGameHandler()

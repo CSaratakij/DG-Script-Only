@@ -6,13 +6,21 @@ namespace DG.Editor
 {
     public class GameScene : EditorWindow
     {
+        SceneAsset customMainScene;
         SceneAsset targetEditorScene;
+
+        static string editModeScene;
 
 
         [MenuItem("Window/CustomPlayButton")]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow(typeof(GameScene));
+        }
+
+        void OnEnable()
+        {
+            EditorApplication.playModeStateChanged += _OnPlayModeStateChanged;
         }
 
         void OnGUI()
@@ -32,18 +40,29 @@ namespace DG.Editor
             _EditorSceneHandler();
         }
 
+        static void _OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.EnteredEditMode) {
+                EditorSceneManager.playModeStartScene = (SceneAsset)AssetDatabase.LoadAssetAtPath(editModeScene, typeof(SceneAsset));
+            }
+        }
+
         void _PlayHandler()
         {
             GUILayout.Label ("Play", EditorStyles.boldLabel);
-            EditorSceneManager.playModeStartScene = (SceneAsset)EditorGUILayout.ObjectField(new GUIContent("Scene:"),
-                    EditorSceneManager.playModeStartScene,
-                    typeof(SceneAsset),
-                    false);
+            customMainScene = (SceneAsset)EditorGUILayout.ObjectField(
+                new GUIContent("Scene:"),
+                customMainScene,
+                typeof(SceneAsset),
+                false);
 
             if (GUILayout.Button("Play"))
             {
-                if (!EditorApplication.isPlaying && !EditorApplication.isCompiling) {
-                    if (EditorSceneManager.playModeStartScene != null) {
+                if (!EditorApplication.isPlayingOrWillChangePlaymode) {
+
+                    if (customMainScene != null) {
+                        editModeScene = EditorSceneManager.GetActiveScene().path;
+                        EditorSceneManager.playModeStartScene = customMainScene;
                         EditorApplication.isPlaying = true;
                     }
                 }

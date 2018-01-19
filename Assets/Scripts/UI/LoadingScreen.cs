@@ -62,6 +62,9 @@ namespace DG
         {
             canvas.enabled = true;
 
+            maxProgress = 0.0f;
+            sliderProgress = 0.0f;
+
             while (sliderProgress < 0.9f) {
 
                 maxProgress = GameController.loadingProgress + 0.1f;

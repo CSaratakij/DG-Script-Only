@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 namespace DG
 {
-    //need sigleton pattern
     public class GameController : MonoBehaviour
     {
+        public static GameController instance = null;
+
         public static bool isGameInit = false;
         public static bool isGameStarted = false;
         public static float loadingProgress = 0.0f;
@@ -25,9 +26,27 @@ namespace DG
         void Awake()
         {
             gameSaveAgent = GetComponent<GameSaveAgent>();
+
+            if (instance == null) {
+                instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else {
+                Destroy(this.gameObject);
+            }
+        }
+
+        void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         void Start()
+        {
+            SaveInstance.FireEvent_OnLoad();
+        }
+
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             SaveInstance.FireEvent_OnLoad();
         }

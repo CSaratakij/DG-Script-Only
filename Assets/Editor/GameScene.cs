@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
@@ -6,6 +8,11 @@ namespace DG.Editor
 {
     public class GameScene : EditorWindow
     {
+        bool isShowAllScene = true;
+        Vector2 scrollPos;
+
+        List<SceneAsset> scenes = new List<SceneAsset>();
+
         SceneAsset customMainScene;
         SceneAsset targetEditorScene;
 
@@ -36,8 +43,11 @@ namespace DG.Editor
         void _GUIHandler()
         {
             titleContent.text = "GameScene";
-            _PlayHandler();
-            _EditorSceneHandler();
+            EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
+                _PlayHandler();
+                EditorGUILayout.Space();
+                _ShowAllSceneAsset();
+            EditorGUI.EndDisabledGroup();
         }
 
         static void _OnPlayModeStateChanged(PlayModeStateChange state)
@@ -65,28 +75,45 @@ namespace DG.Editor
                         EditorSceneManager.playModeStartScene = customMainScene;
                         EditorApplication.isPlaying = true;
                     }
+                    else {
+                        EditorUtility.DisplayDialog("Error", "No scene selected for playing.", "OK");
+                    }
                 }
             }
         }
 
-        void _EditorSceneHandler()
+        void _ShowAllSceneAsset()
         {
-            GUILayout.Label ("Editor", EditorStyles.boldLabel);
-            targetEditorScene = (SceneAsset)EditorGUILayout.ObjectField(new GUIContent("Scene:"),
-                    targetEditorScene,
-                    typeof(SceneAsset),
-                    false);
+            GUILayout.Label("Editor", EditorStyles.boldLabel);
+            isShowAllScene = EditorGUILayout.Foldout(isShowAllScene, "Scenes");
 
-            if (GUILayout.Button("Open in Editor")) {
-                if (!EditorApplication.isPlaying && !EditorApplication.isCompiling) {
-                    if (targetEditorScene != null)
-                    {
-                        if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) {
-                            var path = AssetDatabase.GetAssetPath(targetEditorScene);
-                            EditorSceneManager.OpenScene(path);
-                        }
+            if (isShowAllScene) {
+
+                if (GUILayout.Button("Refresh")) {
+
+                    scenes.Clear();
+                    var assetsGUID = AssetDatabase.FindAssets("t:SceneAsset");
+
+                    foreach (var id in assetsGUID) {
+
+                        var path = AssetDatabase.GUIDToAssetPath(id);
+                        var asset = (SceneAsset)AssetDatabase.LoadAssetAtPath(path, typeof(SceneAsset));
+
+                        scenes.Add(asset);
                     }
                 }
+
+                EditorGUILayout.Space();
+
+                scrollPos = EditorGUILayout.BeginScrollView(scrollPos, false, false);
+                    for (int i = 0; i < scenes.Count; i++) {
+                        scenes[i] = (SceneAsset)EditorGUILayout.ObjectField(new GUIContent(""),
+                                scenes[i],
+                                typeof(SceneAsset),
+                                false);
+                    }
+
+                EditorGUILayout.EndScrollView();
             }
         }
     }

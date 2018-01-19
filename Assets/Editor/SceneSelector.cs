@@ -6,9 +6,11 @@ using UnityEditor.SceneManagement;
 
 namespace DG.Editor
 {
-    public class GameScene : EditorWindow
+    public class SceneSelector : EditorWindow
     {
-        bool isShowAllScene = true;
+        bool isShowAllScene = false;
+        bool isUseBuildSetting = false;
+
         Vector2 scrollPos;
 
         List<SceneAsset> scenes = new List<SceneAsset>();
@@ -19,10 +21,10 @@ namespace DG.Editor
         static string editModeScene;
 
 
-        [MenuItem("Window/CustomPlayButton")]
+        [MenuItem("Window/SceneSelector")]
         public static void ShowWindow()
         {
-            EditorWindow.GetWindow(typeof(GameScene));
+            EditorWindow.GetWindow(typeof(SceneSelector));
         }
 
         void OnEnable()
@@ -42,7 +44,7 @@ namespace DG.Editor
 
         void _GUIHandler()
         {
-            titleContent.text = "GameScene";
+            titleContent.text = "SceneSelector";
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
                 _PlayHandler();
                 EditorGUILayout.Space();
@@ -60,15 +62,43 @@ namespace DG.Editor
         void _PlayHandler()
         {
             GUILayout.Label ("Play", EditorStyles.boldLabel);
-            customMainScene = (SceneAsset)EditorGUILayout.ObjectField(
-                new GUIContent("Scene:"),
-                customMainScene,
-                typeof(SceneAsset),
-                false);
+            isUseBuildSetting = EditorGUILayout.Toggle("Use Build Setting", isUseBuildSetting);
+
+            if (!isUseBuildSetting) {
+                customMainScene = (SceneAsset)EditorGUILayout.ObjectField(
+                    new GUIContent("Scene:"),
+                    customMainScene,
+                    typeof(SceneAsset),
+                    false);
+            }
 
             if (GUILayout.Button("Play"))
             {
                 if (!EditorApplication.isPlayingOrWillChangePlaymode) {
+
+                    if (isUseBuildSetting) {
+
+                        if (EditorBuildSettings.scenes.Length > 0) {
+
+                            var path = EditorBuildSettings.scenes[0].path;
+                            var objExpectScene = (SceneAsset)AssetDatabase.LoadAssetAtPath(path, typeof(SceneAsset));
+
+                            if (objExpectScene) {
+                                customMainScene = objExpectScene;
+                            }
+                            else {
+                                customMainScene = null;
+                                EditorUtility.DisplayDialog("Error", "Can't load the first scene in Build Setting.", "OK");
+                                isUseBuildSetting = false;
+                            }
+
+                        }
+                        else {
+                            customMainScene = null;
+                            EditorUtility.DisplayDialog("Error", "No scene in Build Setting..", "OK");
+                            isUseBuildSetting = false;
+                        }
+                    }
 
                     if (customMainScene != null) {
                         editModeScene = EditorSceneManager.GetActiveScene().path;
@@ -106,6 +136,7 @@ namespace DG.Editor
                 EditorGUILayout.Space();
 
                 scrollPos = EditorGUILayout.BeginScrollView(scrollPos, false, false);
+
                     for (int i = 0; i < scenes.Count; i++) {
                         scenes[i] = (SceneAsset)EditorGUILayout.ObjectField(new GUIContent(""),
                                 scenes[i],

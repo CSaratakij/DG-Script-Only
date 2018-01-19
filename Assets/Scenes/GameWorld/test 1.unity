@@ -4176,6 +4176,11 @@ Transform:
   m_Father: {fileID: 1514352470}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &777941339 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6,
+    type: 2}
+  m_PrefabInternal: {fileID: 1198236384}
 --- !u!1 &804610010
 GameObject:
   m_ObjectHideFlags: 0
@@ -6671,7 +6676,7 @@ Prefab:
         type: 2}
       propertyPath: targetDoor
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 777941339}
     - target: {fileID: 114930307960492092, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: switches.Array.data[0]

@@ -49,9 +49,20 @@ namespace DG
         public override void Load()
         {
             var temp = SaveInstance.LoadRecord(masterKey, key, id);
-
             if (temp != "") {
                 _DeserializeToInfo(temp);
+            }
+        }
+
+        public override void FinishLoad()
+        {
+            var expectKey = GameController.expectDoorSaveKey;
+            var expectID = (int)GameController.expectDoorSaveID;
+
+            if (expectKey == key) {
+                if (expectID == (int)id) {
+                    GameController.expectDoor = this.gameObject;
+                }
             }
         }
     }

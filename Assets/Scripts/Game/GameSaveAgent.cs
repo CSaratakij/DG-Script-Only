@@ -22,7 +22,9 @@ namespace DG
         void _SerializeToJson()
         {
             var info = new GameSaveInfo();
-            info.lastSceneName = SceneManager.GetActiveScene().name;
+            var scene = SceneManager.GetActiveScene();
+
+            info.lastSceneName = scene.name;
             json = JsonConvert.SerializeObject(info, Formatting.None);
         }
 
@@ -44,6 +46,9 @@ namespace DG
 
             if (temp != "") {
                 _DeserializeToInfo(temp);
+            }
+            else {
+                LastActiveScene = "";
             }
         }
     }

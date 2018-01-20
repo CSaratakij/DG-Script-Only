@@ -32,6 +32,7 @@ namespace DG
         {
             var info = JsonConvert.DeserializeObject<PlayerSaveInfo>(json);
             var loadPos = new Vector3(info.lastPosition[0], info.lastPosition[1], info.lastPosition[2]);
+
             transform.position = loadPos;
         }
 
@@ -47,6 +48,19 @@ namespace DG
 
             if (temp != "") {
                 _DeserializeToInfo(temp);
+            }
+        }
+
+        public override void FinishLoad()
+        {
+            if (GameController.expectDoor != null) {
+                transform.position = GameController.expectDoor.transform.position;
+                GameController.expectDoorSaveKey = "";
+                GameController.expectDoorSaveID = -1;
+                GameController.expectDoor = null;
+            }
+            else {
+                Debug.Log("Can't find expect door.");
             }
         }
     }

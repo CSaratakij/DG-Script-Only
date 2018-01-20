@@ -25,6 +25,9 @@ namespace DG
         public static event LoadingSceneFunc OnLoadingScene;
         public static event LoadingSceneFunc OnLoadedScene;
 
+        public static string expectDoorSaveKey = null;
+        public static int expectDoorSaveID = -1;
+        public static GameObject expectDoor = null; 
 
         GameObject[] runtimeExpectSpawnOnGameStart;
 
@@ -88,27 +91,22 @@ namespace DG
                     GameController.GameStart(true);
                 }
             }
-
-            //test
-            if (GameController.isGameInit && GameController.isGameStarted) {
-                if (Input.GetKeyDown(KeyCode.N)) {
-                    MoveToScene(1, 3.0f);
-                }
-                else if (Input.GetKeyDown(KeyCode.M)) {
-                    MoveToScene(2, 3.0f);
-                }
-            }
         }
 
         void _StartGameHandler()
         {
-            var targetSceneName = gameSaveAgent.LastActiveScene;
+            if (SaveInstance.IsSaveFileExists()) {
+                string targetSceneName = gameSaveAgent.LastActiveScene;
 
-            if (targetSceneName != null) {
-                MoveToScene(targetSceneName, 3.0f, false);
+                if (targetSceneName != null) {
+                    MoveToScene(targetSceneName, 3.0f, false);
+                }
+                else {
+                    MoveToScene(1, 2.0f, false);
+                }
             }
             else {
-                MoveToScene(1, 3.0f, false);
+                MoveToScene(1, 2.0f, false);
             }
         }
 

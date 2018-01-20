@@ -676,7 +676,7 @@ Prefab:
     - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: id
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
@@ -710,7 +710,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4542407778011790, guid: 7f8ffa5a68ec11b419203b5baa4f913a, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.24
       objectReference: {fileID: 0}
     - target: {fileID: 4542407778011790, guid: 7f8ffa5a68ec11b419203b5baa4f913a, type: 2}
       propertyPath: m_LocalPosition.y
@@ -4918,7 +4918,7 @@ Prefab:
     - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: id
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
@@ -4933,12 +4933,17 @@ Prefab:
     - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: targetSceneIndex
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: targetType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
+        type: 2}
+      propertyPath: key
+      value: WarpDoor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
@@ -5517,7 +5522,7 @@ Prefab:
     - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: id
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
@@ -6389,11 +6394,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -5.49
+      value: 2.21
       objectReference: {fileID: 0}
     - target: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1.13
+      value: -0.07
       objectReference: {fileID: 0}
     - target: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_LocalPosition.z
@@ -6446,7 +6451,7 @@ Prefab:
     - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: id
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
@@ -6467,6 +6472,11 @@ Prefab:
         type: 2}
       propertyPath: targetType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
+        type: 2}
+      propertyPath: key
+      value: WarpDoor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 886a93af640df3440bdb30663192a8e6, type: 2}

@@ -58,6 +58,8 @@ namespace DG
         Animator anim;
         Collider2D hit;
 
+        SaveInstance saveInstance;
+
 
 #if UNITY_EDITOR
 
@@ -132,6 +134,7 @@ namespace DG
         protected virtual void Awake()
         {
             anim = GetComponent<Animator>();
+            saveInstance = GetComponent<SaveInstance>();
         }
 
         protected virtual void Update()
@@ -188,13 +191,22 @@ namespace DG
 
         void _TargetScene_Handler(Transform obj)
         {
-            //todo
             if (targetType == TargetType.Scene) {
-                //check if can get scene firt..
 
-                //need to access GameController obj instance via sigleton
-                //and use MoveToScene(targetScene.name);
                 Debug.Log("About to move scene via Game Controller...");
+
+                if (GameController.instance != null) {
+
+                    //test
+                    GameController.expectDoorSaveKey = saveInstance.Key;
+                    GameController.expectDoorSaveID =  (int)saveInstance.ID;
+
+                    GameController.instance.MoveToScene(targetSceneIndex, 1.0f, true);
+                }
+                else {
+                    Debug.Log("Can't find GameController instance..");
+                    Debug.Log("Can't change scenes..");
+                }
             }
         }
 

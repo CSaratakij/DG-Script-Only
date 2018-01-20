@@ -81,5 +81,17 @@ namespace DG
                 _DeserializeToInfo(temp);
             }
         }
+
+        public override void FinishLoad()
+        {
+            var expectKey = GameController.expectDoorSaveKey;
+            var expectID = (int)GameController.expectDoorSaveID;
+
+            if (expectKey == key) {
+                if (expectID == (int)id) {
+                    GameController.expectDoor = this.gameObject;
+                }
+            }
+        }
     }
 }

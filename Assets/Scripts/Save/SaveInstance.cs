@@ -29,7 +29,7 @@ namespace DG
 
         public static event SaveAndLoadFunc OnBeginLoad;
         public static event SaveAndLoadFunc OnLoad;
-        /* public static event SaveAndLoadFunc OnFinishLoad; */
+        public static event SaveAndLoadFunc OnFinishLoad;
 
 
         public static Dictionary<string, Dictionary<string, Dictionary<uint, string>>> saveGameDict;
@@ -62,6 +62,10 @@ namespace DG
 
                 if (OnLoad != null) {
                     OnLoad();
+                }
+
+                if (OnFinishLoad != null) {
+                    OnFinishLoad();
                 }
             }
             else {
@@ -142,10 +146,14 @@ namespace DG
 
         public static void DeleteSave()
         {
-            saveGameDict.Clear();
             var path = Application.persistentDataPath + "/savegame";
+
             if (IsPathExist(path)) {
                 File.Delete(path);
+
+                if (saveGameDict != null) {
+                    saveGameDict.Clear();
+                }
             }
         }
 
@@ -164,7 +172,11 @@ namespace DG
 
         }
 
-        void Awake()
+        public virtual void FinishLoad()
+        {
+        }
+
+        protected virtual void Awake()
         {
             SaveInstance.SavePath = Application.persistentDataPath + "/savegame";
             masterKey = makeUnique ? "unique" : SceneManager.GetActiveScene().name;
@@ -180,12 +192,14 @@ namespace DG
         {
             SaveInstance.OnSave += Save;
             SaveInstance.OnLoad += Load;
+            SaveInstance.OnFinishLoad += FinishLoad;
         }
 
         void _Unsubscribe_Events()
         {
             SaveInstance.OnSave -= Save;
             SaveInstance.OnLoad -= Load;
+            SaveInstance.OnFinishLoad -= FinishLoad;
         }
     }
 }

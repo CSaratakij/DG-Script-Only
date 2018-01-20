@@ -8,14 +8,22 @@ namespace DG.Editor
 {
     public class SceneSelector : EditorWindow
     {
+        [SerializeField]
         bool isShowAllScene = false;
+
+        [SerializeField]
         bool isUseBuildSetting = false;
 
+        [SerializeField]
         Vector2 scrollPos;
 
+        [SerializeField]
         List<SceneAsset> scenes = new List<SceneAsset>();
 
+        [SerializeField]
         SceneAsset customMainScene;
+
+        [SerializeField]
         SceneAsset targetEditorScene;
 
         static string editModeScene;

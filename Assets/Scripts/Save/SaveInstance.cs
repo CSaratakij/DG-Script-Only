@@ -142,6 +142,7 @@ namespace DG
 
         public static void DeleteSave()
         {
+            saveGameDict.Clear();
             var path = Application.persistentDataPath + "/savegame";
             if (IsPathExist(path)) {
                 File.Delete(path);

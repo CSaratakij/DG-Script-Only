@@ -7,6 +7,13 @@ namespace DG
 {
     public class GameController : MonoBehaviour
     {
+        [SerializeField]
+        GameObject[] expectReuseOnWholeGame;
+
+        [SerializeField]
+        GameObject[] expectSpawnOnGameStart;
+
+
         public static GameController instance = null;
 
         public static bool isGameInit = false;
@@ -18,6 +25,8 @@ namespace DG
         public static event LoadingSceneFunc OnLoadingScene;
         public static event LoadingSceneFunc OnLoadedScene;
 
+
+        GameObject[] runtimeExpectSpawnOnGameStart;
 
         AsyncOperation longOperation;
         GameSaveAgent gameSaveAgent;
@@ -43,7 +52,26 @@ namespace DG
 
         void Start()
         {
+            _Spawn_Reuse_Object();
             SaveInstance.FireEvent_OnLoad();
+        }
+
+        void _Spawn_Reuse_Object()
+        {
+            for (int i = 0; i < expectReuseOnWholeGame.Length; i++) {
+                var obj = (GameObject)Instantiate(expectReuseOnWholeGame[i]);
+                DontDestroyOnLoad(obj);
+            }
+        }
+
+        void _Spawn_Reuse_Object_Only_In_Game()
+        {
+            runtimeExpectSpawnOnGameStart = new GameObject[expectSpawnOnGameStart.Length];
+
+            for (int i = 0; i < expectSpawnOnGameStart.Length; i++) {
+                runtimeExpectSpawnOnGameStart[i] = (GameObject)Instantiate(expectSpawnOnGameStart[i]);
+                DontDestroyOnLoad(runtimeExpectSpawnOnGameStart[i].gameObject);
+            }
         }
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -55,6 +83,7 @@ namespace DG
         {
             if (GameController.isGameInit) {
                 if (!GameController.isGameStarted && gameSaveAgent) {
+                    _Spawn_Reuse_Object_Only_In_Game();
                     _StartGameHandler();
                     GameController.GameStart(true);
                 }
@@ -174,6 +203,15 @@ namespace DG
             }
             else {
                 return 0.0f;
+            }
+        }
+
+        public void ClearSpawnOnGameStartObject()
+        {
+            foreach (GameObject obj in runtimeExpectSpawnOnGameStart) {
+                if (obj) {
+                    Destroy(obj);
+                }
             }
         }
     }

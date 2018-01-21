@@ -10,6 +10,7 @@ public class MechanicDoorInspector : Editor
     SerializedProperty size;
     SerializedProperty targetDoor;
     SerializedProperty targetSceneIndex;
+    SerializedProperty wrapID;
     SerializedProperty allowEnterMask;
     SerializedProperty useInstantOpen;
     SerializedProperty targetType;
@@ -27,6 +28,7 @@ public class MechanicDoorInspector : Editor
         size = serializedObject.FindProperty("size");
         targetDoor = serializedObject.FindProperty("targetDoor");
         targetSceneIndex = serializedObject.FindProperty("targetSceneIndex");
+        wrapID = serializedObject.FindProperty("wrapID");
         allowEnterMask = serializedObject.FindProperty("allowEnterMask");
         useInstantOpen = serializedObject.FindProperty("useInstantOpen");
         targetType = serializedObject.FindProperty("targetType");
@@ -74,5 +76,6 @@ public class MechanicDoorInspector : Editor
     void _Draw_Scene_Setting()
     {
         EditorGUILayout.PropertyField(targetSceneIndex, new GUIContent("Build Index"));
+        EditorGUILayout.PropertyField(wrapID, new GUIContent("Wrap ID"));
     }
 }

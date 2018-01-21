@@ -25,8 +25,7 @@ namespace DG
         public static event LoadingSceneFunc OnLoadingScene;
         public static event LoadingSceneFunc OnLoadedScene;
 
-        public static string expectDoorSaveKey = null;
-        public static int expectDoorSaveID = -1;
+        public static int expectDoorWrapID = -1;
         public static GameObject expectDoor = null; 
 
         GameObject[] runtimeExpectSpawnOnGameStart;

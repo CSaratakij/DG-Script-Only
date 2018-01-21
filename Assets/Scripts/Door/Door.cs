@@ -28,10 +28,13 @@ namespace DG
         int targetSceneIndex;
 
         [SerializeField]
+        protected int wrapID;
+
+        [SerializeField]
         LayerMask allowEnterMask;
 
         [SerializeField]
-        TargetType targetType;
+        protected TargetType targetType;
 
 
         public enum TargetType
@@ -48,7 +51,8 @@ namespace DG
 
         public bool IsUseTargetDoor { get { return targetType == TargetType.Door; } }
         public bool IsUseTargetScene { get { return targetType == TargetType.Scene; } }
-
+        public int WrapID { get { return wrapID; } }
+        public TargetType DoorType { get { return targetType; } }
 
         protected bool isOpen;
 
@@ -57,8 +61,6 @@ namespace DG
 
         Animator anim;
         Collider2D hit;
-
-        SaveInstance saveInstance;
 
 
 #if UNITY_EDITOR
@@ -91,6 +93,9 @@ namespace DG
                 if (sceneName != "") {
                     var label = string.Format("[ Go to Scene : {0} ]", sceneName);
                     Handles.Label(transform.position, label); 
+
+                    var label2 = string.Format("Wrap ID : {0}", wrapID);
+                    Handles.Label(transform.position + new Vector3(0, -0.2f, 0), label2); 
                 }
                 else {
                     var label = string.Format("[ No scene index : {0} in Build Setting ]", targetSceneIndex);
@@ -134,7 +139,6 @@ namespace DG
         protected virtual void Awake()
         {
             anim = GetComponent<Animator>();
-            saveInstance = GetComponent<SaveInstance>();
         }
 
         protected virtual void Update()
@@ -194,13 +198,9 @@ namespace DG
             if (targetType == TargetType.Scene) {
 
                 Debug.Log("About to move scene via Game Controller...");
+                GameController.expectDoorWrapID =  wrapID;
 
                 if (GameController.instance != null) {
-
-                    //test
-                    GameController.expectDoorSaveKey = saveInstance.Key;
-                    GameController.expectDoorSaveID =  (int)saveInstance.ID;
-
                     GameController.instance.MoveToScene(targetSceneIndex, 1.0f, true);
                 }
                 else {

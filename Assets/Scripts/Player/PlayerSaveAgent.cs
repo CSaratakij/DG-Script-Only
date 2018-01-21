@@ -55,8 +55,7 @@ namespace DG
         {
             if (GameController.expectDoor != null) {
                 transform.position = GameController.expectDoor.transform.position;
-                GameController.expectDoorSaveKey = "";
-                GameController.expectDoorSaveID = -1;
+                GameController.expectDoorWrapID = -1;
                 GameController.expectDoor = null;
             }
             else {

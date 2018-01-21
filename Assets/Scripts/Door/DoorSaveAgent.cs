@@ -56,12 +56,16 @@ namespace DG
 
         public override void FinishLoad()
         {
-            var expectKey = GameController.expectDoorSaveKey;
-            var expectID = (int)GameController.expectDoorSaveID;
+            if (!door) {
+                door = GetComponent<MechanicDoor>();
+            }
 
-            if (expectKey == key) {
-                if (expectID == (int)id) {
-                    GameController.expectDoor = this.gameObject;
+            if (door) {
+                if (door.DoorType == Door.TargetType.Scene) {
+                    var expectID = GameController.expectDoorWrapID;
+                    if (expectID == door.WrapID) {
+                        GameController.expectDoor = this.gameObject;
+                    }
                 }
             }
         }

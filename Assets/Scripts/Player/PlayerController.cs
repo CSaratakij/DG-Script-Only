@@ -37,6 +37,9 @@ namespace DG
         AudioClip jumpSound;
 
 
+        public static bool isInCinematic = false;
+
+
         bool isControlable;
         bool isPressedJump;
         bool isGrounded;
@@ -115,6 +118,16 @@ namespace DG
             _AnimationHandler();
             _FootStepHandler();
             _FocusHandler();
+
+            if (isInCinematic) {
+                StopUsingFocus();
+                _Controlable(false);
+            }
+            else {
+                if (!worldWrappingControl.IsUseFocus && !isControlable) {
+                    _Controlable(true);
+                }
+            }
 
             //Temp
             /* _ResetPosition(); */

@@ -98,7 +98,7 @@ namespace DG
                 string targetSceneName = gameSaveAgent.LastActiveScene;
 
                 if (targetSceneName != null) {
-                    MoveToScene(targetSceneName, 3.0f, false);
+                    MoveToScene(targetSceneName, 2.0f, false);
                 }
                 else {
                     MoveToScene(1, 2.0f, false);

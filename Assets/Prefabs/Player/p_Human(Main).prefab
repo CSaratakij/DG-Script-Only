@@ -444,8 +444,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnableFocus: 0
-  isCanEditMode: 1
-  isCanMoveMode: 1
+  isCanEditMode: 0
+  isCanMoveMode: 0
   mask: {fileID: 0}
   target: {fileID: 4542407778011790}
   offsetArea: {x: 2, y: 2}

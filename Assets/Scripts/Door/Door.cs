@@ -37,6 +37,9 @@ namespace DG
         protected TargetType targetType;
 
 
+        public static bool isCanInteract = true;
+
+
         public enum TargetType
         {
             Door,
@@ -107,18 +110,20 @@ namespace DG
 
          void _InputHandler()
          {
-             var axisY = Input.GetAxisRaw("Vertical");
+             if (Door.isCanInteract) {
+                 var axisY = Input.GetAxisRaw("Vertical");
 
-             if (axisY > 0.0f && !isUseAxisY) {
-                 if (isAllowEnter && hit) {
-                     this.Enter(hit.transform);
+                 if (axisY > 0.0f && !isUseAxisY) {
+                     if (isAllowEnter && hit) {
+                         this.Enter(hit.transform);
+                     }
+
+                     isUseAxisY = true;
                  }
 
-                 isUseAxisY = true;
-             }
-
-             if (axisY == 0.0f) {
-                 isUseAxisY = false;
+                 if (axisY == 0.0f) {
+                     isUseAxisY = false;
+                 }
              }
          }
 
@@ -201,6 +206,7 @@ namespace DG
                 GameController.expectDoorWrapID =  wrapID;
 
                 if (GameController.instance != null) {
+                    Door.isCanInteract = false;
                     GameController.instance.MoveToScene(targetSceneIndex, 1.0f, true);
                 }
                 else {

@@ -89,17 +89,14 @@ namespace DG
 
             anim.Play("Idle");
 
+            /*
             if (worldWrappingControl) {
                 worldWrappingControl.AllowFocus(true);
             }
+            */
 
             if (render) {
                 render.maskInteraction = SpriteMaskInteraction.None;
-            }
-
-            //test
-            if (!isMain) {
-                gameObject.SetActive(false);
             }
         }
 
@@ -120,7 +117,7 @@ namespace DG
             _FocusHandler();
 
             //Temp
-            _ResetPosition();
+            /* _ResetPosition(); */
         }
 
         void FixedUpdate()
@@ -168,37 +165,57 @@ namespace DG
                 }
             }
 
-            if (worldWrappingControl.IsUseFocus) {
+            if (worldWrappingControl.IsCanFocus) {
 
-                if (Input.GetButtonDown("Focus")) {
-                    if (worldWrappingControl.IsInEditMode) {
-                        _ToggleEditMode();
+                if (worldWrappingControl.IsUseFocus) {
+
+                    if (Input.GetButtonDown("Focus")) {
+
+                        if (worldWrappingControl.IsCanEditMode && worldWrappingControl.IsInEditMode) {
+                            _ToggleEditMode();
+                        }
+                        else {
+                            _ToggleFocus();
+                        }
+                    }
+
+                    var isUseMoveMode = Input.GetButton("MoveMode");
+                    var isUseMoveModeByAxis = Input.GetAxisRaw("MoveMode");
+
+                    if (isUseMoveMode || isUseMoveModeByAxis == 1.0f) {
+                        
+                        if (worldWrappingControl.IsCanMoveMode) {
+                            worldWrappingControl.UseMoveMode(true);
+                            render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+                            _Controlable(false);
+                        }
+                        else {
+                            if (worldWrappingControl.IsInEditMode) {
+                                render.maskInteraction = SpriteMaskInteraction.None;
+                            }
+
+                            _Controlable(!worldWrappingControl.IsInEditMode);
+                            worldWrappingControl.UseMoveMode(false);
+                        }
                     }
                     else {
+                        if (worldWrappingControl.IsInEditMode) {
+                            render.maskInteraction = SpriteMaskInteraction.None;
+                        }
+
+                        _Controlable(!worldWrappingControl.IsInEditMode);
+                        worldWrappingControl.UseMoveMode(false);
+                    }
+                }
+                else {
+                    if (isGrounded && Input.GetButtonDown("Focus")) {
                         _ToggleFocus();
                     }
                 }
-
-                var isUseMoveMode = Input.GetButton("MoveMode");
-                var isUseMoveModeByAxis = Input.GetAxisRaw("MoveMode");
-
-                if (isUseMoveMode || isUseMoveModeByAxis == 1.0f) {
-                    worldWrappingControl.UseMoveMode(true);
-                    render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
-                    _Controlable(false);
-                }
-                else {
-                    if (worldWrappingControl.IsInEditMode) {
-                        render.maskInteraction = SpriteMaskInteraction.None;
-                    }
-
-                    _Controlable(!worldWrappingControl.IsInEditMode);
-                    worldWrappingControl.UseMoveMode(false);
-                }
             }
             else {
-                if (isGrounded && Input.GetButtonDown("Focus")) {
-                    _ToggleFocus();
+                if (worldWrappingControl.IsUseFocus) {
+                    StopUsingFocus();
                 }
             }
         }
@@ -315,9 +332,14 @@ namespace DG
 
         void _FocusHandler()
         {
-            if (worldWrappingControl.IsUseFocus) {
-                if (Input.GetButtonDown("FocusEditMode")) {
-                    _ToggleEditMode();
+            if (worldWrappingControl.IsCanFocus && worldWrappingControl.IsUseFocus) {
+                if (worldWrappingControl.IsCanEditMode) {
+                    if (Input.GetButtonDown("FocusEditMode")) {
+                        _ToggleEditMode();
+                    }
+                }
+                else {
+                    worldWrappingControl.UseEditMode(false);
                 }
             }
             else {
@@ -348,6 +370,7 @@ namespace DG
         }
 
         //Temp
+        /*
         void _ResetPosition()
         {
             if (transform.position.y < -50.0f) {
@@ -359,6 +382,7 @@ namespace DG
                 transform.position = newPos;
             }
         }
+        */
 
         public void StopUsingFocus()
         {

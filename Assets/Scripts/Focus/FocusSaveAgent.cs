@@ -13,6 +13,7 @@ namespace DG
 
         struct FocusSaveInfo
         {
+            public bool unlocked_Focus;
             public bool unlocked_MoveMode;
             public bool unlocked_EditMode;
         }
@@ -24,6 +25,7 @@ namespace DG
             worldWrappingControl = GetComponent<WorldWrappingController>();
 
             if (worldWrappingControl) {
+                info.unlocked_Focus = worldWrappingControl.IsCanFocus;
                 info.unlocked_MoveMode = worldWrappingControl.IsCanMoveMode;
                 info.unlocked_EditMode = worldWrappingControl.IsCanEditMode;
             }
@@ -37,6 +39,7 @@ namespace DG
             worldWrappingControl = GetComponent<WorldWrappingController>();
 
             if (worldWrappingControl) {
+                worldWrappingControl.IsCanFocus = info.unlocked_Focus;
                 worldWrappingControl.IsCanMoveMode = info.unlocked_MoveMode;
                 worldWrappingControl.IsCanEditMode = info.unlocked_EditMode;
             }

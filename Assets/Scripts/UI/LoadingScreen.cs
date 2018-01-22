@@ -91,6 +91,9 @@ namespace DG
         {
             yield return new WaitForSeconds(0.3f);
             canvas.enabled = false;
+
+            //Hacks
+            Door.isCanInteract = true;
         }
 
         void OnDestroy()

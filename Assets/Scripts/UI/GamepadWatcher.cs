@@ -8,10 +8,20 @@ namespace DG
     {
         public static bool isGamepadConnected = false;
 
+        [SerializeField]
+        bool lessFrequent;
+
 
         void Update()
         {
-            _CheckConnectedGamepad();
+            if (lessFrequent) {
+                if (Input.anyKeyDown) {
+                    _CheckConnectedGamepad();
+                }
+            }
+            else {
+                _CheckConnectedGamepad();
+            }
         }
 
         void _CheckConnectedGamepad()

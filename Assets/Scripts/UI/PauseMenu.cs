@@ -12,6 +12,9 @@ namespace DG
         Button btnResume;
 
         [SerializeField]
+        Button btnControl;
+
+        [SerializeField]
         RectTransform panelControl;
 
         [SerializeField]
@@ -34,6 +37,8 @@ namespace DG
 
 
         bool isShow;
+        bool isUsingSubmenu;
+
         Canvas canvas;
 
 
@@ -55,7 +60,12 @@ namespace DG
         
         void Update()
         {
-            _InputHandler();
+            isUsingSubmenu = panelControl.gameObject.activeSelf;
+
+            if (!isUsingSubmenu) {
+                _InputHandler();
+            }
+
             _SubMenuHandler();
         }
 
@@ -72,19 +82,14 @@ namespace DG
 
                 if (Input.GetButtonDown("Cancel")) {
                     panelControl.gameObject.SetActive(false);
+                    eventObj.SetSelectedGameObject(btnControl.gameObject, new BaseEventData(eventObj));
                 }
 
-                //move to next view if player viewing mapping and horizontal x axis is in action..
-                /*
-                 *
-                var axisX = Input.GetAxisRaw("Horizontal");
-
-                if (axisX > 0.0f || axisX < 0.0f) {
+                if (Input.GetKeyDown(KeyCode.JoystickButton4) || Input.GetKeyDown(KeyCode.JoystickButton5)) {
                     foreach (var obj in controlmapViews) {
                         NextControlMapView(obj);
                     }
                 }
-                */
             }
         }
 

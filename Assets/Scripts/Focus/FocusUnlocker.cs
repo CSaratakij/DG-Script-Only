@@ -50,6 +50,11 @@ namespace DG
         }
 #endif
 
+        void Start()
+        {
+            gameObject.SetActive(!isUsed);
+        }
+
         void Update()
         {
             if (hit && !isUsed) {
@@ -99,10 +104,8 @@ namespace DG
 
         void _Disabled()
         {
-            isUsed = false;
+            isUsed = true;
             gameObject.SetActive(false);
-            //hide here..
-            //set active (false) ?
             // and its save agent -> save its used state?
         }
 

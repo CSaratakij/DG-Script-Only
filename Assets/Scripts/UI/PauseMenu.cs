@@ -36,14 +36,8 @@ namespace DG
         void _InputHandler()
         {
             if (Input.GetButtonDown("PauseMenu")) {
-                _ToggleMenu();
+                ToggleMenu();
             }
-        }
-
-        void _ToggleMenu()
-        {
-            isShow = !isShow;
-            canvas.enabled = isShow;
         }
 
         void _OnLoadingScene()
@@ -79,6 +73,18 @@ namespace DG
         {
             isShow = false;
             canvas.enabled = false;
+
+            //Hacks
+            PlayerController.isInCinematic = false;
+        }
+
+        public void ToggleMenu()
+        {
+            isShow = !isShow;
+            canvas.enabled = isShow;
+
+            //Hacks
+            PlayerController.isInCinematic = isShow;
         }
     }
 }

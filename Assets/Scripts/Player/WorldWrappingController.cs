@@ -98,6 +98,7 @@ namespace DG
         Vector3[] currentHighlightLinePoints;
 
         Vector3 originWorldWrappingPoint;
+        Vector3 triangleMarkPos;
 
         LineRenderer lineRenderer;
 

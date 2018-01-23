@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4992226396240036}
   - component: {fileID: 114178036977203422}
+  - component: {fileID: 114811204499923016}
   - component: {fileID: 114450460622152992}
   m_Layer: 0
   m_Name: GameController
@@ -55,7 +56,7 @@ MonoBehaviour:
   expectReuseOnWholeGame:
   - {fileID: 1698385323221072, guid: b0efef3883e53014580d77fba4bf1249, type: 2}
   expectSpawnOnGameStart:
-  - {fileID: 1803249485106436, guid: 3f40310e4b5eb3a4399a1bcbf967e217, type: 2}
+  - {fileID: 1807122390483548, guid: 3f40310e4b5eb3a4399a1bcbf967e217, type: 2}
 --- !u!114 &114450460622152992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,3 +71,14 @@ MonoBehaviour:
   makeUnique: 1
   key: Game
   id: 0
+--- !u!114 &114811204499923016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1789015061897946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222c99a3b58281d4daef03f83f628f94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -12,6 +12,21 @@ namespace DG
         Button btnResume;
 
         [SerializeField]
+        RectTransform panelControl;
+
+        [SerializeField]
+        ScrollRect scrollRect;
+
+        [SerializeField]
+        RectTransform contentKeyboard;
+
+        [SerializeField]
+        RectTransform contentGamepad;
+
+        [SerializeField]
+        Dropdown[] controlmapViews;
+
+        [SerializeField]
         EventSystem eventObj;
 
 
@@ -41,12 +56,35 @@ namespace DG
         void Update()
         {
             _InputHandler();
+            _SubMenuHandler();
         }
 
         void _InputHandler()
         {
             if (Input.GetButtonDown("PauseMenu")) {
                 ToggleMenu();
+            }
+        }
+
+        void _SubMenuHandler()
+        {
+            if (panelControl.gameObject.activeSelf) {
+
+                if (Input.GetButtonDown("Cancel")) {
+                    panelControl.gameObject.SetActive(false);
+                }
+
+                //move to next view if player viewing mapping and horizontal x axis is in action..
+                /*
+                 *
+                var axisX = Input.GetAxisRaw("Horizontal");
+
+                if (axisX > 0.0f || axisX < 0.0f) {
+                    foreach (var obj in controlmapViews) {
+                        NextControlMapView(obj);
+                    }
+                }
+                */
             }
         }
 
@@ -96,6 +134,17 @@ namespace DG
             if (isShow && btnResume && eventObj) {
                 eventObj.SetSelectedGameObject(btnResume.gameObject, new BaseEventData(eventObj));
             }
+        }
+
+        public void NextControlMapView(Dropdown target) {
+            var newValue = target.value;
+            newValue = (newValue == 0) ? 1 : 0;
+            target.value = newValue;
+
+            contentKeyboard.gameObject.SetActive(newValue == 0);
+            contentGamepad.gameObject.SetActive(newValue == 1);
+
+            scrollRect.content = (newValue == 0) ? contentKeyboard : contentGamepad;
         }
     }
 }

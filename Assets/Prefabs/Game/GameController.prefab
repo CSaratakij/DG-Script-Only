@@ -53,7 +53,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   expectReuseOnWholeGame:
-  - {fileID: 1730564306533768, guid: fb198d18709edc347b8587260e282f5e, type: 2}
   - {fileID: 1698385323221072, guid: b0efef3883e53014580d77fba4bf1249, type: 2}
   expectSpawnOnGameStart:
   - {fileID: 1803249485106436, guid: 3f40310e4b5eb3a4399a1bcbf967e217, type: 2}

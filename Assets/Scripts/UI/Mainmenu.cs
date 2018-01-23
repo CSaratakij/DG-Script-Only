@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace DG
 {
     public class Mainmenu : MonoBehaviour
     {
         [SerializeField]
-        Button continueButton;
+        Button btnContinue;
+
+        [SerializeField]
+        Button btnNewGame;
+
+        [SerializeField]
+        EventSystem eventObj;
+
 
         void Start()
         {
-            var isEnable = SaveInstance.IsSaveFileExists();
-            continueButton.enabled = isEnable;
+            var isHasProgress = SaveInstance.IsSaveFileExists();
 
-            if (continueButton.gameObject.activeSelf != isEnable) {
-                continueButton.gameObject.SetActive(isEnable);
+            btnContinue.enabled = isHasProgress;
+            btnContinue.gameObject.SetActive(isHasProgress);
+
+            if (eventObj) {
+                if (!eventObj.firstSelectedGameObject) {
+                    eventObj.firstSelectedGameObject = (isHasProgress) ? btnContinue.gameObject : btnNewGame.gameObject;
+                }
             }
         }
     }

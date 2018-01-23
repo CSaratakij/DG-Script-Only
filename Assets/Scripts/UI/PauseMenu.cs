@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace DG
 {
     public class PauseMenu : MonoBehaviour
     {
+        [SerializeField]
+        Button btnResume;
+
+        [SerializeField]
+        EventSystem eventObj;
+
+
         public static PauseMenu instance = null;
 
 
@@ -26,6 +34,8 @@ namespace DG
             else {
                 Destroy(this.gameObject);
             }
+
+            eventObj.firstSelectedGameObject = btnResume.gameObject;
         }
         
         void Update()
@@ -82,6 +92,10 @@ namespace DG
             isShow = !isShow;
             canvas.enabled = isShow;
             PlayerController.isInCinematic = isShow;
+
+            if (isShow && btnResume && eventObj) {
+                eventObj.SetSelectedGameObject(btnResume.gameObject, new BaseEventData(eventObj));
+            }
         }
     }
 }

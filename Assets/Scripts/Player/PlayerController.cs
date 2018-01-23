@@ -252,9 +252,6 @@ namespace DG
                             anim.Play("Push");
                         }
                         else {
-                            /* anim.Play("Idle"); */
-                            //Pull idle?
-                            /* anim.Play("Idle"); */
                             anim.Play("Pull Idle");
                         }
                     }
@@ -273,8 +270,6 @@ namespace DG
                             anim.Play("Pull");
                         }
                         else {
-                            /* anim.Play("Idle"); */
-                            //Pull idle?
                             anim.Play("Pull Idle");
                         }
                     }

@@ -50,6 +50,7 @@ namespace DG
         void _OnLoadedScene()
         {
             gameObject.SetActive(true);
+            PlayerController.isInCinematic = false;
         }
 
         void OnDestroy()
@@ -73,8 +74,6 @@ namespace DG
         {
             isShow = false;
             canvas.enabled = false;
-
-            //Hacks
             PlayerController.isInCinematic = false;
         }
 
@@ -82,8 +81,6 @@ namespace DG
         {
             isShow = !isShow;
             canvas.enabled = isShow;
-
-            //Hacks
             PlayerController.isInCinematic = isShow;
         }
     }

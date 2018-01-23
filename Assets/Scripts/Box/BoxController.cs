@@ -28,6 +28,8 @@ namespace DG
         Collider2D hit;
         Rigidbody2D rigid;
 
+        PlayerController playerControl;
+
 
 #if UNITY_EDITOR
         void OnDrawGizmosSelected() {
@@ -77,24 +79,52 @@ namespace DG
 
                 if (Input.GetButtonDown("Interact")) {
                     isUsing = false;
+
+                    if (playerControl) {
+                        playerControl.IsUsingBox = false;
+                        playerControl.AvatarDirFromBox = Vector2.zero;
+                    }
                 }
 
-                var axisX = Input.GetAxisRaw("Horizontal");
+                if (playerControl) {
 
-                if (axisX > 0.0f) {
-                    inputVector.x = 1.0f;
-                }
-                else if (axisX < 0.0f) {
-                    inputVector.x = -1.0f;
-                }
-                else {
-                    inputVector.x = 0.0f;
+                    var axisX = Input.GetAxisRaw("Horizontal");
+
+                    if (axisX > 0.0f) {
+                        inputVector.x = 1.0f;
+                    }
+                    else if (axisX < 0.0f) {
+                        inputVector.x = -1.0f;
+                    }
+                    else {
+                        inputVector.x = 0.0f;
+                    }
                 }
             }
             else {
                 if (hit) {
                     if (Input.GetButtonDown("Interact")) {
+
                         isUsing = true;
+                        playerControl = hit.GetComponent<PlayerController>();
+
+                        if (playerControl && !playerControl.IsUsingBox) {
+                            playerControl.IsUsingBox = true;
+
+                            if (playerControl.gameObject.transform.position.x > transform.position.x) {
+                                playerControl.AvatarDirFromBox = Vector2.right;
+                            }
+                            else if (playerControl.gameObject.transform.position.x < transform.position.x) {
+                                playerControl.AvatarDirFromBox = Vector2.left;
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (playerControl) {
+                        playerControl.IsUsingBox = false;
+                        playerControl.AvatarDirFromBox = Vector2.zero;
+                        playerControl = null;
                     }
                 }
             }

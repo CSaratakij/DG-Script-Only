@@ -37,14 +37,20 @@ namespace DG
 
         public static bool isInCinematic = false;
 
+        public bool IsUsingBox { get { return isUsingBox; } set { isUsingBox = value; } }
+        public Vector2 AvatarDirFromBox { get { return avatarDirFromBox; } set { avatarDirFromBox = value; } }
 
+
+        bool isUsingBox;
         bool isControlable;
+
         bool isPressedJump;
         bool isGrounded;
         bool isFalling;
 
         Vector2 input;
         Vector2 velocity;
+        Vector2 avatarDirFromBox;
 
         Animator anim;
         Rigidbody2D rigid;
@@ -90,12 +96,6 @@ namespace DG
 
             anim.Play("Idle");
 
-            /*
-            if (worldWrappingControl) {
-                worldWrappingControl.AllowFocus(true);
-            }
-            */
-
             if (render) {
                 render.maskInteraction = SpriteMaskInteraction.None;
             }
@@ -109,7 +109,7 @@ namespace DG
                 isFalling = true;
             }
 
-            if (isControlable) {
+            if (isControlable && !isUsingBox) {
                 _FlipXHandler();
             }
 
@@ -120,6 +120,7 @@ namespace DG
             if (isInCinematic) {
                 StopUsingFocus();
                 _Controlable(false);
+                Debug.Log("In cinematic..");
             }
             else {
                 if (!worldWrappingControl.IsUseFocus && !isControlable) {
@@ -234,18 +235,65 @@ namespace DG
         void _AnimationHandler()
         {
             if (isControlable) {
-                if (isGrounded) {
-                    if (input.x != 0.0f) {
-                        anim.Play("Run");
+                if (isUsingBox) {
+
+                    if (avatarDirFromBox.x > 0.0f) {
+
+                        if (transform.localScale.x > 0.0f) {
+                            var newScale = transform.localScale;
+                            newScale.x = -1.0f;
+                            transform.localScale = newScale;
+                        }
+
+                        if (input.x > 0.0f) {
+                            anim.Play("Pull");
+                        }
+                        else if (input.x < 0.0f) {
+                            anim.Play("Push");
+                        }
+                        else {
+                            /* anim.Play("Idle"); */
+                            //Pull idle?
+                            /* anim.Play("Idle"); */
+                            anim.Play("Pull Idle");
+                        }
                     }
-                    else {
-                        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-                            anim.Play("Falling Impact");
+                    else if (avatarDirFromBox.x < 0.0f) {
+
+                        if (transform.localScale.x < 0.0f) {
+                            var newScale = transform.localScale;
+                            newScale.x = 1.0f;
+                            transform.localScale = newScale;
+                        }
+
+                        if (input.x > 0.0f) {
+                            anim.Play("Push");
+                        }
+                        else if (input.x < 0.0f) {
+                            anim.Play("Pull");
+                        }
+                        else {
+                            /* anim.Play("Idle"); */
+                            //Pull idle?
+                            anim.Play("Pull Idle");
                         }
                     }
                 }
                 else {
-                    anim.Play("Fall");
+                    if (isGrounded) {
+
+                        if (input.x != 0.0f) {
+                            anim.Play("Run");
+                        }
+                        else {
+                            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                                anim.Play("Falling Impact");
+                            }
+                        }
+                    }
+                    else {
+                        anim.Play("Fall");
+                    }
                 }
             }
             else {

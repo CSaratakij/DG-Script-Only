@@ -16,6 +16,9 @@ namespace DG
         [SerializeField]
         Vector2 size;
 
+        [SerializeField]
+        GameObject uiObject;
+
 
         Animator anim;
         Switch switchObj;
@@ -33,6 +36,15 @@ namespace DG
         {
             if (hit) {
                 _InputHandler();
+
+                if (!uiObject.activeSelf) {
+                    uiObject.SetActive(true);
+                }
+            }
+            else {
+                if (uiObject.activeSelf) {
+                    uiObject.SetActive(false);
+                }
             }
 
             _AnimationHandler();

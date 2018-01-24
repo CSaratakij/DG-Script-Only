@@ -24,6 +24,9 @@ namespace DG
         [SerializeField]
         LayerMask layerMask;
 
+        [SerializeField]
+        GameObject uiObject;
+
 
         public bool IsUsed { get { return isUsed; } set { isUsed = value; } }
 
@@ -57,8 +60,17 @@ namespace DG
 
         void Update()
         {
-            if (hit && !isUsed) {
-                _InputHandler();
+            if (hit) {
+                if (isUsed) {
+                    _ToggleInteractUI(false);
+                }
+                else {
+                    _ToggleInteractUI(true);
+                    _InputHandler();
+                }
+            }
+            else {
+                _ToggleInteractUI(false);
             }
         }
 
@@ -129,6 +141,14 @@ namespace DG
                 result += "\n";
             }
             return result;
+        }
+
+        void _ToggleInteractUI(bool value) {
+            if (uiObject) {
+                if (uiObject.activeSelf != value) {
+                    uiObject.SetActive(value);
+                }
+            }
         }
     }
 }

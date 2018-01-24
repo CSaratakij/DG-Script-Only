@@ -211,5 +211,11 @@ namespace DG
                 }
             }
         }
+
+        public void RestartGameFromSave()
+        {
+            SaveInstance.FireEvent_OnLoad();
+            _StartGameHandler();
+        }
     }
 }

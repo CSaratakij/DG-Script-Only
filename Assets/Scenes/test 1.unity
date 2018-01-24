@@ -3201,6 +3201,11 @@ Prefab:
       propertyPath: id
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114655041299093098, guid: e09b419b44c09e945babbbc25b6e7c18,
+        type: 2}
+      propertyPath: targetSceneIndex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e09b419b44c09e945babbbc25b6e7c18, type: 2}
   m_IsPrefabParent: 0
@@ -11662,6 +11667,11 @@ Prefab:
         type: 2}
       propertyPath: wrapID
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114655041299093098, guid: e09b419b44c09e945babbbc25b6e7c18,
+        type: 2}
+      propertyPath: targetSceneIndex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e09b419b44c09e945babbbc25b6e7c18, type: 2}

@@ -157,5 +157,15 @@ namespace DG
 
             scrollRect.content = (newValue == 0) ? contentKeyboard : contentGamepad;
         }
+
+        public void RestartGameFromSave()
+        {
+            if (GameController.instance) {
+                GameController.instance.RestartGameFromSave();
+            }
+            else {
+                Debug.Log("Can't find 'GameController'");
+            }
+        }
     }
 }

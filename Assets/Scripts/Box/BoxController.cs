@@ -19,6 +19,9 @@ namespace DG
         [SerializeField]
         LayerMask layerMask;
 
+        [SerializeField]
+        GameObject uiObject;
+
 
         bool isUsing;
 
@@ -47,6 +50,7 @@ namespace DG
         void Update()
         {
             _InputHandler();
+            _ToggleUIHandler();
         }
 
         void FixedUpdate()
@@ -127,6 +131,33 @@ namespace DG
                         playerControl = null;
                     }
                 }
+            }
+        }
+
+        void _ToggleUIHandler()
+        {
+            if (hit) {
+                if (isUsing) {
+                    _ToggleInteractUI(false);
+                }
+                else {
+                    _ToggleInteractUI(true);
+                }
+            }
+            else {
+                _ToggleInteractUI(false);
+            }
+        }
+
+        void _ToggleInteractUI(bool value)
+        {
+            if (uiObject) {
+                if (uiObject.activeSelf != value) {
+                    uiObject.SetActive(value);
+                }
+            }
+            else {
+                Debug.Log("Can't find ui interact object..");
             }
         }
     }

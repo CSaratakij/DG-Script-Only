@@ -4910,6 +4910,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnResume: {fileID: 114902616426235616}
   btnControl: {fileID: 114261048498266268}
+  pauseControl: {fileID: 224359309179273828}
   panelControl: {fileID: 224361763753898974}
   scrollRect: {fileID: 114406766831334934}
   contentKeyboard: {fileID: 224019625144760410}

@@ -15,6 +15,9 @@ namespace DG
         Button btnControl;
 
         [SerializeField]
+        RectTransform pauseControl;
+
+        [SerializeField]
         RectTransform panelControl;
 
         [SerializeField]
@@ -61,6 +64,7 @@ namespace DG
         void Update()
         {
             isUsingSubmenu = panelControl.gameObject.activeSelf;
+            pauseControl.gameObject.SetActive(!isUsingSubmenu);
 
             if (!isUsingSubmenu) {
                 _InputHandler();

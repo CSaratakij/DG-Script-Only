@@ -16,6 +16,9 @@ namespace DG
         [SerializeField]
         LayerMask layerMask;
 
+        [SerializeField]
+        GameObject uiObject;
+
 
         Collider2D hit;
 
@@ -24,6 +27,15 @@ namespace DG
         {
             if (hit) {
                 _InputHandler();
+
+                if (!uiObject.activeSelf) {
+                    uiObject.SetActive(true);
+                }
+            }
+            else {
+                if (uiObject.activeSelf) {
+                    uiObject.SetActive(false);
+                }
             }
         }
 

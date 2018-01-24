@@ -15,6 +15,9 @@ namespace DG
         Button btnNewGame;
 
         [SerializeField]
+        GameObject dialogConfirm;
+
+        [SerializeField]
         EventSystem eventObj;
 
 

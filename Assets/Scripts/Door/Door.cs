@@ -36,6 +36,9 @@ namespace DG
         [SerializeField]
         protected TargetType targetType;
 
+        [SerializeField]
+        GameObject uiObject;
+
 
         public static bool isCanInteract = true;
 
@@ -150,6 +153,17 @@ namespace DG
         {
             _InputHandler();
             _AnimationHandler();
+
+            if (hit && isAllowEnter) {
+                if (!uiObject.activeSelf) {
+                    uiObject.SetActive(true);
+                }
+            }
+            else {
+                if (uiObject.activeSelf) {
+                    uiObject.SetActive(false);
+                }
+            }
         }
 
         protected virtual void FixedUpdate()

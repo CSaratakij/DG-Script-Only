@@ -14,6 +14,7 @@ public class MechanicDoorInspector : Editor
     SerializedProperty allowEnterMask;
     SerializedProperty useInstantOpen;
     SerializedProperty targetType;
+    SerializedProperty uiObject;
 
 
     bool showAreaSetting;
@@ -32,6 +33,7 @@ public class MechanicDoorInspector : Editor
         allowEnterMask = serializedObject.FindProperty("allowEnterMask");
         useInstantOpen = serializedObject.FindProperty("useInstantOpen");
         targetType = serializedObject.FindProperty("targetType");
+        uiObject = serializedObject.FindProperty("uiObject");
     }
 
     public override void OnInspectorGUI()
@@ -40,6 +42,9 @@ public class MechanicDoorInspector : Editor
         EditorGUILayout.Space();
 
         _Draw_Door_Setting();
+        EditorGUILayout.Space();
+
+        _Draw_UI_Setting();
         serializedObject.ApplyModifiedProperties();
     }
 
@@ -77,5 +82,11 @@ public class MechanicDoorInspector : Editor
     {
         EditorGUILayout.PropertyField(targetSceneIndex, new GUIContent("Build Index"));
         EditorGUILayout.PropertyField(wrapID, new GUIContent("Wrap ID"));
+    }
+
+    void _Draw_UI_Setting()
+    {
+        GUILayout.Label ("UI Interact Object", EditorStyles.boldLabel);
+        EditorGUILayout.PropertyField(uiObject, new GUIContent("Object"));
     }
 }

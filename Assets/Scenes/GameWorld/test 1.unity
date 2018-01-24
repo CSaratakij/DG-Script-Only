@@ -612,11 +612,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114930307960492092, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: switches.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_LocalPosition.x
       value: -8.98
@@ -647,7 +642,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_RootOrder
-      value: 35
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
@@ -658,40 +653,10 @@ Prefab:
         type: 2}
       propertyPath: switches.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 118095147}
     - target: {fileID: 1398533105585816, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_Name
       value: MechanicDoor (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: id
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: isUseTargetScene
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: targetSceneIndex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: isUseTargetDoor
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
@@ -733,7 +698,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4542407778011790, guid: 7f8ffa5a68ec11b419203b5baa4f913a, type: 2}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 114154704016030812, guid: 7f8ffa5a68ec11b419203b5baa4f913a,
         type: 2}
@@ -910,7 +875,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4313804689095750, guid: 58010f552c0c2fa4a94480e64d3c655a, type: 2}
       propertyPath: m_RootOrder
-      value: 38
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 4313804689095750, guid: 58010f552c0c2fa4a94480e64d3c655a, type: 2}
       propertyPath: m_LocalScale.y
@@ -1117,7 +1082,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4580221361853596, guid: cb57f4b0f9c44e345942b8af39a69bc6, type: 2}
       propertyPath: m_RootOrder
-      value: 36
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 212801108579696964, guid: cb57f4b0f9c44e345942b8af39a69bc6,
         type: 2}
@@ -1325,7 +1290,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &173542296
 GameObject:
@@ -1589,7 +1554,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4580221361853596, guid: cb57f4b0f9c44e345942b8af39a69bc6, type: 2}
       propertyPath: m_RootOrder
-      value: 37
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 212801108579696964, guid: cb57f4b0f9c44e345942b8af39a69bc6,
         type: 2}
@@ -2676,7 +2641,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4762805488222194, guid: da2d65c92a208234e915b76a7d65ca3f, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: da2d65c92a208234e915b76a7d65ca3f, type: 2}
@@ -4013,7 +3978,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4019667818855640, guid: 46a76ebfe3279d64791eeced6dc5fa9d, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 46a76ebfe3279d64791eeced6dc5fa9d, type: 2}
@@ -5371,11 +5336,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114930307960492092, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: switches.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_LocalPosition.x
       value: -12.84
@@ -5406,17 +5366,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_RootOrder
-      value: 32
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: targetDoor
       value: 
       objectReference: {fileID: 582869794}
-    - target: {fileID: 1398533105585816, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
-      propertyPath: m_Name
-      value: MechanicDoor (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 114930307960492092, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: switches.Array.data[0]
@@ -5427,15 +5383,9 @@ Prefab:
       propertyPath: switches.Array.data[1]
       value: 
       objectReference: {fileID: 1404755840}
-    - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: id
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: targetType
-      value: 0
+    - target: {fileID: 1398533105585816, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
+      propertyPath: m_Name
+      value: MechanicDoor (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
@@ -6481,7 +6431,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_RootOrder
-      value: 31
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
@@ -6830,7 +6780,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4780256201794774, guid: e4e071a5beedfdf4d9c68acc0500ef1f, type: 2}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e4e071a5beedfdf4d9c68acc0500ef1f, type: 2}
@@ -7018,7 +6968,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4508950641000910, guid: 271b1c9ab47e3064d880fcc2ea6e3687, type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 271b1c9ab47e3064d880fcc2ea6e3687, type: 2}
@@ -7877,7 +7827,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4313804689095750, guid: 58010f552c0c2fa4a94480e64d3c655a, type: 2}
       propertyPath: m_RootOrder
-      value: 34
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4313804689095750, guid: 58010f552c0c2fa4a94480e64d3c655a, type: 2}
       propertyPath: m_LocalScale.y
@@ -11189,7 +11139,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4878757641753132, guid: cf7a4f6ce13940f4aa46ea8659f96167, type: 2}
       propertyPath: m_RootOrder
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cf7a4f6ce13940f4aa46ea8659f96167, type: 2}
@@ -12025,7 +11975,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4313804689095750, guid: 58010f552c0c2fa4a94480e64d3c655a, type: 2}
       propertyPath: m_RootOrder
-      value: 33
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 4313804689095750, guid: 58010f552c0c2fa4a94480e64d3c655a, type: 2}
       propertyPath: m_LocalScale.y

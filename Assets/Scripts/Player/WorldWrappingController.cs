@@ -66,6 +66,12 @@ namespace DG
         [SerializeField]
         Gradient moveModeLineColor;
 
+        [SerializeField]
+        Transform triangleRight;
+
+        [SerializeField]
+        Transform triangleUp;
+
 
         public bool IsUseFocus { get { return isUseFocus; } }
 
@@ -225,6 +231,7 @@ namespace DG
 
                     _SelectSideHandler();
                     _RedrawHighlightLine();
+                    _RePositionTriangle();
                 }
             }
             else if (axisX < 0.0f) {
@@ -242,6 +249,7 @@ namespace DG
 
                     _SelectSideHandler();
                     _RedrawHighlightLine();
+                    _RePositionTriangle();
                 }
             }
         }
@@ -268,6 +276,7 @@ namespace DG
 
                     _SelectSideHandler();
                     _RedrawHighlightLine();
+                    _RePositionTriangle();
                 }
             }
             else if (axisY < 0.0f) {
@@ -285,6 +294,7 @@ namespace DG
 
                     _SelectSideHandler();
                     _RedrawHighlightLine();
+                    _RePositionTriangle();
                 }
             }
         }
@@ -293,6 +303,7 @@ namespace DG
         {
             _SelectSideHandler();
             _RedrawHighlightLine();
+            _RePositionTriangle();
             _EditModeHandler_Horizontal();
             _EditModeHandler_Vertical();
         }
@@ -357,6 +368,48 @@ namespace DG
                 highlightLineRenderer.positionCount = 2;
                 highlightLineRenderer.SetPositions(currentHighlightLinePoints);
             }
+        }
+
+        void _RePositionTriangle()
+        {
+            var vertTriangleOffsetX = (currentLinePoints[1].x - currentLinePoints[0].x) * 0.5f;
+            var horzTriangleOffsetY = (currentLinePoints[1].y - currentLinePoints[2].y) * 0.5f;
+
+            var offsetX = 0.5f;
+            var offsetY = 0.5f;
+
+            if (Vector2.up == lastSelectedSide) {
+                triangleMarkPos.x = currentLinePoints[0].x + vertTriangleOffsetX;
+                triangleMarkPos.y = currentLinePoints[0].y + offsetY;
+                triangleUp.position = triangleMarkPos;
+            }
+            else if (Vector2.down == lastSelectedSide) {
+                triangleMarkPos.x = currentLinePoints[0].x + vertTriangleOffsetX;
+                triangleMarkPos.y = currentLinePoints[2].y - offsetY;
+                triangleUp.position = triangleMarkPos;
+            }
+            else if (Vector2.left == lastSelectedSide) {
+                triangleMarkPos.x = currentLinePoints[0].x - offsetX;
+                triangleMarkPos.y = currentLinePoints[0].y - horzTriangleOffsetY;
+                triangleRight.position = triangleMarkPos;
+            }
+            else if (Vector2.right == lastSelectedSide) {
+                triangleMarkPos.x = currentLinePoints[1].x + offsetX;
+                triangleMarkPos.y = currentLinePoints[1].y - horzTriangleOffsetY;
+                triangleRight.position = triangleMarkPos;
+            }
+
+            var scaleVert = triangleUp.localScale;
+            var scaleHorz = triangleRight.localScale;
+
+            scaleVert.y = (lastSelectedSide == Vector2.up) ? 1.0f : -1.0f;
+            scaleHorz.x = (lastSelectedSide == Vector2.right) ? 1.0f : -1.0f;
+
+            triangleUp.localScale = scaleVert;
+            triangleRight.localScale = scaleHorz;
+
+            triangleUp.gameObject.SetActive(lastSelectedSide == Vector2.up || lastSelectedSide == Vector2.down);
+            triangleRight.gameObject.SetActive(lastSelectedSide == Vector2.left || lastSelectedSide == Vector2.right);
         }
 
         void _EditModeHandler_Horizontal()
@@ -812,6 +865,8 @@ namespace DG
         void _ClearEditMode()
         {
             highlightLineRenderer.positionCount = 0;
+            triangleUp.gameObject.SetActive(false);
+            triangleRight.gameObject.SetActive(false);
         }
 
         bool _IsInWorldWrappingRect_Horizontal(Vector2 refLeftPos, Vector2 refRightPos, Vector2 pos) {

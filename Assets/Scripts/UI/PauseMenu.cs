@@ -58,13 +58,12 @@ namespace DG
                 Destroy(this.gameObject);
             }
 
-            eventObj.firstSelectedGameObject = btnResume.gameObject;
+            eventObj.SetSelectedGameObject(null, new BaseEventData(eventObj));
         }
         
         void Update()
         {
             isUsingSubmenu = panelControl.gameObject.activeSelf;
-            /* pauseControl.gameObject.SetActive(!isUsingSubmenu); */
 
             if (!isUsingSubmenu) {
                 _InputHandler();
@@ -134,6 +133,7 @@ namespace DG
             isShow = false;
             canvas.enabled = false;
             PlayerController.isInCinematic = false;
+            eventObj.SetSelectedGameObject(null, new BaseEventData(eventObj));
         }
 
         public void ToggleMenu()
@@ -144,6 +144,9 @@ namespace DG
 
             if (isShow && btnResume && eventObj) {
                 eventObj.SetSelectedGameObject(btnResume.gameObject, new BaseEventData(eventObj));
+            }
+            else {
+                eventObj.SetSelectedGameObject(null, new BaseEventData(eventObj));
             }
         }
 

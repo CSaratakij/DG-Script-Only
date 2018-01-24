@@ -33,6 +33,9 @@ namespace DG
         Dropdown[] controlmapViews;
 
         [SerializeField]
+        RectTransform[] dialogBoxes;
+
+        [SerializeField]
         EventSystem eventObj;
 
 
@@ -134,6 +137,10 @@ namespace DG
             canvas.enabled = false;
             PlayerController.isInCinematic = false;
             eventObj.SetSelectedGameObject(null, new BaseEventData(eventObj));
+
+            foreach (var obj in dialogBoxes) {
+                obj.gameObject.SetActive(false);
+            }
         }
 
         public void ToggleMenu()
@@ -147,6 +154,9 @@ namespace DG
             }
             else {
                 eventObj.SetSelectedGameObject(null, new BaseEventData(eventObj));
+                foreach (var obj in dialogBoxes) {
+                    obj.gameObject.SetActive(false);
+                }
             }
         }
 

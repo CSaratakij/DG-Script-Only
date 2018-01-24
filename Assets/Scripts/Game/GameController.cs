@@ -101,11 +101,11 @@ namespace DG
                     MoveToScene(targetSceneName, 2.0f, false);
                 }
                 else {
-                    MoveToScene(1, 2.0f, false);
+                    MoveToScene(2, 2.0f, false);
                 }
             }
             else {
-                MoveToScene(1, 2.0f, false);
+                MoveToScene(2, 2.0f, false);
             }
         }
 

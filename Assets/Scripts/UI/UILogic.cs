@@ -39,7 +39,7 @@ namespace DG
                 GameController.instance.ClearSpawnOnGameStartObject();
                 //
                 //then
-                GameController.instance.MoveToScene(0, 3.0f, false);
+                GameController.instance.MoveToScene(1, 3.0f, false);
             }
             else {
                 Debug.Log("Can't find game controller instance..");

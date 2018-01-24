@@ -3210,7 +3210,7 @@ Prefab:
     - target: {fileID: 114655041299093098, guid: e09b419b44c09e945babbbc25b6e7c18,
         type: 2}
       propertyPath: targetSceneIndex
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e09b419b44c09e945babbbc25b6e7c18, type: 2}
@@ -11842,7 +11842,7 @@ Prefab:
     - target: {fileID: 114655041299093098, guid: e09b419b44c09e945babbbc25b6e7c18,
         type: 2}
       propertyPath: targetSceneIndex
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e09b419b44c09e945babbbc25b6e7c18, type: 2}

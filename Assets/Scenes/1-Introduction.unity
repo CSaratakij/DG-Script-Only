@@ -772,6 +772,25 @@ Prefab:
       propertyPath: leftBound
       value: 
       objectReference: {fileID: 283795264}
+    - target: {fileID: 114154704016030812, guid: 7f8ffa5a68ec11b419203b5baa4f913a,
+        type: 2}
+      propertyPath: isCanEditMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114154704016030812, guid: 7f8ffa5a68ec11b419203b5baa4f913a,
+        type: 2}
+      propertyPath: isCanMoveMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114154704016030812, guid: 7f8ffa5a68ec11b419203b5baa4f913a,
+        type: 2}
+      propertyPath: isEnableFocus
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4542407778011790, guid: 7f8ffa5a68ec11b419203b5baa4f913a, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7f8ffa5a68ec11b419203b5baa4f913a, type: 2}
   m_IsPrefabParent: 0

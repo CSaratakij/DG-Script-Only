@@ -64,7 +64,7 @@ namespace DG
         void Update()
         {
             isUsingSubmenu = panelControl.gameObject.activeSelf;
-            pauseControl.gameObject.SetActive(!isUsingSubmenu);
+            /* pauseControl.gameObject.SetActive(!isUsingSubmenu); */
 
             if (!isUsingSubmenu) {
                 _InputHandler();
@@ -85,6 +85,8 @@ namespace DG
             if (panelControl.gameObject.activeSelf) {
 
                 if (Input.GetButtonDown("Cancel")) {
+
+                    pauseControl.gameObject.SetActive(true);
                     panelControl.gameObject.SetActive(false);
                     eventObj.SetSelectedGameObject(btnControl.gameObject, new BaseEventData(eventObj));
                 }

@@ -139,8 +139,22 @@ namespace DG
             _InputHandler();
 
             if (isEnableFocus && isUseFocus) {
+
                 _FocusHandler();
                 _WorldWrappingHandler();
+
+                //Hacks
+                if (isInMoveMode) {
+                    lineRenderer.colorGradient = moveModeLineColor;
+                }
+                else {
+                    if (isInEditMode) {
+                        lineRenderer.colorGradient = editModeLineColor;
+                    }
+                    else {
+                        lineRenderer.colorGradient = normalModeLineColor;
+                    }
+                }
             }
         }
 

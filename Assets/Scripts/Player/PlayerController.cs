@@ -423,21 +423,6 @@ namespace DG
             isControlable = value;
         }
 
-        //Temp
-        /*
-        void _ResetPosition()
-        {
-            if (transform.position.y < -50.0f) {
-                var newPos = transform.position;
-                newPos.x = 0.0f;
-                newPos.y = 6.0f;
-
-                rigid.velocity = Vector2.zero;
-                transform.position = newPos;
-            }
-        }
-        */
-
         public void StopUsingFocus()
         {
             worldWrappingControl.UseFocus(false);

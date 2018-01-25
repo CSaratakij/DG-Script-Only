@@ -51,6 +51,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4370102034768264}
+  - component: {fileID: 114860539050987060}
   m_Layer: 0
   m_Name: UIInGameInteract
   m_TagString: Untagged
@@ -178,14 +179,27 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   size: {x: 1, y: 1}
   targetDoor: {fileID: 0}
-  targetSceneIndex: 2
-  wrapID: 1
+  targetSceneIndex: 3
+  wrapID: 0
   allowEnterMask:
     serializedVersion: 2
     m_Bits: 256
   targetType: 1
   uiObject: {fileID: 1576624779775406}
   useInstantOpen: 1
+--- !u!114 &114860539050987060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1576624779775406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63721b0bcf0ee36409d1d17588a39856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardUI: {fileID: 1194772890383906}
+  gamepadUI: {fileID: 1417559324989220}
 --- !u!114 &114907616483483386
 MonoBehaviour:
   m_ObjectHideFlags: 1

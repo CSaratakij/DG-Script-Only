@@ -761,6 +761,11 @@ Prefab:
       propertyPath: id
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114395594792577094, guid: c1f65c97c31499843b839765591131fd,
+        type: 2}
+      propertyPath: unlockList.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c1f65c97c31499843b839765591131fd, type: 2}
   m_IsPrefabParent: 0
@@ -2560,11 +2565,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114395594792577094, guid: c1f65c97c31499843b839765591131fd,
-        type: 2}
-      propertyPath: unlockList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4136032496092088, guid: c1f65c97c31499843b839765591131fd, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1.22
@@ -2600,16 +2600,6 @@ Prefab:
     - target: {fileID: 1027161158106916, guid: c1f65c97c31499843b839765591131fd, type: 2}
       propertyPath: m_Name
       value: Focus Unlocker (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114395594792577094, guid: c1f65c97c31499843b839765591131fd,
-        type: 2}
-      propertyPath: unlockList.Array.data[0]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114395594792577094, guid: c1f65c97c31499843b839765591131fd,
-        type: 2}
-      propertyPath: unlockList.Array.data[1]
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c1f65c97c31499843b839765591131fd, type: 2}
@@ -4862,29 +4852,19 @@ Prefab:
       propertyPath: m_RootOrder
       value: 36
       objectReference: {fileID: 0}
-    - target: {fileID: 114575408318457702, guid: e09b419b44c09e945babbbc25b6e7c18,
-        type: 2}
-      propertyPath: switches.Array.data[0]
-      value: 
-      objectReference: {fileID: 389914091}
     - target: {fileID: 114655041299093098, guid: e09b419b44c09e945babbbc25b6e7c18,
         type: 2}
       propertyPath: targetDoor
       value: 
       objectReference: {fileID: 1212846633}
+    - target: {fileID: 114575408318457702, guid: e09b419b44c09e945babbbc25b6e7c18,
+        type: 2}
+      propertyPath: switches.Array.data[0]
+      value: 
+      objectReference: {fileID: 389914091}
     - target: {fileID: 1815232783818928, guid: e09b419b44c09e945babbbc25b6e7c18, type: 2}
       propertyPath: m_Name
       value: WrapDoor (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 114655041299093098, guid: e09b419b44c09e945babbbc25b6e7c18,
-        type: 2}
-      propertyPath: wrapID
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114655041299093098, guid: e09b419b44c09e945babbbc25b6e7c18,
-        type: 2}
-      propertyPath: targetSceneIndex
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e09b419b44c09e945babbbc25b6e7c18, type: 2}
@@ -5531,11 +5511,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114930307960492092, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: switches.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4057369519668468, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
       propertyPath: m_LocalPosition.x
       value: -12.84
@@ -5568,15 +5543,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 28
       objectReference: {fileID: 0}
-    - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
-        type: 2}
-      propertyPath: targetDoor
-      value: 
-      objectReference: {fileID: 1436956180}
-    - target: {fileID: 1398533105585816, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
-      propertyPath: m_Name
-      value: MechanicDoor (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 114930307960492092, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
       propertyPath: switches.Array.data[0]
@@ -5587,10 +5553,14 @@ Prefab:
       propertyPath: switches.Array.data[1]
       value: 
       objectReference: {fileID: 1404755840}
-    - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
+    - target: {fileID: 114262601618066094, guid: 886a93af640df3440bdb30663192a8e6,
         type: 2}
-      propertyPath: id
-      value: 1
+      propertyPath: targetDoor
+      value: 
+      objectReference: {fileID: 1436956180}
+    - target: {fileID: 1398533105585816, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
+      propertyPath: m_Name
+      value: MechanicDoor (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
@@ -8000,10 +7970,6 @@ Prefab:
     - target: {fileID: 1838380018959866, guid: cb57f4b0f9c44e345942b8af39a69bc6, type: 2}
       propertyPath: m_Name
       value: SaveAgent (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1123562712001474, guid: cb57f4b0f9c44e345942b8af39a69bc6, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cb57f4b0f9c44e345942b8af39a69bc6, type: 2}

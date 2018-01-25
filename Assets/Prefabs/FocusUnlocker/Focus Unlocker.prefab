@@ -53,6 +53,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4812757466487230}
+  - component: {fileID: 114712182281416316}
   m_Layer: 0
   m_Name: UIInGameInteract
   m_TagString: Untagged
@@ -83,7 +84,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1027161158106916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.38, y: -0.25, z: 0}
+  m_LocalPosition: {x: 1.22, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4812757466487230}
@@ -156,12 +157,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644f8ccb50b07214ca29a2b2443ba294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unlockList: 00000000
+  unlockList: 02000000
   size: {x: 1, y: 1}
   layerMask:
     serializedVersion: 2
     m_Bits: 256
   uiObject: {fileID: 1231779122317540}
+--- !u!114 &114712182281416316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1231779122317540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63721b0bcf0ee36409d1d17588a39856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardUI: {fileID: 1579256779198294}
+  gamepadUI: {fileID: 1026425107750038}
 --- !u!212 &212560233549409770
 SpriteRenderer:
   m_ObjectHideFlags: 1

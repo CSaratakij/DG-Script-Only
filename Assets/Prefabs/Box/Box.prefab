@@ -87,6 +87,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4388016665456002}
+  - component: {fileID: 114508647824374902}
   m_Layer: 0
   m_Name: UIInGameInteract
   m_TagString: Untagged
@@ -247,6 +248,19 @@ MonoBehaviour:
   makeUnique: 0
   key: Box
   id: 0
+--- !u!114 &114508647824374902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1766178095281436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63721b0bcf0ee36409d1d17588a39856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardUI: {fileID: 1194235572410752}
+  gamepadUI: {fileID: 1479299244050856}
 --- !u!114 &114636367643185090
 MonoBehaviour:
   m_ObjectHideFlags: 1

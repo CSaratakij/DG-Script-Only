@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4661979009444346}
+  - component: {fileID: 114529111299716530}
   m_Layer: 0
   m_Name: UIInGameInteract
   m_TagString: Untagged
@@ -85,7 +86,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1398533105585816}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.98, y: 2.87, z: 0}
+  m_LocalPosition: {x: -12.84, y: -2.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4661979009444346}
@@ -163,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   makeUnique: 0
   key: MechanicDoor
-  id: 0
+  id: 1
 --- !u!114 &114262601618066094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -187,6 +188,19 @@ MonoBehaviour:
   targetType: 0
   uiObject: {fileID: 1310896899768088}
   useInstantOpen: 1
+--- !u!114 &114529111299716530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1310896899768088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63721b0bcf0ee36409d1d17588a39856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardUI: {fileID: 1556111247199628}
+  gamepadUI: {fileID: 1398959530305316}
 --- !u!114 &114930307960492092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -199,6 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   switches:
+  - {fileID: 0}
   - {fileID: 0}
 --- !u!212 &212361495196237102
 SpriteRenderer:

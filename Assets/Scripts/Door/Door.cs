@@ -180,6 +180,11 @@ namespace DG
                     var playerController = obj.gameObject.GetComponent<PlayerController>();
                     var worldWrappingController = obj.gameObject.GetComponent<WorldWrappingController>();
 
+                    //Hacks
+                    if (PlayerController.isInCinematic) {
+                        return;
+                    }
+
                     if (worldWrappingController && playerController) {
 
                         var isCanEnter = !(worldWrappingController.IsInEditMode || worldWrappingController.IsInMoveMode);

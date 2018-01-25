@@ -57,6 +57,7 @@ MonoBehaviour:
   - {fileID: 1698385323221072, guid: b0efef3883e53014580d77fba4bf1249, type: 2}
   expectSpawnOnGameStart:
   - {fileID: 1702282499180992, guid: 8a24c29c5f0ba3543a6336acd88bcc05, type: 2}
+  - {fileID: 1953532192753202, guid: bc939afbac41a71428dd3fc1bf42558c, type: 2}
   - {fileID: 1320348005863456, guid: e93318e84b5a7264abf0bebaac109527, type: 2}
 --- !u!114 &114450460622152992
 MonoBehaviour:

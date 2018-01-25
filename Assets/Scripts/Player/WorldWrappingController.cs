@@ -142,6 +142,19 @@ namespace DG
                 _FocusHandler();
                 _WorldWrappingHandler();
                 _UpdateFocusColor();
+
+                //Hacks
+                if (FocusButtonIndicator.instance) {
+                    if (FocusButtonIndicator.instance.IsShow_Focus) {
+                        if (FocusButtonIndicator.instance.IsCan_EditMode != isCanEditMode) {
+                            FocusButtonIndicator.instance.IsCan_EditMode = isCanEditMode;
+                        }
+
+                        if (FocusButtonIndicator.instance.IsCan_MoveMode != isCanMoveMode) {
+                            FocusButtonIndicator.instance.IsCan_MoveMode = isCanMoveMode;
+                        }
+                    }
+                }
             }
         }
 
@@ -904,22 +917,44 @@ namespace DG
                 _MaintainWorldWrappingOffset();
                 originWorldWrappingPoint = target.position;
                 _RepositionWorldWrappingRect();
+
+                if (FocusButtonIndicator.instance) {
+                    FocusButtonIndicator.instance.Show();
+                }
             }
             else {
                 _ClearWorldWrapping();
+
+                if (FocusButtonIndicator.instance) {
+                    FocusButtonIndicator.instance.Hide();
+                }
             }
 
             isUseFocus = value;
+
+            if (FocusButtonIndicator.instance) {
+                FocusButtonIndicator.instance.IsShow_Focus = value;
+                FocusButtonIndicator.instance.IsCan_EditMode = isCanEditMode;
+                FocusButtonIndicator.instance.IsCan_MoveMode = isCanMoveMode;
+            }
         }
 
         public void UseEditMode(bool value)
         {
             isInEditMode = value;
+
+            if (FocusButtonIndicator.instance) {
+                FocusButtonIndicator.instance.IsShow_EditMode = value;
+            }
         }
 
         public void UseMoveMode(bool value)
         {
             isInMoveMode = value;
+
+            if (FocusButtonIndicator.instance) {
+                FocusButtonIndicator.instance.IsShow_MoveMode = value;
+            }
         }
     }
 }

@@ -56,6 +56,7 @@ MonoBehaviour:
   expectReuseOnWholeGame:
   - {fileID: 1698385323221072, guid: b0efef3883e53014580d77fba4bf1249, type: 2}
   expectSpawnOnGameStart:
+  - {fileID: 1702282499180992, guid: 8a24c29c5f0ba3543a6336acd88bcc05, type: 2}
   - {fileID: 1320348005863456, guid: e93318e84b5a7264abf0bebaac109527, type: 2}
 --- !u!114 &114450460622152992
 MonoBehaviour:
@@ -82,3 +83,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222c99a3b58281d4daef03f83f628f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lessFrequent: 0

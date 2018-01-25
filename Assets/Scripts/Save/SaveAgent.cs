@@ -56,6 +56,10 @@ namespace DG
         {
             if (Input.GetButtonDown("Interact")) {
                 _SaveGame();
+
+                if (SaveNotification.instance) {
+                    SaveNotification.instance.ShowNotification();
+                }
             }
         }
 

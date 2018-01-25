@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildIndex: 1
-  delay: 5
+  delay: 5.5
 --- !u!114 &114731275072114260
 MonoBehaviour:
   m_ObjectHideFlags: 1

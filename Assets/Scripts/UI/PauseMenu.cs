@@ -15,10 +15,16 @@ namespace DG
         Button btnControl;
 
         [SerializeField]
+        Button btnCredit;
+
+        [SerializeField]
         RectTransform pauseControl;
 
         [SerializeField]
         RectTransform panelControl;
+
+        [SerializeField]
+        RectTransform panelCredit;
 
         [SerializeField]
         ScrollRect scrollRect;
@@ -66,7 +72,7 @@ namespace DG
         
         void Update()
         {
-            isUsingSubmenu = panelControl.gameObject.activeSelf;
+            isUsingSubmenu = panelControl.gameObject.activeSelf || panelCredit.gameObject.activeSelf;
 
             if (!isUsingSubmenu) {
                 _InputHandler();
@@ -89,7 +95,10 @@ namespace DG
                 if (Input.GetButtonDown("Cancel")) {
 
                     pauseControl.gameObject.SetActive(true);
+
                     panelControl.gameObject.SetActive(false);
+                    panelCredit.gameObject.SetActive(false);
+
                     eventObj.SetSelectedGameObject(btnControl.gameObject, new BaseEventData(eventObj));
                 }
 
@@ -97,6 +106,18 @@ namespace DG
                     foreach (var obj in controlmapViews) {
                         NextControlMapView(obj);
                     }
+                }
+            }
+            else if (panelCredit.gameObject.activeSelf) {
+
+                if (Input.GetButtonDown("Cancel")) {
+
+                    pauseControl.gameObject.SetActive(true);
+
+                    panelControl.gameObject.SetActive(false);
+                    panelCredit.gameObject.SetActive(false);
+
+                    eventObj.SetSelectedGameObject(btnCredit.gameObject, new BaseEventData(eventObj));
                 }
             }
         }

@@ -139,22 +139,9 @@ namespace DG
             _InputHandler();
 
             if (isEnableFocus && isUseFocus) {
-
                 _FocusHandler();
                 _WorldWrappingHandler();
-
-                //Hacks
-                if (isInMoveMode) {
-                    lineRenderer.colorGradient = moveModeLineColor;
-                }
-                else {
-                    if (isInEditMode) {
-                        lineRenderer.colorGradient = editModeLineColor;
-                    }
-                    else {
-                        lineRenderer.colorGradient = normalModeLineColor;
-                    }
-                }
+                _UpdateFocusColor();
             }
         }
 
@@ -883,6 +870,21 @@ namespace DG
             triangleRight.gameObject.SetActive(false);
         }
 
+        void _UpdateFocusColor()
+        {
+            if (isInMoveMode) {
+                lineRenderer.colorGradient = moveModeLineColor;
+            }
+            else {
+                if (isInEditMode) {
+                    lineRenderer.colorGradient = editModeLineColor;
+                }
+                else {
+                    lineRenderer.colorGradient = normalModeLineColor;
+                }
+            }
+        }
+
         bool _IsInWorldWrappingRect_Horizontal(Vector2 refLeftPos, Vector2 refRightPos, Vector2 pos) {
             return (pos.x > refLeftPos.x && pos.x < refRightPos.x);
         }
@@ -912,19 +914,11 @@ namespace DG
 
         public void UseEditMode(bool value)
         {
-            lineRenderer.colorGradient = (value) ? editModeLineColor : normalModeLineColor;
             isInEditMode = value;
         }
 
         public void UseMoveMode(bool value)
         {
-            if (value) {
-                lineRenderer.colorGradient = moveModeLineColor;
-            }
-            else {
-                lineRenderer.colorGradient = (isInEditMode) ? editModeLineColor : normalModeLineColor;
-            }
-
             isInMoveMode = value;
         }
     }

@@ -201,5 +201,10 @@ namespace DG
                 Debug.Log("Can't find 'GameController'");
             }
         }
+
+        public void UnSelectAnything()
+        {
+            eventObj.SetSelectedGameObject(null, new BaseEventData(eventObj));
+        }
     }
 }

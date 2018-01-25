@@ -15,7 +15,7 @@ namespace DG
         Button btnControl;
 
         [SerializeField]
-        Button btnCredit;
+        Button btnJournal;
 
         [SerializeField]
         RectTransform pauseControl;
@@ -24,7 +24,7 @@ namespace DG
         RectTransform panelControl;
 
         [SerializeField]
-        RectTransform panelCredit;
+        RectTransform panelJournal;
 
         [SerializeField]
         ScrollRect scrollRect;
@@ -72,7 +72,7 @@ namespace DG
         
         void Update()
         {
-            isUsingSubmenu = panelControl.gameObject.activeSelf || panelCredit.gameObject.activeSelf;
+            isUsingSubmenu = panelControl.gameObject.activeSelf || panelJournal.gameObject.activeSelf;
 
             if (!isUsingSubmenu) {
                 _InputHandler();
@@ -97,7 +97,7 @@ namespace DG
                     pauseControl.gameObject.SetActive(true);
 
                     panelControl.gameObject.SetActive(false);
-                    panelCredit.gameObject.SetActive(false);
+                    panelJournal.gameObject.SetActive(false);
 
                     eventObj.SetSelectedGameObject(btnControl.gameObject, new BaseEventData(eventObj));
                 }
@@ -108,16 +108,16 @@ namespace DG
                     }
                 }
             }
-            else if (panelCredit.gameObject.activeSelf) {
+            else if (panelJournal.gameObject.activeSelf) {
 
                 if (Input.GetButtonDown("Cancel")) {
 
                     pauseControl.gameObject.SetActive(true);
 
                     panelControl.gameObject.SetActive(false);
-                    panelCredit.gameObject.SetActive(false);
+                    panelJournal.gameObject.SetActive(false);
 
-                    eventObj.SetSelectedGameObject(btnCredit.gameObject, new BaseEventData(eventObj));
+                    eventObj.SetSelectedGameObject(btnJournal.gameObject, new BaseEventData(eventObj));
                 }
             }
         }

@@ -15,7 +15,13 @@ namespace DG
         Button btnNewGame;
 
         [SerializeField]
+        Button btnCredits;
+
+        [SerializeField]
         GameObject dialogConfirm;
+
+        [SerializeField]
+        GameObject panelCredit;
 
         [SerializeField]
         EventSystem eventObj;
@@ -33,6 +39,26 @@ namespace DG
                     eventObj.firstSelectedGameObject = (isHasProgress) ? btnContinue.gameObject : btnNewGame.gameObject;
                 }
             }
+        }
+
+        void Update()
+        {
+            _SubMenuHandler();
+        }
+
+        void _SubMenuHandler()
+        {
+            if (panelCredit.activeSelf) {
+                if (Input.GetButtonDown("Cancel")) {
+                    panelCredit.SetActive(false);
+                    eventObj.SetSelectedGameObject(btnCredits.gameObject, new BaseEventData(eventObj));
+                }
+            }
+        }
+
+        public void UnSelectAnything()
+        {
+            eventObj.SetSelectedGameObject(null, new BaseEventData(eventObj));
         }
     }
 }

@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4617847104526602}
+  - component: {fileID: 114689305881389606}
   m_Layer: 0
   m_Name: UIInGameInteract
   m_TagString: Untagged
@@ -57,7 +58,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4216507823122948
 Transform:
   m_ObjectHideFlags: 1
@@ -65,8 +66,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1880159597785284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.051, y: 0, z: 0}
-  m_LocalScale: {x: 0.5643868, y: 0.5643868, z: 0.5643868}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8006498, y: 0.8006498, z: 0.8006498}
   m_Children: []
   m_Father: {fileID: 4617847104526602}
   m_RootOrder: 0
@@ -77,9 +78,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1897590664001132}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.051, y: 0, z: 0}
-  m_LocalScale: {x: 0.56439, y: 0.56439, z: 0.56439}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8006498, y: 0.8006498, z: 0.8006498}
   m_Children: []
   m_Father: {fileID: 4617847104526602}
   m_RootOrder: 1
@@ -91,7 +92,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1213679578586818}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.896, y: 1.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4216507823122948}
@@ -99,6 +100,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114689305881389606
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1213679578586818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63721b0bcf0ee36409d1d17588a39856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardUI: {fileID: 1880159597785284}
+  gamepadUI: {fileID: 1897590664001132}
 --- !u!212 &212117931568996792
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -133,7 +147,7 @@ SpriteRenderer:
   m_SortingLayerID: -1229684223
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300018, guid: e572538b05f71da498202410cc01374f, type: 3}
+  m_Sprite: {fileID: 21300044, guid: 79cfef353a613f2498b9cd402fc29f54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -177,7 +191,7 @@ SpriteRenderer:
   m_SortingLayerID: -1229684223
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300002, guid: d83663a872527594eb30a97158971898, type: 3}
+  m_Sprite: {fileID: 21300018, guid: 79cfef353a613f2498b9cd402fc29f54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

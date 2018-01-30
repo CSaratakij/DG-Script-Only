@@ -163,5 +163,7 @@ public class CollisionPloter : EditorWindow
 
         component.isTrigger = isTrigger;
         component.size = new Vector2(Mathf.Abs(expectSize.x * 2.0f), Mathf.Abs(expectSize.y * 2.0f));
+
+        Undo.RegisterCreatedObjectUndo(obj, "Created new box collider 2D..");
     }
 }

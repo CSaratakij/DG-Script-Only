@@ -137,6 +137,8 @@ public class CollisionPloter : EditorWindow
                     endPos = sceneViewCamera.ScreenToWorldPoint(mousePos);
 
                     _CreateBoxCollider2D(isTrigger, beginPos, endPos);
+                    SceneView.RepaintAll();
+
                     pressCount = 0;
                 }
                 break;
@@ -154,8 +156,9 @@ public class CollisionPloter : EditorWindow
         var halfRelativePos = relativePos / 2.0f;
 
         var expectPos = beginPos + halfRelativePos;
-        var expectSize = halfRelativePos;
+        expectPos.z = 0.0f;
 
+        var expectSize = halfRelativePos;
         obj.transform.position = expectPos;
 
         component.isTrigger = isTrigger;

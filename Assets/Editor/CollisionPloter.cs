@@ -8,6 +8,8 @@ public class CollisionPloter : EditorWindow
     const string COLLIDER_PARENT = "Plotter_Collider";
     const string COLLISION_PARENT = "Plotter_Collision";
 
+    [SerializeField]
+    bool isUse;
 
     [SerializeField]
     bool showAllCollision;
@@ -51,10 +53,11 @@ public class CollisionPloter : EditorWindow
 
     void OnSceneGUI(SceneView sceneView)
     {
-        _Scene_Input_Handler();
-        _Plot_Collider_Handler();
-
-        SceneView.lastActiveSceneView.Repaint();
+        if (isUse) {
+            _Scene_Input_Handler();
+            _Plot_Collider_Handler();
+            SceneView.lastActiveSceneView.Repaint();
+        }
     }
 
     void _Scene_Input_Handler()
@@ -109,6 +112,8 @@ public class CollisionPloter : EditorWindow
     void _GUIHandler()
     {
         GUILayout.Label ("Setting", EditorStyles.boldLabel);
+        isUse = EditorGUILayout.Toggle ("Use", isUse);
+
         _Always_Show_Collider_Handler();
 
         colliderTag = EditorGUILayout.TagField("Tag", colliderTag);
@@ -158,14 +163,7 @@ public class CollisionPloter : EditorWindow
                     beginPos = sceneViewCamera.ScreenToWorldPoint(mousePos);
 
                     if (isUseSnap) {
-
-                        var snapValue = 1;
-                        var depth = 0;
-                        var snapInverse = 1 / snapValue;
-
-                        beginPos.x = Mathf.Round(beginPos.x * snapValue) / snapInverse;
-                        beginPos.y = Mathf.Round(beginPos.y * snapValue) / snapInverse;
-                        beginPos.z = depth;
+                        beginPos = _Snap(1, beginPos);
                     }
                 }
                 else if (pressCount == 2) {
@@ -176,14 +174,7 @@ public class CollisionPloter : EditorWindow
                     endPos = sceneViewCamera.ScreenToWorldPoint(mousePos);
 
                     if (isUseSnap) {
-
-                        var snapValue = 1;
-                        var depth = 0;
-                        var snapInverse = 1 / snapValue;
-
-                        endPos.x = Mathf.Round(endPos.x * snapValue) / snapInverse;
-                        endPos.y = Mathf.Round(endPos.y * snapValue) / snapInverse;
-                        endPos.z = depth;
+                        endPos = _Snap(1, endPos);
                     }
 
                     _CreateBoxCollider2D(isTrigger, beginPos, endPos);
@@ -229,5 +220,19 @@ public class CollisionPloter : EditorWindow
 
         obj.transform.SetParent(parent.transform);
         Undo.RegisterCreatedObjectUndo(obj, "Created a new box collider 2D..");
+    }
+
+    Vector3 _Snap(float value, Vector3 target)
+    {
+        var depth = 0;
+        var snapInverse = 1 / value;
+
+        var result = Vector3.zero;
+
+        result.x = Mathf.Round(target.x * value) / snapInverse;
+        result.y = Mathf.Round(target.y * value) / snapInverse;
+        result.z = depth;
+
+        return result;
     }
 }

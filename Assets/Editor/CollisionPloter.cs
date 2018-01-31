@@ -40,6 +40,7 @@ public class CollisionPloter : EditorWindow
 
     void OnEnable()
     {
+        Tools.current = Tool.None;
         SceneView.onSceneGUIDelegate += OnSceneGUI;
     }
 

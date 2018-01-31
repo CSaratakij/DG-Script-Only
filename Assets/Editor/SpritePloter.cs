@@ -16,6 +16,9 @@ public class SpritePloter : EditorWindow
     }
 
     [SerializeField]
+    Vector2 scrollPos;
+
+    [SerializeField]
     Sprite currentSprite;
 
     [SerializeField]
@@ -28,7 +31,16 @@ public class SpritePloter : EditorWindow
     bool isOverrideSprite; //replace sprite on the same position..
 
     [SerializeField]
+    int presetLength = 1;
+
+    [SerializeField]
+    float offsetX = 1.0f;
+
+    [SerializeField]
     EditMode currentMode;
+
+    [SerializeField]
+    Sprite[] spritePresets = new Sprite[1];
 
 
     int pressCount = 0;
@@ -109,7 +121,10 @@ public class SpritePloter : EditorWindow
         GUILayout.Label ("Setting", EditorStyles.boldLabel);
         isUse = EditorGUILayout.Toggle("Use", isUse);
 
+        offsetX = EditorGUILayout.FloatField("Offset X", offsetX);
         currentSprite = (Sprite)EditorGUILayout.ObjectField(currentSprite, typeof(Sprite), true);
+
+        presetLength = EditorGUILayout.IntField("Preset Length", presetLength);
         isBeginPlot = EditorGUILayout.Toggle("Begin Plot", isBeginPlot);
 
         if (isBeginPlot) {
@@ -117,6 +132,23 @@ public class SpritePloter : EditorWindow
             isUseSnap = EditorGUILayout.Toggle("Use Snap", isUseSnap);
             currentMode = (EditMode)EditorGUILayout.EnumPopup("Edit Mode", currentMode);
         }
+
+        if (GUILayout.Button("Create new Preset")) {
+            spritePresets = new Sprite[presetLength];
+
+        }
+
+        scrollPos = EditorGUILayout.BeginScrollView(scrollPos, false, false);
+
+            for (int i = 0; i < spritePresets.Length; i++) {
+                spritePresets[i] = (Sprite)EditorGUILayout.ObjectField(
+                    new GUIContent("Sprite"),
+                    spritePresets[i],
+                    typeof(Sprite),
+                    false);
+            }
+
+        EditorGUILayout.EndScrollView();
     }
 
     void _Plot_Sprite_Handler()
@@ -274,12 +306,15 @@ public class SpritePloter : EditorWindow
         var relativePos = endPos - beginPos;
 
         var total_horizontal = Mathf.RoundToInt(relativePos.x);
+
         total_horizontal = Mathf.Abs(total_horizontal) + 1;
+        /* total_horizontal /= Mathf.RoundToInt(offsetX); */
 
         var total_vertical = Mathf.RoundToInt(relativePos.y);
         total_vertical = Mathf.Abs(total_vertical) + 1;
 
-        var offset = new Vector3(1.0f, 1.0f, 0.0f);
+        var offset = new Vector3(offsetX, 1.0f, 0.0f);
+        var currentSpriteIndex = 0;
 
         for (int i = 0; i < total_horizontal; i++) {
 
@@ -289,7 +324,13 @@ public class SpritePloter : EditorWindow
                 var obj = new GameObject(objName);
 
                 var component = obj.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
-                component.sprite = currentSprite;
+
+                var spriteFromPresets = spritePresets[currentSpriteIndex];
+                currentSpriteIndex = ((currentSpriteIndex + 1) > (presetLength - 1)) ? 0 : currentSpriteIndex + 1;
+
+                /* component.sprite = currentSprite; */
+                component.sprite = spriteFromPresets;
+
 
                 var expectPos = beginPos;
 

@@ -8,6 +8,12 @@ public class CollisionPloter : EditorWindow
     const string COLLIDER_PARENT = "Plotter_Collider";
     const string COLLISION_PARENT = "Plotter_Collision";
 
+    public enum ColliderType
+    {
+        BoxCollider,
+        EdgeCollider
+    }
+
     [SerializeField]
     bool isUse;
 
@@ -22,6 +28,9 @@ public class CollisionPloter : EditorWindow
 
     [SerializeField]
     int colliderLayer;
+
+    [SerializeField]
+    ColliderType currentType;
 
 
     public static int pressCount = 0;
@@ -122,6 +131,7 @@ public class CollisionPloter : EditorWindow
         isBeginPlot = EditorGUILayout.Toggle ("Start Ploting", isBeginPlot);
 
         if (isBeginPlot) {
+            currentType = (ColliderType)EditorGUILayout.EnumPopup("Type", currentType);
             isUseSnap = EditorGUILayout.Toggle("Use Snap", isUseSnap);
             isTrigger = EditorGUILayout.Toggle ("Is Trigger", isTrigger);
         }
@@ -134,6 +144,19 @@ public class CollisionPloter : EditorWindow
     }
 
     void _Plot_Collider_Handler()
+    {
+        switch (currentType) {
+            case ColliderType.BoxCollider:
+                _Plot_Box_Collider();
+            break;
+
+            case ColliderType.EdgeCollider:
+                _Plot_Edge_Collider();
+            break;
+        }
+    }
+
+    void _Plot_Box_Collider()
     {
         if (!isBeginPlot) {
             return;
@@ -186,6 +209,59 @@ public class CollisionPloter : EditorWindow
         }
     }
 
+    void _Plot_Edge_Collider()
+    {
+        if (!isBeginPlot) {
+            return;
+        }
+
+        var e = Event.current;
+
+        switch (e.type) {
+
+            case EventType.MouseDown:
+
+                if (e.button != 0) {
+                    if (e.button == 1) {
+                        pressCount = 0;
+                    }
+                    return;
+                }
+
+                pressCount += 1;
+
+                if (pressCount == 1) {
+
+                    var sceneViewCamera = SceneView.lastActiveSceneView.camera; 
+                    var mousePos = e.mousePosition;
+
+                    mousePos.y = sceneViewCamera.pixelHeight - mousePos.y;
+                    beginPos = sceneViewCamera.ScreenToWorldPoint(mousePos);
+
+                    if (isUseSnap) {
+                        beginPos = _Snap(1, beginPos);
+                    }
+                }
+                else if (pressCount == 2) {
+                    var sceneViewCamera = SceneView.lastActiveSceneView.camera; 
+                    var mousePos = e.mousePosition;
+
+                    mousePos.y = sceneViewCamera.pixelHeight - mousePos.y;
+                    endPos = sceneViewCamera.ScreenToWorldPoint(mousePos);
+
+                    if (isUseSnap) {
+                        endPos = _Snap(1, endPos);
+                    }
+
+                    _CreateEdgeCollider2D(isTrigger, beginPos, endPos);
+                    SceneView.RepaintAll();
+
+                    pressCount = 0;
+                }
+                break;
+        }
+    }
+
     void _CreateBoxCollider2D(bool isTrigger, Vector3 beginPos, Vector3 endPos)
     {
         var objName = (isTrigger) ? (LayerMask.LayerToName(colliderLayer) + "_ground_collider") : (LayerMask.LayerToName(colliderLayer) + "_ground_collision");
@@ -220,6 +296,42 @@ public class CollisionPloter : EditorWindow
 
         obj.transform.SetParent(parent.transform);
         Undo.RegisterCreatedObjectUndo(obj, "Created a new box collider 2D..");
+    }
+
+    void _CreateEdgeCollider2D(bool isTrigger, Vector3 beginPos, Vector3 endPos)
+    {
+        var objName = (isTrigger) ? (LayerMask.LayerToName(colliderLayer) + "_edge_collider") : (LayerMask.LayerToName(colliderLayer) + "_edge_collision");
+
+        var obj = new GameObject(objName);
+        var component = obj.AddComponent(typeof(EdgeCollider2D)) as EdgeCollider2D;
+
+        var relativePos = (endPos - beginPos);
+        var halfRelativePos = relativePos / 2.0f;
+
+        var expectPos = beginPos + halfRelativePos;
+        expectPos.z = 0.0f;
+
+        obj.tag = colliderTag;
+        obj.layer = colliderLayer;
+
+        component.isTrigger = isTrigger;
+        component.points = new Vector2[] {
+            beginPos,
+            endPos
+        };
+
+        var parentObjName = (isTrigger) ? COLLIDER_PARENT : COLLISION_PARENT;
+        var parent = GameObject.Find(parentObjName);
+
+        if (!parent) {
+            parent = new GameObject(parentObjName);
+            parent.transform.position = Vector3.zero;
+
+            Undo.RegisterCreatedObjectUndo(parent, "Created parent of a new edge collider 2D..");
+        }
+
+        obj.transform.SetParent(parent.transform);
+        Undo.RegisterCreatedObjectUndo(obj, "Created a new edge collider 2D..");
     }
 
     Vector3 _Snap(float value, Vector3 target)

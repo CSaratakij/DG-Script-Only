@@ -64,7 +64,6 @@ public class CollisionPloter : EditorWindow
                     Repaint();
                 }
                 else if (e.keyCode == KeyCode.S) {
-                    pressCount = 0;
                     isUseSnap = !isUseSnap;
                     Repaint();
                 }

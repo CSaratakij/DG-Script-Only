@@ -11,6 +11,9 @@ namespace DG
     public class SaveAgent : MonoBehaviour
     {
         [SerializeField]
+        bool autoSave;
+
+        [SerializeField]
         Vector2 size;
 
         [SerializeField]
@@ -23,19 +26,37 @@ namespace DG
         Collider2D hit;
 
 
+        bool isAlreadyEnter;
+
+
         void Update()
         {
             if (hit) {
-                _InputHandler();
+                if (autoSave) {
+                    if (!isAlreadyEnter) {
+                        _SaveGame();
 
-                if (!uiObject.activeSelf) {
-                    uiObject.SetActive(true);
+                        if (SaveNotification.instance) {
+                            SaveNotification.instance.ShowNotification();
+                        }
+
+                        isAlreadyEnter = true;
+                    }
+                }
+                else {
+                    _InputHandler();
+
+                    if (!uiObject.activeSelf) {
+                        uiObject.SetActive(true);
+                    }
                 }
             }
             else {
                 if (uiObject.activeSelf) {
                     uiObject.SetActive(false);
                 }
+
+                isAlreadyEnter = false;
             }
         }
 

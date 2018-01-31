@@ -306,9 +306,7 @@ public class SpritePloter : EditorWindow
         var relativePos = endPos - beginPos;
 
         var total_horizontal = Mathf.RoundToInt(relativePos.x);
-
         total_horizontal = Mathf.Abs(total_horizontal) + 1;
-        /* total_horizontal /= Mathf.RoundToInt(offsetX); */
 
         var total_vertical = Mathf.RoundToInt(relativePos.y);
         total_vertical = Mathf.Abs(total_vertical) + 1;
@@ -328,7 +326,6 @@ public class SpritePloter : EditorWindow
                 var spriteFromPresets = spritePresets[currentSpriteIndex];
                 currentSpriteIndex = ((currentSpriteIndex + 1) > (presetLength - 1)) ? 0 : currentSpriteIndex + 1;
 
-                /* component.sprite = currentSprite; */
                 component.sprite = spriteFromPresets;
 
 

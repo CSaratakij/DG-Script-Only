@@ -75,7 +75,7 @@ public class CollisionPloter : EditorWindow
 
         switch (e.type) {
             case EventType.KeyDown:
-                if (e.keyCode == KeyCode.F) {
+                if (e.keyCode == KeyCode.C) {
                     pressCount = 0;
                     isBeginPlot = !isBeginPlot;
                     Repaint();

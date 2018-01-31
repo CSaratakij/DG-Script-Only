@@ -8,6 +8,9 @@ public class CollisionPloter : EditorWindow
     [SerializeField]
     bool showAllCollision;
 
+    [SerializeField]
+    bool isUseSnap;
+
 
     public static int pressCount = 0;
 
@@ -54,6 +57,11 @@ public class CollisionPloter : EditorWindow
                     isBeginPlot = !isBeginPlot;
                     Repaint();
                 }
+                else if (e.keyCode == KeyCode.S) {
+                    pressCount = 0;
+                    isUseSnap = !isUseSnap;
+                    Repaint();
+                }
 
                 if (isBeginPlot) {
                     if (e.keyCode == KeyCode.T) {
@@ -73,7 +81,10 @@ public class CollisionPloter : EditorWindow
         if (pressCount == 1) {
 
             Handles.color = Color.white;
-            Handles.Label(mousePos + Vector2.up * 0.5f, (isBeginPlot) ? "Using Ploter" : "");
+            Handles.Label(mousePos + Vector2.up * 0.6f, (isBeginPlot) ? "[ Using Ploter ]" : "");
+
+            Handles.color = Color.yellow;
+            Handles.Label(mousePos + Vector2.up * 0.5f, (isUseSnap) ? "Snap : On" : "Snap : Off");
 
             Handles.color = Color.red;
             Handles.DrawLine(beginPos, mousePos);
@@ -91,7 +102,11 @@ public class CollisionPloter : EditorWindow
         _Always_Show_Collider_Handler();
 
         isBeginPlot = EditorGUILayout.Toggle ("Start Ploting", isBeginPlot);
-        isTrigger = EditorGUILayout.Toggle ("Is Trigger", isTrigger);
+
+        if (isBeginPlot) {
+            isUseSnap = EditorGUILayout.Toggle("Use Snap", isUseSnap);
+            isTrigger = EditorGUILayout.Toggle ("Is Trigger", isTrigger);
+        }
     }
 
     void _Always_Show_Collider_Handler()
@@ -128,6 +143,17 @@ public class CollisionPloter : EditorWindow
 
                     mousePos.y = sceneViewCamera.pixelHeight - mousePos.y;
                     beginPos = sceneViewCamera.ScreenToWorldPoint(mousePos);
+
+                    if (isUseSnap) {
+
+                        var snapValue = 1;
+                        var depth = 0;
+                        var snapInverse = 1 / snapValue;
+
+                        beginPos.x = Mathf.Round(beginPos.x * snapValue) / snapInverse;
+                        beginPos.y = Mathf.Round(beginPos.y * snapValue) / snapInverse;
+                        beginPos.z = depth;
+                    }
                 }
                 else if (pressCount == 2) {
                     var sceneViewCamera = SceneView.lastActiveSceneView.camera; 
@@ -135,6 +161,17 @@ public class CollisionPloter : EditorWindow
 
                     mousePos.y = sceneViewCamera.pixelHeight - mousePos.y;
                     endPos = sceneViewCamera.ScreenToWorldPoint(mousePos);
+
+                    if (isUseSnap) {
+
+                        var snapValue = 1;
+                        var depth = 0;
+                        var snapInverse = 1 / snapValue;
+
+                        endPos.x = Mathf.Round(endPos.x * snapValue) / snapInverse;
+                        endPos.y = Mathf.Round(endPos.y * snapValue) / snapInverse;
+                        endPos.z = depth;
+                    }
 
                     _CreateBoxCollider2D(isTrigger, beginPos, endPos);
                     SceneView.RepaintAll();
@@ -156,6 +193,8 @@ public class CollisionPloter : EditorWindow
         var halfRelativePos = relativePos / 2.0f;
 
         var expectPos = beginPos + halfRelativePos;
+        
+
         expectPos.z = 0.0f;
 
         var expectSize = halfRelativePos;

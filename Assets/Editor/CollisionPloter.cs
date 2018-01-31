@@ -5,6 +5,10 @@ using UnityEditor;
 
 public class CollisionPloter : EditorWindow
 {
+    const string COLLIDER_PARENT = "Plotter_Collider";
+    const string COLLISION_PARENT = "Plotter_Collision";
+
+
     [SerializeField]
     bool showAllCollision;
 
@@ -212,6 +216,17 @@ public class CollisionPloter : EditorWindow
         component.isTrigger = isTrigger;
         component.size = new Vector2(Mathf.Abs(expectSize.x * 2.0f), Mathf.Abs(expectSize.y * 2.0f));
 
-        Undo.RegisterCreatedObjectUndo(obj, "Created new box collider 2D..");
+        var parentObjName = (isTrigger) ? COLLIDER_PARENT : COLLISION_PARENT;
+        var parent = GameObject.Find(parentObjName);
+
+        if (!parent) {
+            parent = new GameObject(parentObjName);
+            parent.transform.position = Vector3.zero;
+
+            Undo.RegisterCreatedObjectUndo(parent, "Created parent of a new box collider 2D..");
+        }
+
+        obj.transform.SetParent(parent.transform);
+        Undo.RegisterCreatedObjectUndo(obj, "Created a new box collider 2D..");
     }
 }

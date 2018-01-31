@@ -11,6 +11,12 @@ public class CollisionPloter : EditorWindow
     [SerializeField]
     bool isUseSnap;
 
+    [SerializeField]
+    string colliderTag;
+
+    [SerializeField]
+    int colliderLayer;
+
 
     public static int pressCount = 0;
 
@@ -101,6 +107,9 @@ public class CollisionPloter : EditorWindow
         GUILayout.Label ("Setting", EditorStyles.boldLabel);
         _Always_Show_Collider_Handler();
 
+        colliderTag = EditorGUILayout.TagField("Tag", colliderTag);
+        colliderLayer = EditorGUILayout.LayerField("Layer", colliderLayer);
+
         isBeginPlot = EditorGUILayout.Toggle ("Start Ploting", isBeginPlot);
 
         if (isBeginPlot) {
@@ -184,7 +193,7 @@ public class CollisionPloter : EditorWindow
 
     void _CreateBoxCollider2D(bool isTrigger, Vector3 beginPos, Vector3 endPos)
     {
-        var objName = (isTrigger) ? "ground_collider" : "ground_collision";
+        var objName = (isTrigger) ? (LayerMask.LayerToName(colliderLayer) + "_ground_collider") : (LayerMask.LayerToName(colliderLayer) + "_ground_collision");
 
         var obj = new GameObject(objName);
         var component = obj.AddComponent(typeof(BoxCollider2D)) as BoxCollider2D;
@@ -193,12 +202,13 @@ public class CollisionPloter : EditorWindow
         var halfRelativePos = relativePos / 2.0f;
 
         var expectPos = beginPos + halfRelativePos;
-        
-
         expectPos.z = 0.0f;
 
         var expectSize = halfRelativePos;
         obj.transform.position = expectPos;
+
+        obj.tag = colliderTag;
+        obj.layer = colliderLayer;
 
         component.isTrigger = isTrigger;
         component.size = new Vector2(Mathf.Abs(expectSize.x * 2.0f), Mathf.Abs(expectSize.y * 2.0f));

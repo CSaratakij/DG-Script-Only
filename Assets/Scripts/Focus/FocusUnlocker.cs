@@ -19,6 +19,9 @@ namespace DG
         UnlockType[] unlockList;
 
         [SerializeField]
+        Vector3 origin;
+
+        [SerializeField]
         Vector2 size;
 
         [SerializeField]
@@ -40,15 +43,15 @@ namespace DG
 #if UNITY_EDITOR
         void OnDrawGizmosSelected() {
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireCube(transform.position, size);
+            Gizmos.DrawWireCube(origin + transform.position, size);
 
             Handles.Label(transform.position, "Trigger Area");
 
             if (unlockList.Length > 0) {
-                Handles.Label(transform.position + Vector3.down * 0.2f, "Unlock : \n" + _GetAllUnlockName());
+                Handles.Label(origin + transform.position + Vector3.down * 0.2f, "Unlock : \n" + _GetAllUnlockName());
             }
             else {
-                Handles.Label(transform.position + Vector3.down * 0.2f, "None 'Focus' ability to unlock.");
+                Handles.Label(origin + transform.position + Vector3.down * 0.2f, "None 'Focus' ability to unlock.");
             }
         }
 #endif
@@ -76,7 +79,7 @@ namespace DG
 
         void FixedUpdate()
         {
-            hit = Physics2D.OverlapBox(transform.position, size, 0.0f, layerMask);
+            hit = Physics2D.OverlapBox(origin + transform.position, size, 0.0f, layerMask);
         }
 
         void _InputHandler()
@@ -117,8 +120,7 @@ namespace DG
         void _Disabled()
         {
             isUsed = true;
-            gameObject.SetActive(false);
-            // and its save agent -> save its used state?
+            /* gameObject.SetActive(false); */
         }
 
         string _GetAllUnlockName()

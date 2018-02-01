@@ -123,14 +123,12 @@ namespace DG
                 Debug.Log("Can't unlock focus ability..");
             }
 
-            //play animation
             anim.Play("Used");
         }
 
         void _Disabled()
         {
             isUsed = true;
-            /* gameObject.SetActive(false); */
         }
 
         string _GetAllUnlockName()

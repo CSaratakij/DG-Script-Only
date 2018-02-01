@@ -49173,6 +49173,11 @@ Prefab:
       propertyPath: m_BackGroundColor.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114274538530217588, guid: 64c77129881e7eb49a2058b85e3dad7c,
+        type: 2}
+      propertyPath: offsetY
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 64c77129881e7eb49a2058b85e3dad7c, type: 2}
   m_IsPrefabParent: 0

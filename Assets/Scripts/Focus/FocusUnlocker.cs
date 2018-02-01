@@ -35,9 +35,11 @@ namespace DG
 
 
         bool isUsed;
+        Animator anim;
 
         Collider2D hit;
         GameObject target;
+        
 
 
 #if UNITY_EDITOR
@@ -55,6 +57,11 @@ namespace DG
             }
         }
 #endif
+
+        void Awake()
+        {
+            anim = GetComponent<Animator>();
+        }
 
         void Start()
         {
@@ -115,6 +122,9 @@ namespace DG
             else {
                 Debug.Log("Can't unlock focus ability..");
             }
+
+            //play animation
+            anim.Play("Used");
         }
 
         void _Disabled()

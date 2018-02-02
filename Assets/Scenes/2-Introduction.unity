@@ -18540,7 +18540,7 @@ Prefab:
     - target: {fileID: 114274538530217588, guid: 64c77129881e7eb49a2058b85e3dad7c,
         type: 2}
       propertyPath: offsetY
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 20082975811035172, guid: 64c77129881e7eb49a2058b85e3dad7c,
         type: 2}
@@ -18551,6 +18551,11 @@ Prefab:
         type: 2}
       propertyPath: orthographic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114274538530217588, guid: 64c77129881e7eb49a2058b85e3dad7c,
+        type: 2}
+      propertyPath: isEnableFollowing
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 64c77129881e7eb49a2058b85e3dad7c, type: 2}

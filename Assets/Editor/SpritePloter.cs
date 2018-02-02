@@ -6,8 +6,15 @@ using UnityEditor;
 public class SpritePloter : EditorWindow
 {
     const string SPRITE_PARENT = "Plotter_Sprite";
+    const string TILED_PARENT = "Plotter_Tiled";
 
     public static bool isBeginPlot;
+
+    public enum SpriteMode
+    {
+        Simple,
+        Tiled
+    }
 
     public enum EditMode
     {
@@ -25,6 +32,9 @@ public class SpritePloter : EditorWindow
     bool isUse;
 
     [SerializeField]
+    bool isUsePreset;
+
+    [SerializeField]
     bool isUseSnap;
 
     [SerializeField]
@@ -35,6 +45,9 @@ public class SpritePloter : EditorWindow
 
     [SerializeField]
     float offsetX = 1.0f;
+
+    [SerializeField]
+    SpriteMode spriteMode;
 
     [SerializeField]
     EditMode currentMode;
@@ -119,36 +132,46 @@ public class SpritePloter : EditorWindow
     void _GUIHandler()
     {
         GUILayout.Label ("Setting", EditorStyles.boldLabel);
+
         isUse = EditorGUILayout.Toggle("Use", isUse);
 
         offsetX = EditorGUILayout.FloatField("Offset X", offsetX);
         currentSprite = (Sprite)EditorGUILayout.ObjectField(currentSprite, typeof(Sprite), true);
 
-        presetLength = EditorGUILayout.IntField("Preset Length", presetLength);
+        currentMode = (EditMode)EditorGUILayout.EnumPopup("Edit Mode", currentMode);
+        spriteMode = (SpriteMode)EditorGUILayout.EnumPopup("Sprite Mode", spriteMode);
+
         isBeginPlot = EditorGUILayout.Toggle("Begin Plot", isBeginPlot);
 
         if (isBeginPlot) {
             isOverrideSprite = EditorGUILayout.Toggle("Override Sprite", isOverrideSprite);
             isUseSnap = EditorGUILayout.Toggle("Use Snap", isUseSnap);
-            currentMode = (EditMode)EditorGUILayout.EnumPopup("Edit Mode", currentMode);
         }
 
-        if (GUILayout.Button("Create new Preset")) {
-            spritePresets = new Sprite[presetLength];
+        if (EditMode.Multiple == currentMode && SpriteMode.Simple == spriteMode) {
+            isUsePreset = EditorGUILayout.Toggle("Use Preset", isUsePreset);
 
-        }
+            if (isUsePreset) {
 
-        scrollPos = EditorGUILayout.BeginScrollView(scrollPos, false, false);
+                presetLength = EditorGUILayout.IntField("Preset Length", presetLength);
 
-            for (int i = 0; i < spritePresets.Length; i++) {
-                spritePresets[i] = (Sprite)EditorGUILayout.ObjectField(
-                    new GUIContent("Sprite"),
-                    spritePresets[i],
-                    typeof(Sprite),
-                    false);
+                if (GUILayout.Button("Create new Preset")) {
+                    spritePresets = new Sprite[presetLength];
+                }
+
+                scrollPos = EditorGUILayout.BeginScrollView(scrollPos, false, false);
+
+                    for (int i = 0; i < spritePresets.Length; i++) {
+                        spritePresets[i] = (Sprite)EditorGUILayout.ObjectField(
+                            new GUIContent("Sprite"),
+                            spritePresets[i],
+                            typeof(Sprite),
+                            false);
+                    }
+
+                EditorGUILayout.EndScrollView();
             }
-
-        EditorGUILayout.EndScrollView();
+        }
     }
 
     void _Plot_Sprite_Handler()
@@ -239,10 +262,10 @@ public class SpritePloter : EditorWindow
         mousePos = sceneCamera.ScreenToWorldPoint(mousePos);
 
 
-        if (e.button == 0) {
+        if (e.button == 0 && e.isMouse) {
             pressCount += 1;
         }
-        else if (e.button == 1) {
+        else if (e.button == 1 && e.isMouse) {
             pressCount = 0;
         }
 
@@ -314,51 +337,110 @@ public class SpritePloter : EditorWindow
         var offset = new Vector3(offsetX, 1.0f, 0.0f);
         var currentSpriteIndex = 0;
 
-        for (int i = 0; i < total_horizontal; i++) {
+        switch (spriteMode) {
+            case SpriteMode.Simple:
 
-            for (int j = 0; j < total_vertical; j++) {
+            for (int i = 0; i < total_horizontal; i++) {
 
-                var objName = "Sprite_" + i.ToString();
+                for (int j = 0; j < total_vertical; j++) {
+
+                    var objName = "Sprite_" + i.ToString();
+                    var obj = new GameObject(objName);
+
+                    var component = obj.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
+
+                    if (isUsePreset) {
+                        var spriteFromPresets = spritePresets[currentSpriteIndex];
+                        currentSpriteIndex = ((currentSpriteIndex + 1) > (presetLength - 1)) ? 0 : currentSpriteIndex + 1;
+
+                        component.sprite = spriteFromPresets;
+                    }
+                    else {
+                        component.sprite = currentSprite;
+                    }
+
+                    var expectPos = beginPos;
+
+                    if (endPos.x > beginPos.x) {
+                        expectPos.x = beginPos.x + (offset.x * i);
+                    }
+                    else if (endPos.x < beginPos.x) {
+                        expectPos.x = endPos.x + (offset.x * i);
+                    }
+
+
+                    if (beginPos.y > endPos.y) {
+                        expectPos.y = beginPos.y - (offset.y * j);
+                    }
+                    else if (beginPos.y < endPos.y) {
+                        expectPos.y = endPos.y - (offset.y * j);
+                    }
+
+                    obj.transform.position = expectPos;
+                    var parent = GameObject.Find(SPRITE_PARENT);
+
+                    if (!parent) {
+                        parent = new GameObject(SPRITE_PARENT);
+                        parent.transform.position = Vector3.zero;
+
+                        Undo.RegisterCreatedObjectUndo(parent, "Created parent of a new sprites.");
+                    }
+
+                    obj.transform.SetParent(parent.transform);
+                    Undo.RegisterCreatedObjectUndo(obj, "Created new sprites..");
+                }
+            }
+                break;
+
+            case SpriteMode.Tiled:
+            {
+                var objName = string.Format("Tield_{0}", (currentSprite) ? currentSprite.name : "Unknown");
                 var obj = new GameObject(objName);
 
                 var component = obj.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
 
-                var spriteFromPresets = spritePresets[currentSpriteIndex];
-                currentSpriteIndex = ((currentSpriteIndex + 1) > (presetLength - 1)) ? 0 : currentSpriteIndex + 1;
+                var center = new Vector3(
+                        Mathf.Abs(relativePos.x),
+                        Mathf.Abs(relativePos.y),
+                        0.0f);
 
-                component.sprite = spriteFromPresets;
-
+                center *= 0.5f;
 
                 var expectPos = beginPos;
 
                 if (endPos.x > beginPos.x) {
-                    expectPos.x = beginPos.x + (offset.x * i);
+                    expectPos.x = beginPos.x + center.x;
                 }
                 else if (endPos.x < beginPos.x) {
-                    expectPos.x = endPos.x + (offset.x * i);
+                    expectPos.x = beginPos.x - center.x;
                 }
 
-
-                if (beginPos.y > endPos.y) {
-                    expectPos.y = beginPos.y - (offset.y * j);
+                if (beginPos.y < endPos.y) {
+                    expectPos.y = beginPos.y + center.y;
                 }
-                else if (beginPos.y < endPos.y) {
-                    expectPos.y = endPos.y - (offset.y * j);
+                else if (beginPos.y > endPos.y) {
+                    expectPos.y = beginPos.y - center.y;
                 }
 
                 obj.transform.position = expectPos;
-                var parent = GameObject.Find(SPRITE_PARENT);
+
+                component.drawMode = SpriteDrawMode.Tiled;
+                component.sprite = currentSprite;
+                component.size = new Vector2(total_horizontal, total_vertical);
+                
+                var parent = GameObject.Find(TILED_PARENT);
 
                 if (!parent) {
-                    parent = new GameObject(SPRITE_PARENT);
+                    parent = new GameObject(TILED_PARENT);
                     parent.transform.position = Vector3.zero;
 
-                    Undo.RegisterCreatedObjectUndo(parent, "Created parent of a new box collider 2D..");
+                    Undo.RegisterCreatedObjectUndo(parent, "Created parent of a new tiled sprite");
                 }
 
                 obj.transform.SetParent(parent.transform);
-                Undo.RegisterCreatedObjectUndo(obj, "Created new sprites..");
+                Undo.RegisterCreatedObjectUndo(obj, "Create a new sprite with draw mode 'Tiled'");
             }
+                break;
         }
     }
 

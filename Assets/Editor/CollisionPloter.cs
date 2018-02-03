@@ -111,6 +111,18 @@ public class CollisionPloter : EditorWindow
             Handles.color = Color.red;
             Handles.DrawLine(beginPos, mousePos);
         }
+
+        if (e.control) {
+            pressCount = 0;
+            Tools.current = Tool.None;
+
+            Handles.color = Color.yellow;
+            Handles.DrawWireCube(mousePos, new Vector2(0.5f, 0.5f));
+
+            if (e.type == EventType.MouseDown && e.button == 0) {
+                _DeleteColliderHandler(mousePos);
+            }
+        }
     }
 
     void OnGUI()
@@ -145,23 +157,21 @@ public class CollisionPloter : EditorWindow
 
     void _Plot_Collider_Handler()
     {
-        switch (currentType) {
-            case ColliderType.BoxCollider:
-                _Plot_Box_Collider();
-            break;
+        if (isBeginPlot) {
+            switch (currentType) {
+                case ColliderType.BoxCollider:
+                    _Plot_Box_Collider();
+                break;
 
-            case ColliderType.EdgeCollider:
-                _Plot_Edge_Collider();
-            break;
+                case ColliderType.EdgeCollider:
+                    _Plot_Edge_Collider();
+                break;
+            }
         }
     }
 
     void _Plot_Box_Collider()
     {
-        if (!isBeginPlot) {
-            return;
-        }
-
         var e = Event.current;
 
         switch (e.type) {
@@ -211,10 +221,6 @@ public class CollisionPloter : EditorWindow
 
     void _Plot_Edge_Collider()
     {
-        if (!isBeginPlot) {
-            return;
-        }
-
         var e = Event.current;
 
         switch (e.type) {
@@ -346,5 +352,19 @@ public class CollisionPloter : EditorWindow
         result.z = depth;
 
         return result;
+    }
+
+    void _DeleteColliderHandler(Vector3 origin)
+    {
+        var results = new Collider2D[1];
+        Physics2D.OverlapBoxNonAlloc(origin, new Vector2(0.5f, 0.5f), 0.0f, results);
+
+        if (results.Length <= 0) {
+            return;
+        }
+
+        if (results[0] != null) {
+            Undo.DestroyObjectImmediate(results[0].transform.gameObject);
+        }
     }
 }

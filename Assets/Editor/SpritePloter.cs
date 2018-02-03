@@ -177,6 +177,8 @@ public class SpritePloter : EditorWindow
     void _Plot_Sprite_Handler()
     {
         if (isBeginPlot) {
+            Tools.current = Tool.None;
+
             switch (Event.current.type) {
                 case EventType.MouseDown:
                     if (EditMode.Single == currentMode) {
@@ -267,6 +269,9 @@ public class SpritePloter : EditorWindow
         }
         else if (e.button == 1 && e.isMouse) {
             pressCount = 0;
+        }
+        else {
+            return;
         }
 
         if (pressCount == 1) {

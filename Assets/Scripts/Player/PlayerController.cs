@@ -105,7 +105,7 @@ namespace DG
         {
             _InputHandler();
 
-            if (rigid.velocity.y < 0.0f) {
+            if (rigid.velocity.y < -5.0f) {
                 isFalling = true;
             }
 
@@ -127,9 +127,6 @@ namespace DG
                     _Controlable(true);
                 }
             }
-
-            //Temp
-            /* _ResetPosition(); */
         }
 
         void FixedUpdate()
@@ -323,17 +320,17 @@ namespace DG
         {
             if (isGrounded) {
 
-                if (rigid.velocity.y == 0.0f) {
-                    
-                    if (isFalling && materialRay) {
-                        footStepAudioPlayer.PlayImpactForce(materialRay.transform.tag);
-                        isFalling = false;
-                    }
+                if (isFalling && materialRay) {
+                    footStepAudioPlayer.PlayImpactForce(materialRay.transform.tag);
+                    isFalling = false;
+                }
 
-                    if (isControlable) {
-                        if (input.x != 0.0f && materialRay) {
-                            footStepAudioPlayer.Play(materialRay.transform.tag);
-                        }
+                if (isControlable) {
+                    if (input.x != 0.0f && materialRay) {
+                        footStepAudioPlayer.Play(materialRay.transform.tag);
+                    }
+                    else {
+                        footStepAudioPlayer.StopFootStep();
                     }
                 }
             }

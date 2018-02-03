@@ -101,5 +101,17 @@ namespace DG
             impactAudioSource.Stop();
             PlayImpact(key);
         }
+
+        public void StopFootStep()
+        {
+            previousMaterial = "";
+            currentMaterial = "";
+            footstepAudioSource.Stop();
+        }
+
+        public void StopImpact()
+        {
+            impactAudioSource.Stop();
+        }
     }
 }

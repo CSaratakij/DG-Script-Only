@@ -455,7 +455,7 @@ MonoBehaviour:
   boundfreeOffset: {x: 5, y: 5}
   boundMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2049
   upperBound: {fileID: 0}
   lowerBound: {fileID: 0}
   rightBound: {fileID: 0}
@@ -684,7 +684,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1229684223
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Positions: []
   m_Parameters:
@@ -771,7 +771,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1229684223
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Positions: []
   m_Parameters:

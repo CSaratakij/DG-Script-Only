@@ -121,6 +121,11 @@ public class CollisionPloter : EditorWindow
 
             if (e.type == EventType.MouseDown && e.button == 0) {
                 _DeleteColliderHandler(mousePos);
+
+                var controlId = GUIUtility.GetControlID(FocusType.Passive);
+                GUIUtility.hotControl = controlId;
+
+                Event.current.Use();
             }
         }
     }

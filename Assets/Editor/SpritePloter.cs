@@ -122,6 +122,28 @@ public class SpritePloter : EditorWindow
             Handles.color = Color.red;
             Handles.DrawLine(beginPos, mousePos);
         }
+
+        if (e.control) {
+            pressCount = 0;
+            Tools.current = Tool.None;
+
+            Handles.color = Color.yellow;
+            Handles.DrawWireCube(mousePos, new Vector2(0.5f, 0.5f));
+
+            if (e.type == EventType.MouseDown && e.button == 0) {
+
+                var pickedGameObject = HandleUtility.PickGameObject(e.mousePosition, false);
+
+                if (pickedGameObject) {
+                    Undo.DestroyObjectImmediate(pickedGameObject);
+                }
+
+                var controlId = GUIUtility.GetControlID(FocusType.Passive);
+                GUIUtility.hotControl = controlId;
+
+                Event.current.Use();
+            }
+        }
     }
 
     void OnGUI()

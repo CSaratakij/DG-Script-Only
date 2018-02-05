@@ -127,6 +127,9 @@ public class SpritePloter : EditorWindow
             pressCount = 0;
             Tools.current = Tool.None;
 
+            Handles.color = Color.white;
+            Handles.Label(mousePos + Vector2.up * 0.6f, "[ Delete Mode ]");
+
             Handles.color = Color.red;
             Handles.DrawWireCube(mousePos, new Vector2(0.5f, 0.5f));
 
@@ -141,7 +144,38 @@ public class SpritePloter : EditorWindow
                 var controlId = GUIUtility.GetControlID(FocusType.Passive);
                 GUIUtility.hotControl = controlId;
 
-                Event.current.Use();
+                e.Use();
+            }
+        }
+
+        if (e.shift) {
+
+            Handles.color = Color.white;
+            Handles.Label(mousePos + Vector2.up * 0.6f, "[ Copy Mode ]");
+
+            Handles.color = Color.magenta;
+            Handles.DrawWireCube(mousePos, new Vector2(0.6f, 0.6f));
+
+            if (e.type == EventType.MouseDown && e.button == 0) {
+
+                var pickedGameObject = HandleUtility.PickGameObject(e.mousePosition, false);
+
+                if (pickedGameObject) {
+                    var renderer = pickedGameObject.GetComponent<SpriteRenderer>();
+
+                    if (!renderer) {
+                        var message = string.Format("Can't copy sprite on object : '{0}'", pickedGameObject.name);
+                        SceneView.lastActiveSceneView.ShowNotification(new GUIContent(message));
+                    }
+
+                    currentSprite = (renderer) ? renderer.sprite : currentSprite;
+                    Repaint();
+
+                    var controlId = GUIUtility.GetControlID(FocusType.Passive);
+                    GUIUtility.hotControl = controlId;
+
+                    e.Use();
+                }
             }
         }
     }
@@ -472,11 +506,6 @@ public class SpritePloter : EditorWindow
     }
 
     void _CopySprite()
-    {
-
-    }
-
-    void _PasteSprite()
     {
 
     }

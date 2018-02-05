@@ -116,6 +116,9 @@ public class CollisionPloter : EditorWindow
             pressCount = 0;
             Tools.current = Tool.None;
 
+            Handles.color = Color.white;
+            Handles.Label(mousePos + Vector2.up * 0.6f, "[ Delete Mode ]");
+
             Handles.color = Color.yellow;
             Handles.DrawWireCube(mousePos, new Vector2(0.5f, 0.5f));
 

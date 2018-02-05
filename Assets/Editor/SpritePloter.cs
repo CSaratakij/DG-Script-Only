@@ -127,7 +127,7 @@ public class SpritePloter : EditorWindow
             pressCount = 0;
             Tools.current = Tool.None;
 
-            Handles.color = Color.yellow;
+            Handles.color = Color.red;
             Handles.DrawWireCube(mousePos, new Vector2(0.5f, 0.5f));
 
             if (e.type == EventType.MouseDown && e.button == 0) {

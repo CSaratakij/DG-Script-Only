@@ -32,6 +32,7 @@ namespace DG
         Rigidbody2D rigid;
 
         PlayerController playerControl;
+        FocusEffector focusEffector;
 
 
 #if UNITY_EDITOR
@@ -45,6 +46,7 @@ namespace DG
         void Awake()
         {
             rigid = GetComponent<Rigidbody2D>();
+            focusEffector = GetComponent<FocusEffector>();
         }
 
         void Update()

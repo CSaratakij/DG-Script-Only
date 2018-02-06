@@ -82,6 +82,8 @@ namespace DG
         public bool IsCanMoveMode { get { return isCanMoveMode; } set { isCanMoveMode = value; } }
         public bool IsCanEditMode { get { return isCanEditMode; } set { isCanEditMode = value; } }
 
+        public Vector3[] CurrentFocusPoint { get { return currentLinePoints; } }
+
 
         bool isUseFocus;
         bool isInEditMode;

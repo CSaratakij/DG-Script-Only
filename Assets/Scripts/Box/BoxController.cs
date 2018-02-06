@@ -11,6 +11,9 @@ namespace DG
     public class BoxController : MonoBehaviour
     {
         [SerializeField]
+        bool isEffectByFocus;
+
+        [SerializeField]
         float moveForce;
 
         [SerializeField]
@@ -32,6 +35,8 @@ namespace DG
         Rigidbody2D rigid;
 
         PlayerController playerControl;
+
+        WorldWrappingController worldWrappingControl;
         FocusEffector focusEffector;
 
 
@@ -74,7 +79,10 @@ namespace DG
             }
             else {
                 var newVelocity = rigid.velocity;
+
                 newVelocity.x = 0.0f;
+                newVelocity.y = Mathf.Clamp(newVelocity.y, -8.0f, 8.0f);
+
                 rigid.velocity = newVelocity;
             }
         }
@@ -96,6 +104,17 @@ namespace DG
 
                     var axisX = Input.GetAxisRaw("Horizontal");
 
+                    //Hacks
+                    if (worldWrappingControl) {
+
+                        if (worldWrappingControl.IsInEditMode || worldWrappingControl.IsInMoveMode) {
+                            axisX = 0.0f;
+                        }
+                    }
+                    else {
+                        axisX = 0.0f;
+                    }
+
                     if (axisX > 0.0f) {
                         inputVector.x = 1.0f;
                     }
@@ -112,7 +131,12 @@ namespace DG
                     if (Input.GetButtonDown("Interact")) {
 
                         isUsing = true;
+
                         playerControl = hit.GetComponent<PlayerController>();
+
+                        if (playerControl) {
+                            worldWrappingControl = playerControl.GetComponent<WorldWrappingController>();
+                        }
 
                         if (playerControl && !playerControl.IsUsingBox) {
                             playerControl.IsUsingBox = true;
@@ -124,13 +148,35 @@ namespace DG
                                 playerControl.AvatarDirFromBox = Vector2.left;
                             }
                         }
+
+                        if (isEffectByFocus) {
+                            focusEffector.SetAffector(playerControl);
+                            focusEffector.UseEffector(true);
+                        }
                     }
                 }
                 else {
                     if (playerControl) {
+
                         playerControl.IsUsingBox = false;
                         playerControl.AvatarDirFromBox = Vector2.zero;
-                        playerControl = null;
+
+                        if (isEffectByFocus) {
+                            if (worldWrappingControl) {
+                                if (!worldWrappingControl.IsUseFocus) {
+
+                                    playerControl = null;
+                                    worldWrappingControl = null;
+
+                                    focusEffector.SetAffector(null);
+                                    focusEffector.UseEffector(false);
+                                }
+                            }
+                        }
+                        else {
+                            playerControl = null;
+                            worldWrappingControl = null;
+                        }
                     }
                 }
             }

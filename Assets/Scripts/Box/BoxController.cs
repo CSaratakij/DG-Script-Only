@@ -26,6 +26,7 @@ namespace DG
         GameObject uiObject;
 
 
+        bool isInitUsing;
         bool isUsing;
 
         Vector2 inputVector;
@@ -130,6 +131,7 @@ namespace DG
                 if (hit) {
                     if (Input.GetButtonDown("Interact")) {
 
+                        isInitUsing = true;
                         isUsing = true;
 
                         playerControl = hit.GetComponent<PlayerController>();
@@ -158,11 +160,16 @@ namespace DG
                 else {
                     if (playerControl) {
 
-                        playerControl.IsUsingBox = false;
-                        playerControl.AvatarDirFromBox = Vector2.zero;
+                        if (isInitUsing) {
+                            playerControl.IsUsingBox = false;
+                            playerControl.AvatarDirFromBox = Vector2.zero;
+
+                            isInitUsing = false;
+                        }
 
                         if (isEffectByFocus) {
                             if (worldWrappingControl) {
+
                                 if (!worldWrappingControl.IsUseFocus) {
 
                                     playerControl = null;

@@ -17,22 +17,34 @@ namespace DG
         float moveForce;
 
         [SerializeField]
+        float resetDelay;
+
+        [SerializeField]
         Vector2 size;
 
         [SerializeField]
         LayerMask layerMask;
 
         [SerializeField]
+        LayerMask resetterMask;
+
+        [SerializeField]
         GameObject uiObject;
 
 
         bool isInitUsing;
+        bool isInitReset;
+
         bool isUsing;
 
         Vector2 inputVector;
         Vector2 velocity;
 
+        Vector3 originalPosition;
+
         Collider2D hit;
+        Collider2D hitBoxResetter;
+
         Rigidbody2D rigid;
 
         PlayerController playerControl;
@@ -55,6 +67,11 @@ namespace DG
             focusEffector = GetComponent<FocusEffector>();
         }
 
+        void Start()
+        {
+            originalPosition = transform.position;
+        }
+
         void Update()
         {
             _InputHandler();
@@ -64,6 +81,7 @@ namespace DG
         void FixedUpdate()
         {
             hit = Physics2D.OverlapBox(transform.position, size, 0.0f, layerMask);
+            hitBoxResetter = Physics2D.OverlapBox(transform.position, size, 0.0f, resetterMask);
 
             if (isUsing) {
 
@@ -85,6 +103,13 @@ namespace DG
                 newVelocity.y = Mathf.Clamp(newVelocity.y, -8.0f, 8.0f);
 
                 rigid.velocity = newVelocity;
+            }
+
+            if (hitBoxResetter) {
+                if (!isInitReset) {
+                    StartCoroutine(_Reset_Box_CallBack());
+                    isInitReset = true;
+                }
             }
         }
 
@@ -196,6 +221,7 @@ namespace DG
                     _ToggleInteractUI(false);
                 }
                 else {
+                    //check first if player is really look at a box..
                     _ToggleInteractUI(true);
                 }
             }
@@ -214,6 +240,20 @@ namespace DG
             else {
                 Debug.Log("Can't find ui interact object..");
             }
+        }
+
+        //check first if player is really look at a box..
+        bool _IsInteractable()
+        {
+            var result = false;
+            return result;
+        }
+
+        IEnumerator _Reset_Box_CallBack()
+        {
+            yield return new WaitForSeconds(resetDelay);
+            rigid.position = originalPosition;
+            isInitReset = false;
         }
     }
 }

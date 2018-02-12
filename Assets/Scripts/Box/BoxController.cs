@@ -36,6 +36,7 @@ namespace DG
         bool isInitReset;
 
         bool isUsing;
+        bool isInteractable;
 
         Vector2 inputVector;
         Vector2 velocity;
@@ -75,6 +76,7 @@ namespace DG
         void Update()
         {
             _InputHandler();
+            _CheckInteractable();
             _ToggleUIHandler();
         }
 
@@ -118,12 +120,14 @@ namespace DG
             if (isUsing) {
 
                 if (Input.GetButtonDown("Interact")) {
-                    isUsing = false;
 
                     if (playerControl) {
                         playerControl.IsUsingBox = false;
                         playerControl.AvatarDirFromBox = Vector2.zero;
                     }
+
+                    isUsing = false;
+                    isInitUsing = false;
                 }
 
                 if (playerControl) {
@@ -154,6 +158,11 @@ namespace DG
             }
             else {
                 if (hit) {
+
+                    if (!isInteractable) {
+                        return;
+                    }
+
                     if (Input.GetButtonDown("Interact")) {
 
                         isInitUsing = true;
@@ -186,8 +195,11 @@ namespace DG
                     if (playerControl) {
 
                         if (isInitUsing) {
-                            playerControl.IsUsingBox = false;
-                            playerControl.AvatarDirFromBox = Vector2.zero;
+
+                            if (!isUsing) {
+                                playerControl.IsUsingBox = false;
+                                playerControl.AvatarDirFromBox = Vector2.zero;
+                            }
 
                             isInitUsing = false;
                         }
@@ -214,6 +226,29 @@ namespace DG
             }
         }
 
+        void _CheckInteractable()
+        {
+            if (!hit) {
+                isInteractable = false;
+                return;
+            }
+
+            if (isUsing) {
+                isInteractable = true;
+            }
+            else {
+                if (hit.transform.position.x < transform.position.x) {
+                    isInteractable = (hit.transform.localScale.x > 0.0f);
+                }
+                else if (hit.transform.position.x > transform.position.x) {
+                    isInteractable = (hit.transform.localScale.x < 0.0f);
+                }
+                else {
+                    isInteractable = false;
+                }
+            }
+        }
+
         void _ToggleUIHandler()
         {
             if (hit) {
@@ -221,8 +256,7 @@ namespace DG
                     _ToggleInteractUI(false);
                 }
                 else {
-                    //check first if player is really look at a box..
-                    _ToggleInteractUI(true);
+                    _ToggleInteractUI(isInteractable);
                 }
             }
             else {
@@ -240,13 +274,6 @@ namespace DG
             else {
                 Debug.Log("Can't find ui interact object..");
             }
-        }
-
-        //check first if player is really look at a box..
-        bool _IsInteractable()
-        {
-            var result = false;
-            return result;
         }
 
         IEnumerator _Reset_Box_CallBack()

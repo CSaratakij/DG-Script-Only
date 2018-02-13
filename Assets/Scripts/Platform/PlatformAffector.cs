@@ -1,8 +1,4 @@
-﻿//make child checking and setting its parent to this transform..
-//not works ^
-//sadly, this need reworks..
-//hold on
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,6 +32,11 @@ namespace DG
         LayerMask effectorMask;
 
 
+        enum MoveState {
+            Forward,
+            Backward
+        }
+
         public bool IsPauseMoving { get { return isPauseMoving; } }
 
 
@@ -49,6 +50,8 @@ namespace DG
 
         Transform nextTargetPoint;
         Rigidbody2D rigid;
+
+        MoveState currentMoveState;
 
 
         public PlatformAffector()
@@ -113,9 +116,9 @@ namespace DG
 
         void _MoveThroughPoint()
         {
-            if (currentDirection.x > 0.0f) {
+            if (MoveState.Forward == currentMoveState) {
 
-                var isReach = (transform.position.x + (offset.x * 0.5f) > nextTargetPoint.position.x);
+                var isReach = (nextTargetPoint.position - transform.position).magnitude <= 0.1f;
 
                 if (isReach) {
 
@@ -132,16 +135,18 @@ namespace DG
                         currentPointIndex -= 1;
 
                         nextTargetPoint = points[currentPointIndex];
+
                         currentDirection = (nextTargetPoint.position - transform.position).normalized;
+                        currentMoveState = MoveState.Backward;
 
                         isInitChangeDir = true;
                         StartCoroutine(_ChangeDirection_CallBack());
                     }
                 }
             }
-            else if (currentDirection.x < 0.0f) {
+            else if (MoveState.Backward == currentMoveState) {
 
-                var isReach =  (transform.position.x - (offset.x * 0.5f) < nextTargetPoint.position.x);
+                var isReach = (nextTargetPoint.position - transform.position).magnitude <= 0.1f;
 
                 if (isReach) {
 
@@ -158,7 +163,9 @@ namespace DG
                         currentPointIndex += 1;
 
                         nextTargetPoint = points[currentPointIndex];
+
                         currentDirection = (nextTargetPoint.position - transform.position).normalized;
+                        currentMoveState = MoveState.Forward;
 
                         isInitChangeDir = true;
                         StartCoroutine(_ChangeDirection_CallBack());

@@ -103,6 +103,10 @@ namespace DG
         public void Use(bool value)
         {
             isUse = value;
+
+            if (!value) {
+                isInitHit = false;
+            }
         }
     }
 }

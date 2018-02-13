@@ -47,12 +47,12 @@ namespace DG
         Collider2D hitBoxResetter;
 
         Rigidbody2D rigid;
-
         PlayerController playerControl;
 
         WorldWrappingController worldWrappingControl;
         FocusEffector focusEffector;
 
+        PlatformAttacher platformAttacher;
 
 #if UNITY_EDITOR
         void OnDrawGizmosSelected() {
@@ -66,6 +66,7 @@ namespace DG
         {
             rigid = GetComponent<Rigidbody2D>();
             focusEffector = GetComponent<FocusEffector>();
+            platformAttacher = GetComponent<PlatformAttacher>();
         }
 
         void Start()
@@ -75,6 +76,10 @@ namespace DG
 
         void Update()
         {
+            if (platformAttacher) {
+                platformAttacher.Use(!isUsing);
+            }
+
             _InputHandler();
             _CheckInteractable();
             _ToggleUIHandler();

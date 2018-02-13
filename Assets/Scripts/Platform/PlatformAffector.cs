@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//make child checking and setting its parent to this transform..
+//not works ^
+//sadly, this need reworks..
+//hold on
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,18 +27,34 @@ namespace DG
         Vector2 offset;
 
         [SerializeField]
-        Transform startPoint;
+        Vector2 areaSize;
 
         [SerializeField]
-        Transform endPoint;
+        Transform[] points;
 
+        [SerializeField]
+        LayerMask effectorMask;
+
+
+        public bool IsPauseMoving { get { return isPauseMoving; } }
+
+
+        int currentPointIndex;
 
         bool isInitChangeDir;
+        bool isPauseMoving;
 
         Vector3 currentDirection;
         Vector3 velocity;
 
+        Transform nextTargetPoint;
         Rigidbody2D rigid;
+
+
+        public PlatformAffector()
+        {
+            points = new Transform[2];
+        }
 
 
 #if UNITY_EDITOR
@@ -42,17 +62,18 @@ namespace DG
         {
             Handles.color = Color.red;
 
-            if (!startPoint) {
-                return;
+            for (int i = 0; i < (points.Length - 1); i++) {
+
+                var startIndex = i;
+                var endIndex = i + 1; 
+
+                Handles.DrawDottedLine(
+                    points[startIndex].position,
+                    points[endIndex].position,
+                    4.0f
+                );
             }
 
-            Handles.DrawDottedLine(startPoint.position, transform.position, 4.0f); 
-
-            if (!endPoint) {
-                return;
-            }
-           
-            Handles.DrawDottedLine(transform.position, endPoint.position, 4.0f); 
             Handles.DrawWireCube(transform.position, new Vector3(offset.x, offset.y, 0.0f)); 
         }
 #endif
@@ -64,15 +85,14 @@ namespace DG
 
         void Start()
         {
-            currentDirection = endPoint.position - startPoint.position;
-            currentDirection = currentDirection.normalized;
-
-            rigid.position = startPoint.position;
+            nextTargetPoint = points[1];
+            currentDirection = (nextTargetPoint.position - transform.position).normalized;
+            rigid.position = points[0].position;
         }
 
         void Update()
         {
-            _ChangeDirectionHandler();
+            _MoveThroughPoint();
         }
 
         void FixedUpdate()
@@ -80,32 +100,70 @@ namespace DG
             _MoveHandler();
         }
 
-        void _ChangeDirectionHandler()
-        {
-            if ((transform.position.x + (offset.x * 0.5f)) > endPoint.position.x) {
-                if (currentDirection.x > 0.0f) {
-                    currentDirection = (startPoint.position - transform.position).normalized;
-                    isInitChangeDir = true;
-                    StartCoroutine(_ChangeDirection_CallBack());
-                }
-            }
-            else if ((transform.position.x - (offset.x * 0.5f)) < startPoint.position.x) {
-                if (currentDirection.x < 0.0f) {
-                    currentDirection = (endPoint.position - transform.position).normalized;
-                    isInitChangeDir = true;
-                    StartCoroutine(_ChangeDirection_CallBack());
-                }
-            }
-        }
-
         void _MoveHandler()
         {
-            if (isInitChangeDir) {
+            if (isInitChangeDir || isPauseMoving) {
                 rigid.velocity = Vector2.zero;
             }
             else {
-                velocity = moveSpeed * currentDirection * Time.deltaTime;
+                velocity = (moveSpeed * currentDirection) * Time.deltaTime;
                 rigid.velocity = velocity;
+            }
+        }
+
+        void _MoveThroughPoint()
+        {
+            if (currentDirection.x > 0.0f) {
+
+                var isReach = (transform.position.x + (offset.x * 0.5f) > nextTargetPoint.position.x);
+
+                if (isReach) {
+
+                    if (currentPointIndex < points.Length - 1) {
+                        currentPointIndex += 1;
+
+                        nextTargetPoint = points[currentPointIndex];
+                        currentDirection = (nextTargetPoint.position - transform.position).normalized;
+
+                        isInitChangeDir = true;
+                        StartCoroutine(_ChangeDirection_CallBack());
+                    }
+                    else {
+                        currentPointIndex -= 1;
+
+                        nextTargetPoint = points[currentPointIndex];
+                        currentDirection = (nextTargetPoint.position - transform.position).normalized;
+
+                        isInitChangeDir = true;
+                        StartCoroutine(_ChangeDirection_CallBack());
+                    }
+                }
+            }
+            else if (currentDirection.x < 0.0f) {
+
+                var isReach =  (transform.position.x - (offset.x * 0.5f) < nextTargetPoint.position.x);
+
+                if (isReach) {
+
+                    if (currentPointIndex > 0) {
+                        currentPointIndex -= 1;
+
+                        nextTargetPoint = points[currentPointIndex];
+                        currentDirection = (nextTargetPoint.position - transform.position).normalized;
+
+                        isInitChangeDir = true;
+                        StartCoroutine(_ChangeDirection_CallBack());
+                    }
+                    else {
+                        currentPointIndex += 1;
+
+                        nextTargetPoint = points[currentPointIndex];
+                        currentDirection = (nextTargetPoint.position - transform.position).normalized;
+
+                        isInitChangeDir = true;
+                        StartCoroutine(_ChangeDirection_CallBack());
+                    }
+                }
             }
         }
 
@@ -113,6 +171,11 @@ namespace DG
         {
             yield return new WaitForSeconds(changeDirDelay);
             isInitChangeDir = false;
+        }
+
+        public void PauseMoving(bool value)
+        {
+            isPauseMoving = value;
         }
     }
 }

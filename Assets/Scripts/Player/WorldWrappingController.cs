@@ -34,6 +34,9 @@ namespace DG
         float moveModeSpeed;
 
         [SerializeField]
+        Vector2 boundCheckerOffset;
+
+        [SerializeField]
         Vector2 boundfreeOffset;
 
         [SerializeField]
@@ -167,8 +170,8 @@ namespace DG
                 var originUpper = new Vector2(target.position.x, currentLinePoints[0].y + 0.03f);
                 var originLower = new Vector2(target.position.x, currentLinePoints[2].y - 0.03f);
 
-                var originLeft = new Vector2(currentLinePoints[0].x, target.position.y);
-                var originRight = new Vector2(currentLinePoints[1].x, target.position.y);
+                var originLeft = new Vector2(currentLinePoints[0].x, target.position.y - boundCheckerOffset.y);
+                var originRight = new Vector2(currentLinePoints[1].x, target.position.y - boundCheckerOffset.y);
 
                 ray_UpperToLower = Physics2D.Raycast(originUpper, Vector2.down, 1000.0f, boundMask);
                 ray_LowerToUpper = Physics2D.Raycast(originLower, Vector2.up, 1000.0f, boundMask);
@@ -637,7 +640,6 @@ namespace DG
                     newPos.x = currentLinePoints[0].x + marginX;
                     target.position = newPos;
                 }
-
                 else if (target.position.x < currentLinePoints[0].x) {
                     var newPos = target.position;
                     newPos.x = currentLinePoints[1].x - marginX;

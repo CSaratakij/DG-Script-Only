@@ -9,6 +9,7 @@ TagManager:
   - door
   - switch
   - box
+  - platform
   layers:
   - Default
   - TransparentFX

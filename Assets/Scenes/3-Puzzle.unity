@@ -84599,6 +84599,32 @@ Transform:
   m_PrefabParentObject: {fileID: 4542407778011790, guid: 7f8ffa5a68ec11b419203b5baa4f913a,
     type: 2}
   m_PrefabInternal: {fileID: 1305151482}
+--- !u!1 &1305151484 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1734323495493400, guid: 7f8ffa5a68ec11b419203b5baa4f913a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1305151482}
+--- !u!114 &1305151485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1305151484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41baa8bd7224320409300742b5893e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUse: 1
+  offset: {x: 0, y: -1}
+  groundOffset: {x: 0, y: 0.5}
+  size: {x: 0.2, y: 0.2}
+  distance: 1
+  platformSpeed: 140
+  moveSpeed: 50
+  platformMask:
+    serializedVersion: 2
+    m_Bits: 32768
 --- !u!1 &1305789896
 GameObject:
   m_ObjectHideFlags: 0

@@ -69,6 +69,8 @@ namespace DG
         WorldWrappingController worldWrappingControl;
         SpriteRenderer render;
 
+        PlatformAttacher platformAttacher;
+
 
         void Awake()
         {
@@ -127,6 +129,19 @@ namespace DG
                     _Controlable(true);
                 }
             }
+
+            //Hacks
+            if (platformAttacher) {
+
+                if (rigid.velocity.y <= 0.3f) {
+                    if (isGrounded) {
+                        platformAttacher.Use(input.x == 0.0f);
+                    }
+                }
+                else {
+                    platformAttacher.Use(false);
+                }
+            }
         }
 
         void FixedUpdate()
@@ -158,6 +173,7 @@ namespace DG
             worldWrappingControl = GetComponent<WorldWrappingController>();
             render = GetComponent<SpriteRenderer>();
             isControlable = true;
+            platformAttacher = GetComponent<PlatformAttacher>();
         }
 
         void _InputHandler()

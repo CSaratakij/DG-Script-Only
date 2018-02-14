@@ -17,10 +17,16 @@ namespace DG
         Vector2 offset;
 
         [SerializeField]
+        Vector2 groundOffset;
+
+        [SerializeField]
         Vector2 size;
 
         [SerializeField]
         float distance;
+
+        [SerializeField]
+        float moveSpeed;
 
         [SerializeField]
         LayerMask platformMask;
@@ -57,19 +63,38 @@ namespace DG
 
         void FixedUpdate()
         {
-            hit = Physics2D.BoxCast(transform.position + new Vector3(offset.x, offset.y, 0.0f), size, 0.0f, Vector2.down, distance, platformMask);
+            hit = Physics2D.Raycast(transform.position + new Vector3(offset.x, offset.y, 0.0f), Vector2.down, distance, platformMask);
 
             if (hit) {
 
                 if (!isInitHit && hit.distance <= 0.1f) {
 
                     Debug.Log("Hit Platform..");
-
                     contactPoint = transform.position;
-                    lastHitPosition = hit.transform.position;
 
-                    offsetFromPlatform = contactPoint - hit.transform.position;
+                    offsetFromPlatform = hit.transform.position - contactPoint;
+                    offsetFromPlatform.y += groundOffset.y;
+
+                    lastHitPosition = hit.transform.position;
                     isInitHit = true;
+                }
+
+                if (!isUse) {
+
+                    var platformControl = hit.transform.gameObject.GetComponent<PlatformController>();
+
+                    if (!platformControl.IsPauseMoving) {
+
+                        var axisX = Input.GetAxisRaw("Horizontal");
+
+                        if (platformControl.MoveDirection.x > 0.0f || platformControl.MoveDirection.x < 0.0f) {
+
+                            var velocity = rigid.velocity;
+                            velocity.x = (rigid.velocity.x + (Vector2.right * axisX * moveSpeed).x) * Time.deltaTime;
+
+                            rigid.velocity = velocity;
+                        }
+                    }
                 }
             }
             else {
@@ -89,14 +114,8 @@ namespace DG
             }
 
             if (isInitHit) {
-
-                if (lastHitPosition != hit.transform.position) {
-
-                    var dir = (hit.transform.position - contactPoint);
-                    dir.x += offsetFromPlatform.x;
-
-                    rigid.MovePosition(contactPoint + dir);
-                }
+                float weight = Mathf.Cos(Time.deltaTime * moveSpeed * 2 * Mathf.PI) * 0.5f + 0.5f;
+                rigid.MovePosition(transform.position * weight + (hit.transform.position - offsetFromPlatform) * (1 - weight));
             }
         }
 

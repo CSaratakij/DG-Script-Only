@@ -35,7 +35,7 @@ namespace DG
         }
 
         public bool IsPauseMoving { get { return isPauseMoving; } }
-
+        public Vector3 MoveDirection { get { return currentDirection; } }
 
         int currentPointIndex;
         bool isInitChangeDir;

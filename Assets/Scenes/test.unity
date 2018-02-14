@@ -1523,45 +1523,20 @@ Prefab:
       propertyPath: points.Array.data[3]
       value: 
       objectReference: {fileID: 88194552}
-    - target: {fileID: 50641621269091370, guid: 8e5c3c156f0533249aead512c7052cfc,
-        type: 2}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: dff5aebb775865e409805719ef4a78c7, type: 2}
-    - target: {fileID: 50641621269091370, guid: 8e5c3c156f0533249aead512c7052cfc,
-        type: 2}
-      propertyPath: m_UseFullKinematicContacts
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 61683338730312968, guid: 8e5c3c156f0533249aead512c7052cfc,
-        type: 2}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: dff5aebb775865e409805719ef4a78c7, type: 2}
-    - target: {fileID: 114574197367645772, guid: 8e5c3c156f0533249aead512c7052cfc,
-        type: 2}
-      propertyPath: offset.x
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114574197367645772, guid: 8e5c3c156f0533249aead512c7052cfc,
-        type: 2}
-      propertyPath: isPauseMoving
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 61683338730312968, guid: 8e5c3c156f0533249aead512c7052cfc,
+    - target: {fileID: 61767435356418246, guid: 8e5c3c156f0533249aead512c7052cfc,
         type: 2}
       propertyPath: m_Offset.x
-      value: 0.026122987
+      value: 0.05384183
       objectReference: {fileID: 0}
-    - target: {fileID: 61683338730312968, guid: 8e5c3c156f0533249aead512c7052cfc,
+    - target: {fileID: 61767435356418246, guid: 8e5c3c156f0533249aead512c7052cfc,
         type: 2}
-      propertyPath: m_Size.x
-      value: 2.764823
+      propertyPath: m_Offset.y
+      value: 0.013566852
       objectReference: {fileID: 0}
-    - target: {fileID: 114574197367645772, guid: 8e5c3c156f0533249aead512c7052cfc,
+    - target: {fileID: 61767435356418246, guid: 8e5c3c156f0533249aead512c7052cfc,
         type: 2}
-      propertyPath: moveSpeed
-      value: 140
+      propertyPath: m_Size.y
+      value: 0.7678993
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8e5c3c156f0533249aead512c7052cfc, type: 2}

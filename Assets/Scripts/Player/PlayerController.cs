@@ -337,7 +337,11 @@ namespace DG
             if (isGrounded) {
 
                 if (isFalling && materialRay) {
-                    footStepAudioPlayer.PlayImpactForce(materialRay.transform.tag);
+
+                    if (!platformAttacher.IsUse) {
+                        footStepAudioPlayer.PlayImpactForce(materialRay.transform.tag);
+                    }
+
                     isFalling = false;
                 }
 

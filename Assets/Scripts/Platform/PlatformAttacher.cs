@@ -26,6 +26,9 @@ namespace DG
         float distance;
 
         [SerializeField]
+        float platformSpeed;
+
+        [SerializeField]
         float moveSpeed;
 
         [SerializeField]
@@ -90,7 +93,11 @@ namespace DG
                         if (platformControl.MoveDirection.x > 0.0f || platformControl.MoveDirection.x < 0.0f) {
 
                             var velocity = rigid.velocity;
-                            velocity.x = (rigid.velocity.x + (Vector2.right * axisX * moveSpeed).x) * Time.deltaTime;
+
+                            var extraSpeed = (Vector2.right * axisX) * moveSpeed;
+                            extraSpeed *= Time.deltaTime;
+
+                            velocity.x = rigid.velocity.x + extraSpeed.x;
 
                             rigid.velocity = velocity;
                         }
@@ -114,7 +121,7 @@ namespace DG
             }
 
             if (isInitHit) {
-                float weight = Mathf.Cos(Time.deltaTime * moveSpeed * 2 * Mathf.PI) * 0.5f + 0.5f;
+                float weight = Mathf.Cos(Time.deltaTime * platformSpeed * 2 * Mathf.PI) * 0.5f + 0.5f;
                 rigid.MovePosition(transform.position * weight + (hit.transform.position - offsetFromPlatform) * (1 - weight));
             }
         }

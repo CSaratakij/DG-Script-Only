@@ -190,7 +190,7 @@ namespace DG
                             }
                         }
 
-                        if (isEffectByFocus) {
+                        if (isEffectByFocus && focusEffector) {
                             focusEffector.SetAffector(playerControl);
                             focusEffector.UseEffector(true);
                         }

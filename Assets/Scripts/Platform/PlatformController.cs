@@ -37,8 +37,11 @@ namespace DG
         public bool IsPauseMoving { get { return isPauseMoving; } }
         public Vector3 MoveDirection { get { return currentDirection; } }
 
+
         int currentPointIndex;
+
         bool isInitChangeDir;
+        bool isReach;
 
         Vector3 currentDirection;
         Vector3 velocity;
@@ -92,6 +95,7 @@ namespace DG
 
         void Update()
         {
+            isReach = (nextTargetPoint.position - transform.position).magnitude <= 0.3f;
             _MoveThroughPoint();
         }
 
@@ -114,8 +118,6 @@ namespace DG
         void _MoveThroughPoint()
         {
             if (MoveState.Forward == currentMoveState) {
-
-                var isReach = (nextTargetPoint.position - transform.position).magnitude <= 0.1f;
 
                 if (isReach) {
 
@@ -142,8 +144,6 @@ namespace DG
                 }
             }
             else if (MoveState.Backward == currentMoveState) {
-
-                var isReach = (nextTargetPoint.position - transform.position).magnitude <= 0.1f;
 
                 if (isReach) {
 

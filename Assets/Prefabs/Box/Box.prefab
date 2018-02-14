@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 50722694963388886}
   - component: {fileID: 114329811615659868}
   - component: {fileID: 114636367643185090}
-  - component: {fileID: 114271394966401038}
+  - component: {fileID: 114010949514727102}
   m_Layer: 11
   m_Name: Box
   m_TagString: box
@@ -116,7 +116,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1330710220991478}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.48, y: 0.16, z: 0}
+  m_LocalPosition: {x: -3.79, y: 0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4388016665456002}
@@ -235,7 +235,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114271394966401038
+--- !u!114 &114010949514727102
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -251,10 +251,11 @@ MonoBehaviour:
   groundOffset: {x: 0, y: 0.5}
   size: {x: 0.5, y: 0.5}
   distance: 1
+  platformSpeed: 140
+  moveSpeed: 40
   platformMask:
     serializedVersion: 2
     m_Bits: 32768
-  moveSpeed: 140
 --- !u!114 &114329811615659868
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -268,7 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   makeUnique: 0
   key: Box
-  id: 2
+  id: 0
 --- !u!114 &114508647824374902
 MonoBehaviour:
   m_ObjectHideFlags: 1

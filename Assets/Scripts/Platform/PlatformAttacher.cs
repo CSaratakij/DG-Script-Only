@@ -90,16 +90,29 @@ namespace DG
 
                         var axisX = Input.GetAxisRaw("Horizontal");
 
-                        if (platformControl.MoveDirection.x > 0.0f || platformControl.MoveDirection.x < 0.0f) {
+                        if (platformControl.MoveDirection.x > 0.0f) {
 
-                            var velocity = rigid.velocity;
+                            if (axisX > 0.0f ) {
+                                var velocity = rigid.velocity;
 
-                            var extraSpeed = (Vector2.right * axisX) * moveSpeed;
-                            extraSpeed *= Time.deltaTime;
+                                var extraSpeed = Vector2.right * moveSpeed;
+                                extraSpeed *= Time.deltaTime;
 
-                            velocity.x = rigid.velocity.x + extraSpeed.x;
+                                velocity.x = rigid.velocity.x + extraSpeed.x;
+                                rigid.velocity = velocity;
+                            }
+                        }
+                        else if (platformControl.MoveDirection.x < 0.0f) {
 
-                            rigid.velocity = velocity;
+                            if (axisX < 0.0f ) {
+                                var velocity = rigid.velocity;
+
+                                var extraSpeed = Vector2.left * moveSpeed;
+                                extraSpeed *= Time.deltaTime;
+
+                                velocity.x = rigid.velocity.x + extraSpeed.x;
+                                rigid.velocity = velocity;
+                            }
                         }
                     }
                 }

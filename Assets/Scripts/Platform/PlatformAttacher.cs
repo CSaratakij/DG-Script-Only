@@ -118,10 +118,7 @@ namespace DG
             else {
                 isInitHit = false;
             }
-        }
 
-        void LateUpdate()
-        {
             _AttachHandler();
         }
 

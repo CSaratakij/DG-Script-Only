@@ -1078,6 +1078,11 @@ Prefab:
       propertyPath: makeUnique
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114274538530217588, guid: 64c77129881e7eb49a2058b85e3dad7c,
+        type: 2}
+      propertyPath: marginX
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 64c77129881e7eb49a2058b85e3dad7c, type: 2}
   m_IsPrefabParent: 0
@@ -1471,6 +1476,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114574197367645772, guid: 8e5c3c156f0533249aead512c7052cfc,
+        type: 2}
+      propertyPath: points.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4871925221962278, guid: 8e5c3c156f0533249aead512c7052cfc, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1.18

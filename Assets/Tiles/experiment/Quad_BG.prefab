@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 64721921884308582}
   - component: {fileID: 23324357120935602}
   - component: {fileID: 114062319952142600}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Quad_BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1502908836578844}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.8, y: 8.7, z: 10}
-  m_LocalScale: {x: 46.767715, y: 29.806612, z: 0.47818434}
+  m_LocalPosition: {x: 55.89, y: -0.78, z: 10}
+  m_LocalScale: {x: 159.3681, y: 29.806612, z: 0.47818434}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -110,4 +110,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 1}
-  speed: 0.01
+  speed: 0.015

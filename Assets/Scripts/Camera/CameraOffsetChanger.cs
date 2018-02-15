@@ -14,7 +14,13 @@ namespace DG
         bool isResetAfterExit;
 
         [SerializeField]
+        bool isResetByPreviousOffset;
+
+        [SerializeField]
         Vector2 cameraOffset;
+
+        [SerializeField]
+        Vector2 resetOffset;
 
         [SerializeField]
         Vector2 offset;
@@ -97,7 +103,12 @@ namespace DG
 
         void _ResetCameraOffset()
         {
-            _SetCameraOffset(initHitOffset);
+            if (isResetByPreviousOffset) {
+                _SetCameraOffset(initHitOffset);
+            }
+            else {
+                _SetCameraOffset(resetOffset);
+            }
         }
     }
 }

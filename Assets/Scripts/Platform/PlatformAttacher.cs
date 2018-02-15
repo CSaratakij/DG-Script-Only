@@ -42,7 +42,6 @@ namespace DG
 
         Vector3 offsetFromPlatform;
         Vector3 contactPoint;
-        Vector3 lastHitPosition;
 
         Rigidbody2D rigid;
         RaycastHit2D hit;
@@ -78,7 +77,6 @@ namespace DG
                     offsetFromPlatform = hit.transform.position - contactPoint;
                     offsetFromPlatform.y += groundOffset.y;
 
-                    lastHitPosition = hit.transform.position;
                     isInitHit = true;
                 }
 

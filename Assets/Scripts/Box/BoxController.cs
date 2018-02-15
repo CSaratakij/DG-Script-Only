@@ -77,7 +77,7 @@ namespace DG
         void Update()
         {
             if (platformAttacher) {
-                platformAttacher.Use(!isUsing);
+                platformAttacher.Use(!isUsing && !isInitReset);
             }
 
             _InputHandler();

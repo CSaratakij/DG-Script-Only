@@ -53,6 +53,10 @@ namespace DG
                         footstepAudioSource.PlayOneShot(footstepClips[1]);
                     break;
 
+                    case "wood":
+                        footstepAudioSource.PlayOneShot(footstepClips[2]);
+                    break;
+
                     default:
                         if (tagAsGrass.Contains(key)) {
                             footstepAudioSource.PlayOneShot(footstepClips[0]);
@@ -79,6 +83,10 @@ namespace DG
 
                     case "stone":
                         impactAudioSource.PlayOneShot(impactClips[1]);
+                    break;
+
+                    case "wood":
+                        impactAudioSource.PlayOneShot(impactClips[2]);
                     break;
 
                     default:

@@ -47,6 +47,9 @@ public class SpritePloter : EditorWindow
     float offsetX = 1.0f;
 
     [SerializeField]
+    int sortingOrder = 0;
+
+    [SerializeField]
     SpriteMode spriteMode;
 
     [SerializeField]
@@ -192,6 +195,8 @@ public class SpritePloter : EditorWindow
         isUse = EditorGUILayout.Toggle("Use", isUse);
 
         offsetX = EditorGUILayout.FloatField("Offset X", offsetX);
+        sortingOrder = EditorGUILayout.IntField("Sorting Order", sortingOrder);
+
         currentSprite = (Sprite)EditorGUILayout.ObjectField(currentSprite, typeof(Sprite), true);
 
         currentMode = (EditMode)EditorGUILayout.EnumPopup("Edit Mode", currentMode);
@@ -291,7 +296,9 @@ public class SpritePloter : EditorWindow
             obj.transform.position = expectPos;
 
             var component = obj.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
+
             component.sprite = currentSprite;
+            component.sortingOrder = sortingOrder;
 
             var parent = GameObject.Find(SPRITE_PARENT);
 
@@ -420,6 +427,8 @@ public class SpritePloter : EditorWindow
                         component.sprite = currentSprite;
                     }
 
+                    component.sortingOrder = sortingOrder;
+
                     var expectPos = beginPos;
 
                     if (endPos.x > beginPos.x) {
@@ -488,6 +497,7 @@ public class SpritePloter : EditorWindow
                 component.drawMode = SpriteDrawMode.Tiled;
                 component.sprite = currentSprite;
                 component.size = new Vector2(total_horizontal, total_vertical);
+                component.sortingOrder = sortingOrder;
                 
                 var parent = GameObject.Find(TILED_PARENT);
 

@@ -210,7 +210,8 @@ namespace DG
                     if (isUseMoveMode || isUseMoveModeByAxis == 1.0f) {
                         
                         if (worldWrappingControl.IsCanMoveMode) {
-                            worldWrappingControl.UseMoveMode(true);
+                            worldWrappingControl.UseMoveMode(isGrounded);
+
                             render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
                             _Controlable(false);
                         }

@@ -284,7 +284,9 @@ namespace DG
         IEnumerator _Reset_Box_CallBack()
         {
             yield return new WaitForSeconds(resetDelay);
-            rigid.position = originalPosition;
+            transform.position = originalPosition;
+
+            yield return new WaitForSeconds(0.3f);
             isInitReset = false;
         }
     }

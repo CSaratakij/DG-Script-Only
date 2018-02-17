@@ -53,6 +53,10 @@ namespace DG
                         footstepAudioSource.PlayOneShot(footstepClips[1]);
                     break;
 
+                    case "wood":
+                        footstepAudioSource.PlayOneShot(footstepClips[2]);
+                    break;
+
                     default:
                         if (tagAsGrass.Contains(key)) {
                             footstepAudioSource.PlayOneShot(footstepClips[0]);
@@ -81,6 +85,10 @@ namespace DG
                         impactAudioSource.PlayOneShot(impactClips[1]);
                     break;
 
+                    case "wood":
+                        impactAudioSource.PlayOneShot(impactClips[2]);
+                    break;
+
                     default:
                         if (tagAsGrass.Contains(key)) {
                             impactAudioSource.PlayOneShot(impactClips[0]);
@@ -100,6 +108,18 @@ namespace DG
         {
             impactAudioSource.Stop();
             PlayImpact(key);
+        }
+
+        public void StopFootStep()
+        {
+            previousMaterial = "";
+            currentMaterial = "";
+            footstepAudioSource.Stop();
+        }
+
+        public void StopImpact()
+        {
+            impactAudioSource.Stop();
         }
     }
 }

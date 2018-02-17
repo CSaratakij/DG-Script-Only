@@ -16,7 +16,13 @@ EditorBuildSettings:
     guid: c1aea21129180924c9f5a26e4a453d3a
   - enabled: 1
     path: Assets/Scenes/3-Puzzle.unity
-    guid: 33398d77d273dff4590d6746af50ab5c
+    guid: 14eae41ec06c2614fa9c8f709b7a0dfa
   - enabled: 1
-    path: Assets/Scenes/4-ThankyouForPlaying.unity
+    path: Assets/Scenes/4-Puzzle.unity
+    guid: fe9711df9dddaee44be7cafd14d14262
+  - enabled: 1
+    path: Assets/Scenes/5-Puzzle.unity
+    guid: a42adba4b676a204a955702e0a845a8a
+  - enabled: 1
+    path: Assets/Scenes/6-Thank you for playing.unity
     guid: 5bb9b64da2c08694aad0867f727a1203

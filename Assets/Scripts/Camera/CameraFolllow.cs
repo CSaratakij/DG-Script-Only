@@ -44,6 +44,7 @@ namespace DG
         public bool IsStickYAxis { get { return isStickY; } }
         public bool IsOutBoundY { get { return expectOutBoundY; } }
         public float OffsetX { get { return offsetX; } }
+        public float OffsetY { get { return offsetY; } }
 
 
         Vector3 offset;
@@ -227,6 +228,11 @@ namespace DG
         public void SetOffsetX(float value)
         {
             offsetX = value;
+        }
+
+        public void SetOffsetY(float value)
+        {
+            offsetY = value;
         }
 
         public void SlowFollowX(bool value)

@@ -69,6 +69,8 @@ namespace DG
         WorldWrappingController worldWrappingControl;
         SpriteRenderer render;
 
+        PlatformAttacher platformAttacher;
+
 
         void Awake()
         {
@@ -105,7 +107,7 @@ namespace DG
         {
             _InputHandler();
 
-            if (rigid.velocity.y < 0.0f) {
+            if (rigid.velocity.y < -5.0f) {
                 isFalling = true;
             }
 
@@ -128,8 +130,18 @@ namespace DG
                 }
             }
 
-            //Temp
-            /* _ResetPosition(); */
+            //Hacks
+            if (platformAttacher) {
+
+                if (rigid.velocity.y <= 0.3f) {
+                    if (isGrounded) {
+                        platformAttacher.Use(input.x == 0.0f);
+                    }
+                }
+                else {
+                    platformAttacher.Use(false);
+                }
+            }
         }
 
         void FixedUpdate()
@@ -161,6 +173,7 @@ namespace DG
             worldWrappingControl = GetComponent<WorldWrappingController>();
             render = GetComponent<SpriteRenderer>();
             isControlable = true;
+            platformAttacher = GetComponent<PlatformAttacher>();
         }
 
         void _InputHandler()
@@ -197,7 +210,8 @@ namespace DG
                     if (isUseMoveMode || isUseMoveModeByAxis == 1.0f) {
                         
                         if (worldWrappingControl.IsCanMoveMode) {
-                            worldWrappingControl.UseMoveMode(true);
+                            worldWrappingControl.UseMoveMode(isGrounded);
+
                             render.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
                             _Controlable(false);
                         }
@@ -323,17 +337,21 @@ namespace DG
         {
             if (isGrounded) {
 
-                if (rigid.velocity.y == 0.0f) {
-                    
-                    if (isFalling && materialRay) {
+                if (isFalling && materialRay) {
+
+                    if (!platformAttacher.IsUse) {
                         footStepAudioPlayer.PlayImpactForce(materialRay.transform.tag);
-                        isFalling = false;
                     }
 
-                    if (isControlable) {
-                        if (input.x != 0.0f && materialRay) {
-                            footStepAudioPlayer.Play(materialRay.transform.tag);
-                        }
+                    isFalling = false;
+                }
+
+                if (isControlable) {
+                    if (input.x != 0.0f && materialRay) {
+                        footStepAudioPlayer.Play(materialRay.transform.tag);
+                    }
+                    else {
+                        footStepAudioPlayer.StopFootStep();
                     }
                 }
             }

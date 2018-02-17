@@ -30,9 +30,7 @@ namespace DG
         void Start()
         {
             var isHasProgress = SaveInstance.IsSaveFileExists();
-
             btnContinue.enabled = isHasProgress;
-            btnContinue.gameObject.SetActive(isHasProgress);
 
             if (eventObj) {
                 if (!eventObj.firstSelectedGameObject) {

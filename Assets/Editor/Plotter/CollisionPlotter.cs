@@ -8,8 +8,10 @@ public class ColisionPlotter : EditorWindow
     const string COLLIDER_PARENT = "Plotter_Collider";
     const string COLLISION_PARENT = "Plotter_Collision";
 
+
     public enum ColliderType
     {
+        None,
         BoxCollider,
         EdgeCollider
     }
@@ -31,6 +33,12 @@ public class ColisionPlotter : EditorWindow
 
     [SerializeField]
     ColliderType currentType;
+
+    [SerializeField]
+    int currentColliderTab;
+
+    [SerializeField]
+    string[] strAvailableCollider = new string[] { "None", "Box", "Edge" };
 
 
     public static int pressCount = 0;
@@ -141,19 +149,21 @@ public class ColisionPlotter : EditorWindow
     void _GUIHandler()
     {
         GUILayout.Label ("Setting", EditorStyles.boldLabel);
-        isUse = EditorGUILayout.Toggle ("Use", isUse);
 
-        _Always_Show_Collider_Handler();
+        currentColliderTab = GUILayout.Toolbar(currentColliderTab, strAvailableCollider);
+        currentType = (ColliderType)currentColliderTab;
+
+        isUse = ColliderType.None != currentType;
+        isBeginPlot = isUse;
 
         colliderTag = EditorGUILayout.TagField("Tag", colliderTag);
         colliderLayer = EditorGUILayout.LayerField("Layer", colliderLayer);
 
-        isBeginPlot = EditorGUILayout.Toggle ("Start Ploting", isBeginPlot);
+        _Always_Show_Collider_Handler();
+        isTrigger = EditorGUILayout.Toggle ("Use Trigger", isTrigger);
 
         if (isBeginPlot) {
-            currentType = (ColliderType)EditorGUILayout.EnumPopup("Type", currentType);
             isUseSnap = EditorGUILayout.Toggle("Use Snap", isUseSnap);
-            isTrigger = EditorGUILayout.Toggle ("Use Trigger", isTrigger);
         }
     }
 

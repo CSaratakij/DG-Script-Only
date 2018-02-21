@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class CollisionPloter : EditorWindow
+public class ColisionPlotter : EditorWindow
 {
     const string COLLIDER_PARENT = "Plotter_Collider";
     const string COLLISION_PARENT = "Plotter_Collision";
@@ -24,7 +24,7 @@ public class CollisionPloter : EditorWindow
     bool isUseSnap;
 
     [SerializeField]
-    string colliderTag;
+    string colliderTag = "Untagged";
 
     [SerializeField]
     int colliderLayer;
@@ -43,10 +43,10 @@ public class CollisionPloter : EditorWindow
     Vector3 endPos;
 
 
-    [MenuItem("Window/ColisionPloter")]
+    [MenuItem("Custom/Plotter/ColisionPlotter")]
     public static void ShowWindow()
     {
-        EditorWindow.GetWindow(typeof(CollisionPloter));
+        EditorWindow.GetWindow(typeof(ColisionPlotter));
     }
 
     void OnEnable()
@@ -153,7 +153,7 @@ public class CollisionPloter : EditorWindow
         if (isBeginPlot) {
             currentType = (ColliderType)EditorGUILayout.EnumPopup("Type", currentType);
             isUseSnap = EditorGUILayout.Toggle("Use Snap", isUseSnap);
-            isTrigger = EditorGUILayout.Toggle ("Is Trigger", isTrigger);
+            isTrigger = EditorGUILayout.Toggle ("Use Trigger", isTrigger);
         }
     }
 

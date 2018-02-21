@@ -17,7 +17,7 @@ namespace DG.Editor
         Dictionary<string, List<SaveInstance>> objDict = new Dictionary<string, List<SaveInstance>>();
 
 
-        [MenuItem("Window/SaveSetting")]
+        [MenuItem("Custom/SaveSetting")]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow(typeof(SaveSetting));

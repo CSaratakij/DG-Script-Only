@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class SpritePloter : EditorWindow
+public class SpritePlotter : EditorWindow
 {
     const string SPRITE_PARENT = "Plotter_Sprite";
     const string TILED_PARENT = "Plotter_Tiled";
 
-    public static bool isBeginPlot;
 
     public enum SpriteMode
     {
-        Simple,
-        Tiled
+        Tiled,
+        Simple
     }
 
     public enum EditMode
     {
-        Single,
-        Multiple
+        None,
+        Multiple,
+        Single
     }
+
 
     [SerializeField]
     Vector2 scrollPos;
@@ -38,13 +39,16 @@ public class SpritePloter : EditorWindow
     bool isUseSnap;
 
     [SerializeField]
-    bool isOverrideSprite; //replace sprite on the same position..
+    bool isBeginPlot;
 
     [SerializeField]
     int presetLength = 1;
 
     [SerializeField]
     float offsetX = 1.0f;
+
+    [SerializeField]
+    SortingLayer sortingLayer;
 
     [SerializeField]
     int sortingOrder = 0;
@@ -56,19 +60,28 @@ public class SpritePloter : EditorWindow
     EditMode currentMode;
 
     [SerializeField]
+    int currentEditModeTab;
+
+    [SerializeField]
+    string[] strAvailableEditMode = new string[] { "None", "Multiple", "Single" };
+
+    [SerializeField]
     Sprite[] spritePresets = new Sprite[1];
 
 
     int pressCount = 0;
+    int currentSelectSortingLayerIndex;
 
     Vector3 beginPos;
     Vector3 endPos;
 
+    Editor gameObjectEditor;
 
-    [MenuItem("Window/SpritePloter")]
+
+    [MenuItem("Custom/Plotter/SpritePlotter")]
     public static void ShowWindow()
     {
-        EditorWindow.GetWindow(typeof(SpritePloter));
+        EditorWindow.GetWindow(typeof(SpritePlotter));
     }
 
     void OnEnable()
@@ -152,34 +165,7 @@ public class SpritePloter : EditorWindow
         }
 
         if (e.shift) {
-
-            Handles.color = Color.white;
-            Handles.Label(mousePos + Vector2.up * 0.6f, "[ Copy Mode ]");
-
-            Handles.color = Color.magenta;
-            Handles.DrawWireCube(mousePos, new Vector2(0.6f, 0.6f));
-
-            if (e.type == EventType.MouseDown && e.button == 0) {
-
-                var pickedGameObject = HandleUtility.PickGameObject(e.mousePosition, false);
-
-                if (pickedGameObject) {
-                    var renderer = pickedGameObject.GetComponent<SpriteRenderer>();
-
-                    if (!renderer) {
-                        var message = string.Format("Can't copy sprite on object : '{0}'", pickedGameObject.name);
-                        SceneView.lastActiveSceneView.ShowNotification(new GUIContent(message));
-                    }
-
-                    currentSprite = (renderer) ? renderer.sprite : currentSprite;
-                    Repaint();
-
-                    var controlId = GUIUtility.GetControlID(FocusType.Passive);
-                    GUIUtility.hotControl = controlId;
-
-                    e.Use();
-                }
-            }
+            _CopySprite_Handler(e, mousePos);
         }
     }
 
@@ -192,24 +178,42 @@ public class SpritePloter : EditorWindow
     {
         GUILayout.Label ("Setting", EditorStyles.boldLabel);
 
-        isUse = EditorGUILayout.Toggle("Use", isUse);
+        isUse = EditMode.None != currentMode;
+        isBeginPlot = isUse;
 
-        offsetX = EditorGUILayout.FloatField("Offset X", offsetX);
-        sortingOrder = EditorGUILayout.IntField("Sorting Order", sortingOrder);
+        currentEditModeTab = GUILayout.Toolbar(currentEditModeTab, strAvailableEditMode);
+        currentMode = (EditMode)currentEditModeTab;
+
+        if (currentSprite) {
+            gameObjectEditor = Editor.CreateEditor(currentSprite);
+            gameObjectEditor.OnPreviewGUI(GUILayoutUtility.GetRect(100, 100), EditorStyles.whiteLabel);
+        }
 
         currentSprite = (Sprite)EditorGUILayout.ObjectField(currentSprite, typeof(Sprite), true);
 
-        currentMode = (EditMode)EditorGUILayout.EnumPopup("Edit Mode", currentMode);
-        spriteMode = (SpriteMode)EditorGUILayout.EnumPopup("Sprite Mode", spriteMode);
+        if (EditMode.Multiple == currentMode) {
+            spriteMode = (SpriteMode)EditorGUILayout.EnumPopup("Sprite Mode", spriteMode);
+        }
 
-        isBeginPlot = EditorGUILayout.Toggle("Begin Plot", isBeginPlot);
+        var sortingLayerNames = new string[SortingLayer.layers.Length];
+
+        for (int i = 0; i < sortingLayerNames.Length; i++) {
+            var id = SortingLayer.layers[i].id;
+            sortingLayerNames[i] = SortingLayer.IDToName(id);
+        }
+
+        currentSelectSortingLayerIndex = EditorGUILayout.Popup("Sorting Layer", currentSelectSortingLayerIndex, sortingLayerNames);
+
+        sortingLayer = SortingLayer.layers[currentSelectSortingLayerIndex];
+        sortingOrder = EditorGUILayout.IntSlider("Sorting Order", sortingOrder, -10, 10);
 
         if (isBeginPlot) {
-            isOverrideSprite = EditorGUILayout.Toggle("Override Sprite", isOverrideSprite);
             isUseSnap = EditorGUILayout.Toggle("Use Snap", isUseSnap);
         }
 
         if (EditMode.Multiple == currentMode && SpriteMode.Simple == spriteMode) {
+
+            offsetX = EditorGUILayout.FloatField("Offset X", offsetX);
             isUsePreset = EditorGUILayout.Toggle("Use Preset", isUsePreset);
 
             if (isUsePreset) {
@@ -298,6 +302,10 @@ public class SpritePloter : EditorWindow
             var component = obj.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
 
             component.sprite = currentSprite;
+
+            component.sortingLayerID = sortingLayer.id;
+            component.sortingLayerName = sortingLayer.name;
+
             component.sortingOrder = sortingOrder;
 
             var parent = GameObject.Find(SPRITE_PARENT);
@@ -427,6 +435,9 @@ public class SpritePloter : EditorWindow
                         component.sprite = currentSprite;
                     }
 
+                    component.sortingLayerID = sortingLayer.id;
+                    component.sortingLayerName = sortingLayer.name;
+
                     component.sortingOrder = sortingOrder;
 
                     var expectPos = beginPos;
@@ -496,7 +507,12 @@ public class SpritePloter : EditorWindow
 
                 component.drawMode = SpriteDrawMode.Tiled;
                 component.sprite = currentSprite;
+
                 component.size = new Vector2(total_horizontal, total_vertical);
+
+                component.sortingLayerID = sortingLayer.id;
+                component.sortingLayerName = sortingLayer.name;
+
                 component.sortingOrder = sortingOrder;
                 
                 var parent = GameObject.Find(TILED_PARENT);
@@ -515,9 +531,35 @@ public class SpritePloter : EditorWindow
         }
     }
 
-    void _CopySprite()
+    void _CopySprite_Handler(Event e, Vector2 mousePos)
     {
+        Handles.color = Color.white;
+        Handles.Label(mousePos + Vector2.up * 0.6f, "[ Copy Mode ]");
 
+        Handles.color = Color.magenta;
+        Handles.DrawWireCube(mousePos, new Vector2(0.6f, 0.6f));
+
+        if (e.type == EventType.MouseDown && e.button == 0) {
+
+            var pickedGameObject = HandleUtility.PickGameObject(e.mousePosition, false);
+
+            if (pickedGameObject) {
+                var renderer = pickedGameObject.GetComponent<SpriteRenderer>();
+
+                if (!renderer) {
+                    var message = string.Format("Can't copy sprite on object : '{0}'", pickedGameObject.name);
+                    SceneView.lastActiveSceneView.ShowNotification(new GUIContent(message));
+                }
+
+                currentSprite = (renderer) ? renderer.sprite : currentSprite;
+                Repaint();
+
+                var controlId = GUIUtility.GetControlID(FocusType.Passive);
+                GUIUtility.hotControl = controlId;
+
+                e.Use();
+            }
+        }
     }
 
     Vector3 _Snap(float value, Vector3 target)

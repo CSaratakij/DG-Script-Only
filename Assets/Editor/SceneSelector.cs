@@ -29,7 +29,7 @@ namespace DG.Editor
         static string editModeScene;
 
 
-        [MenuItem("Window/SceneSelector")]
+        [MenuItem("Custom/SceneSelector")]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow(typeof(SceneSelector));

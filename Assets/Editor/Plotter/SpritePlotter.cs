@@ -68,9 +68,17 @@ public class SpritePlotter : EditorWindow
     [SerializeField]
     Sprite[] spritePresets = new Sprite[1];
 
+    //test
+    [SerializeField]
+    Sprite[] spriteGridPresets = new Sprite[9];
 
-    int pressCount = 0;
+    [SerializeField]
+    Texture[] textureGridPresets = new Texture[9];
+
+
+    int pressCount;
     int currentSelectSortingLayerIndex;
+    int selectedGridIndex;
 
     Vector3 beginPos;
     Vector3 endPos;
@@ -236,6 +244,73 @@ public class SpritePlotter : EditorWindow
 
                 EditorGUILayout.EndScrollView();
             }
+        }
+        else {
+
+            if (!isUse) {
+                return;
+            }
+
+            //Draw grid selector in here..
+
+            //Need fold..
+            //Setup here..
+            for (int j = 0; j < 9; j += 3) {
+                GUILayout.BeginHorizontal(GUILayout.MaxWidth(50));
+                for (int i = 0; i < 3; i++) {
+                    spriteGridPresets[i + j] = (Sprite)EditorGUILayout.ObjectField(
+                        new GUIContent(""),
+                        spriteGridPresets[i + j],
+                        typeof(Sprite),
+                        false,
+                    GUILayout.MaxWidth(50), GUILayout.MaxHeight(50));
+
+                    if (spriteGridPresets[i + j]) {
+                        textureGridPresets[i + j] = spriteGridPresets[i + j].texture;
+                    }
+                    else {
+                        textureGridPresets[i + j] = null;
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+
+            //button here..
+            var styles = new GUIStyle();
+
+            styles.margin = GUI.skin.button.margin;
+            styles.imagePosition = ImagePosition.ImageOnly;
+            styles.stretchWidth = true;
+            styles.stretchHeight = true;
+
+            for (int j = 0; j < 9; j += 3) {
+                GUILayout.BeginHorizontal(GUILayout.MaxWidth(50));
+                for (int i = 0; i < 3; i++) {
+
+                    styles.active.background = (Texture2D)textureGridPresets[i + j];
+                    styles.normal.background = (Texture2D)textureGridPresets[i + j];
+
+                    /* if (GUILayout.Button(textureGridPresets[i + j], styles, GUILayout.Width(50), GUILayout.Height(50))) { */
+                    if (GUILayout.Button("", styles, GUILayout.Width(50), GUILayout.Height(50))) {
+                        selectedGridIndex = i + j;
+                        currentSprite = spriteGridPresets[selectedGridIndex];
+                        Debug.Log(selectedGridIndex);
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+            //Actual press able button here..
+            /* for (int i = 0; i < spriteGridPresets.Length; i++) { */
+            /*     textureGridPresets[i] = spriteGridPresets[i].texture; */
+            /* } */
+
+            /* for (int j = 0; j < 9; j += 3) { */
+            /*     for (int i = 0; i < 3; i++) { */
+            /*         textureGridPresets[i + j] = spriteGridPresets[i + j].texture; */
+            /*     } */
+            /* } */
+
+            /* selectedGridIndex = GUILayout.SelectionGrid(selectedGridIndex, textureGridPresets, 3, GUILayout.MaxWidth(200), GUILayout.MaxHeight(200)); */
         }
     }
 

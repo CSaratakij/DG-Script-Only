@@ -98,9 +98,11 @@ public class SpritePlotter : EditorWindow
     /* [SerializeField] */
     /* Vector2 gridPresetScrollViewPos; */
 
-    //Replace by 2 dimension array;
+    //Unity can't serialize 2 dimension array- -
+    //Need to seperate this in to two axis..
+    //Or manually adjust index offset....Fuck....
     [SerializeField]
-    Sprite[] spriteGridPresets = new Sprite[25];
+    Sprite[] spriteGridPresets = new Sprite[1];
 
 
     int pressCount;
@@ -121,6 +123,11 @@ public class SpritePlotter : EditorWindow
 
     void OnEnable()
     {
+        if (spriteGridPresets.Length <= 0) {
+            spriteGridPresets = new Sprite[1];
+            currentGridPresetSize = new Vector2Int(1, 1);
+        }
+
         Tools.current = Tool.None;
         SceneView.onSceneGUIDelegate += OnSceneGUI;
     }
@@ -279,6 +286,7 @@ public class SpritePlotter : EditorWindow
             if (isFoldSelectGridPreset) {
 
                 EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+
                     selectedGridPresetIndex = EditorGUILayout.Popup(selectedGridPresetIndex, new string[] { "A1", "A2" });
                     currentGridPresetProfile = (TextAsset)EditorGUILayout.ObjectField(
                         new GUIContent(""),
@@ -286,6 +294,7 @@ public class SpritePlotter : EditorWindow
                         typeof(TextAsset),
                         false
                     );
+
                 EditorGUILayout.EndHorizontal();
 
                 //check first if it can load a profile..
@@ -293,7 +302,6 @@ public class SpritePlotter : EditorWindow
                 //else -> don't draw any gui below..
 
                 currentGridPresetTab = GUILayout.Toolbar(currentGridPresetTab, new string[] { "View", "Edit" });
-                /* gridPresetScrollPos = EditorGUILayout.BeginScrollView(gridPresetScrollPos); */
 
                 if (currentGridPresetTab == 1) {
 
@@ -313,6 +321,7 @@ public class SpritePlotter : EditorWindow
                             );
 
                             if (isResizeGridPreset) {
+
                                 currentGridPresetSize = gridPresetSize;
 
                                 var oldChunk = spriteGridPresets;
@@ -333,26 +342,29 @@ public class SpritePlotter : EditorWindow
                     }
 
                     //Setup here..
-                    //Should setup on button "Create Gride" ?
                     //
-                    /* for (int j = 0; j < 25; j += 5) { */
-
                     gridPresetScrollPos = EditorGUILayout.BeginScrollView(gridPresetScrollPos);
 
-                        for (int j = 0; j < (currentGridPresetSize.x * currentGridPresetSize.y); j += currentGridPresetSize.y) {
-                            GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-                            /* for (int i = 0; i < 5; i++) { */
-                            for (int i = 0; i < currentGridPresetSize.x; i++) {
-                                spriteGridPresets[i + j] = (Sprite)EditorGUILayout.ObjectField(
-                                    new GUIContent(""),
-                                    spriteGridPresets[i + j],
-                                    typeof(Sprite),
-                                    false,
-                                    GUILayout.MaxWidth(50),
-                                    GUILayout.MaxHeight(50)
-                                );
+                        if (spriteGridPresets.Length > 0) {
+                            var nextFirstRowIndex = 0;
+
+                            for (int j = 0; j < currentGridPresetSize.y; j++) {
+                                EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
+
+                                for (int i = 0; i < currentGridPresetSize.x; i++) {
+                                    spriteGridPresets[i + nextFirstRowIndex] = (Sprite)EditorGUILayout.ObjectField(
+                                        new GUIContent(""),
+                                        spriteGridPresets[i + nextFirstRowIndex],
+                                        typeof(Sprite),
+                                        false,
+                                        GUILayout.MaxWidth(50),
+                                        GUILayout.MaxHeight(50)
+                                    );
+                                }
+
+                                EditorGUILayout.EndHorizontal();
+                                nextFirstRowIndex += currentGridPresetSize.x;
                             }
-                            GUILayout.EndHorizontal();
                         }
 
                     EditorGUILayout.EndScrollView();
@@ -395,8 +407,7 @@ public class SpritePlotter : EditorWindow
 
                 //Draw grid selector in here..
                 //button here..
-                //test
-                if (currentGridPresetTab == 0) {
+                if (currentGridPresetTab == 0 && spriteGridPresets.Length > 0) {
 
                     var styles = new GUIStyle();
 
@@ -405,26 +416,25 @@ public class SpritePlotter : EditorWindow
                     styles.stretchWidth = false;
                     styles.stretchHeight = false;
 
-                    //should checks its length before loop through..
-                    //should replace by 2 dimention array for easy works <- not sure if it can be serializable..
-
                     gridPresetScrollPos = EditorGUILayout.BeginScrollView(gridPresetScrollPos);
 
-                        /* for (int j = 0; j < 25; j += 5) { */
-                        for (int j = 0; j < (currentGridPresetSize.x * currentGridPresetSize.y); j += currentGridPresetSize.y) {
-                            GUILayout.BeginHorizontal(GUILayout.MaxWidth(100));
-                            /* for (int i = 0; i < 5; i++) { */
-                            for (int i = 0; i < currentGridPresetSize.x; i++) {
+                        var nextFirstRowIndex = 0;
 
-                                styles.normal.background = AssetPreview.GetAssetPreview(spriteGridPresets[i + j]);
+                        for (int j = 0; j < currentGridPresetSize.y; j++) {
+                            GUILayout.BeginHorizontal(GUILayout.MaxWidth(100));
+
+                            for (int i = 0; i < currentGridPresetSize.x; i++) {
+                                styles.normal.background = AssetPreview.GetAssetPreview(spriteGridPresets[i + nextFirstRowIndex]);
                                 styles.active.background = styles.normal.background;
 
                                 if (GUILayout.Button("", styles, GUILayout.Width(50), GUILayout.Height(50))) {
-                                    selectedGridIndex = i + j;
+                                    selectedGridIndex = i + nextFirstRowIndex;
                                     currentSprite = spriteGridPresets[selectedGridIndex];
                                 }
                             }
+
                             GUILayout.EndHorizontal();
+                            nextFirstRowIndex += currentGridPresetSize.x;
                         }
 
                     EditorGUILayout.EndScrollView();

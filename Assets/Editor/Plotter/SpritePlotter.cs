@@ -127,6 +127,8 @@ public class SpritePlotter : EditorWindow
     int currentSelectSortingLayerIndex;
     int selectedGridIndex;
 
+    bool isFoldProfileSetting;
+
     Vector3 beginPos;
     Vector3 endPos;
 
@@ -302,15 +304,17 @@ public class SpritePlotter : EditorWindow
             isFoldSelectGridPreset = EditorGUILayout.Foldout(isFoldSelectGridPreset, "Grid Preset");
 
             if (isFoldSelectGridPreset) {
+                isFoldProfileSetting = EditorGUILayout.Foldout(isFoldProfileSetting, "Profile Setting");
 
-                EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-
+                if (isFoldProfileSetting) {
                     fileSpriteGridPresetProfile = (TextAsset)EditorGUILayout.ObjectField(
                         new GUIContent(""),
                         fileSpriteGridPresetProfile,
                         typeof(TextAsset),
                         false
                     );
+
+                    EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
 
                     if (GUILayout.Button("Load")) {
 
@@ -331,7 +335,50 @@ public class SpritePlotter : EditorWindow
                         }
                     }
 
-                EditorGUILayout.EndHorizontal();
+                    if (GUILayout.Button("New") && fileSpriteGridPresetProfile) {
+
+                        var isNewProfile = EditorUtility.DisplayDialog(
+                            "Make a new Grid Preset",
+                            "Are you sure to create a new grid profile?",
+                            "Make a new grid profile",
+                            "Cancel"
+                        );
+
+                        if (isNewProfile) {
+                            isNewProfile = EditorUtility.DisplayDialog(
+                                "Make a new Grid Preset : Confirm",
+                                "Are you really sure about Making a new grid profile?",
+                                "Ofcourse, Make a new one please..",
+                                "Cancel"
+                            );
+                        }
+
+                        //Need Refactor
+                        if (isNewProfile && fileSpriteGridPresetProfile) {
+                            var profile = new SpriteGridProfile();
+                            var currentPreset = new SpriteGridPreset();
+
+                            currentPreset.name = "Untitled";
+                            currentPreset.size = new Vector2Int(1, 1);
+                            currentPreset.spriteAssetPath = new string[1];
+
+                            profile.presets = new SpriteGridPreset[1];
+                            profile.presets[0] = currentPreset;
+
+                            var json = JsonUtility.ToJson(profile, true);
+                            var path = AssetDatabase.GetAssetPath(fileSpriteGridPresetProfile);
+
+                            using (var writer = new StreamWriter(path)) {
+                                writer.Write(json);
+                            }
+
+                            AssetDatabase.ImportAsset(path);
+                            _Load_From_SaveProfile();
+                        }
+                    }
+
+                    EditorGUILayout.EndHorizontal();
+                }
 
                 if (!fileSpriteGridPresetProfile) {
                     return;
@@ -419,6 +466,7 @@ public class SpritePlotter : EditorWindow
                                 "Cancel"
                             );
 
+                            //Need Refactor
                             if (isSavePreset && fileSpriteGridPresetProfile) {
                                 var currentPreset = currentSpriteGridProfile.presets[selectedGridPresetIndex];
 
@@ -443,7 +491,6 @@ public class SpritePlotter : EditorWindow
                                 AssetDatabase.ImportAsset(path);
                             }
                         }
-
 
                         if (GUILayout.Button("Clear")) {
 

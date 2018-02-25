@@ -6,45 +6,49 @@
                 "x": 5,
                 "y": 5
             },
-            "spriteAssetPath": [
-                "Assets/TILESETs/A2_1.png",
-                "Assets/TILESETs/A2_2.png",
-                "Assets/TILESETs/A2_3.png",
-                "Assets/TILESETs/A2_4.png",
-                "Assets/TILESETs/A2_5.png",
-                "Assets/TILESETs/A2_6.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A2_9.png",
-                "Assets/TILESETs/A2_7.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A2_10.png",
-                "Assets/TILESETs/A2_8.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A2_11.png",
-                "Assets/TILESETs/A2_12.png",
-                "Assets/TILESETs/A2_13.png",
-                "Assets/TILESETs/A2_14.png",
-                "Assets/TILESETs/A2_15.png",
-                "Assets/TILESETs/A2_16.png"
+            "spriteAssetsGUID": [
+                "37c7f636463c4a246958ed9d0582e88a",
+                "db459df6579cb5d4db04435e46fa25f9",
+                "6b7d3710760e21147a1610ba347e18ca",
+                "6a6745a0ceadf814188b1c97efa9c27e",
+                "f3ca0212ee44c1e4884857900cc0aa6c",
+                "c468a04978cae8a4480ff304ca5c0195",
+                "814981a8310f9214f98d19279c425229",
+                "814981a8310f9214f98d19279c425229",
+                "814981a8310f9214f98d19279c425229",
+                "c513dff6f34304943befa5bed2278221",
+                "dded7c0e6f86a2d44924078468781545",
+                "814981a8310f9214f98d19279c425229",
+                "814981a8310f9214f98d19279c425229",
+                "814981a8310f9214f98d19279c425229",
+                "9a0c82cf155ea09428ff3288448bb329",
+                "5f5b086b78c0d214fb57de28302c304d",
+                "814981a8310f9214f98d19279c425229",
+                "814981a8310f9214f98d19279c425229",
+                "814981a8310f9214f98d19279c425229",
+                "4fac63f05897fe848b124da6f1fd235b",
+                "365951f8f2807144da19f8486fc93495",
+                "e5107ba0a3b61b048aa675ad9dccd96c",
+                "8bb58100891151845afb761e217438f9",
+                "4945bdea0064fc64e848425ebfcf8fdb",
+                "e7d86e02af3fc1747b8054920b0d7b3a"
             ]
         },
         {
             "name": "A3",
             "size": {
-                "x": 2,
+                "x": 4,
                 "y": 2
             },
-            "spriteAssetPath": [
-                "Assets/TILESETs/A3_1.png",
-                "Assets/TILESETs/A3_2.png",
-                "Assets/TILESETs/A3_3.png",
-                "Assets/TILESETs/A3_4.png"
+            "spriteAssetsGUID": [
+                "ec8506c5dbd7c924e89bfa26d0a857b9",
+                "90a1f389c57a3084490cfa68703b56a5",
+                "53e5d7174022f144eb186797039575fa",
+                "f7257edd1143098498da550c61b2d631",
+                "f6ff3f0e205dc0548baee96d4cc3c511",
+                "6a7a200e475283644b61e2debebb1ad1",
+                "2932027fccb6a7444b14725d8a0ca606",
+                "e26db1031b752d248a2b8a187268d4b6"
             ]
         },
         {
@@ -53,15 +57,15 @@
                 "x": 4,
                 "y": 2
             },
-            "spriteAssetPath": [
-                "Assets/TILESETs/A4_1.png",
-                "Assets/TILESETs/A4_3.png",
-                "Assets/TILESETs/A4_2.png",
-                "Assets/TILESETs/A4_4.png",
-                "Assets/TILESETs/A4_5.png",
-                "Assets/TILESETs/A4_7.png",
-                "Assets/TILESETs/A4_6.png",
-                "Assets/TILESETs/A4_8.png"
+            "spriteAssetsGUID": [
+                "f53bddc8845f31b4f984abf3a188f3e4",
+                "ec984ee6e4d39124085c706bf48d9372",
+                "456dd61ded2fd054bb346b013b083b8e",
+                "cf30f14b1aacf6946b9ceae8e3d7133c",
+                "87d647d2d3b2a2f4f869b1ff9c87624e",
+                "8c1fc26bdf6bb9941860e37f7aaf79cd",
+                "5cdfa16bc77d1e44e8479dffab04b8d7",
+                "0783c44d4b244d145842c2c93932d4d2"
             ]
         },
         {
@@ -70,32 +74,32 @@
                 "x": 5,
                 "y": 5
             },
-            "spriteAssetPath": [
-                "Assets/TILESETs/A5_1.png",
-                "Assets/TILESETs/A5_2.png",
-                "Assets/TILESETs/A5_2.png",
-                "Assets/TILESETs/A5_2.png",
-                "Assets/TILESETs/A5_3.png",
-                "Assets/TILESETs/A5_4.png",
-                "Assets/TILESETs/A5_9.png",
-                "Assets/TILESETs/A5_10.png",
-                "Assets/TILESETs/A5_11.png",
-                "Assets/TILESETs/A5_5.png",
-                "Assets/TILESETs/A5_4.png",
-                "Assets/TILESETs/A5_12.png",
-                "Assets/TILESETs/A5_13.png",
-                "Assets/TILESETs/A5_14.png",
-                "Assets/TILESETs/A5_5.png",
-                "Assets/TILESETs/A5_4.png",
-                "Assets/TILESETs/A5_15.png",
-                "Assets/TILESETs/A5_16.png",
-                "Assets/TILESETs/A5_17.png",
-                "Assets/TILESETs/A5_5.png",
-                "Assets/TILESETs/A5_6.png",
-                "Assets/TILESETs/A5_7.png",
-                "Assets/TILESETs/A5_7.png",
-                "Assets/TILESETs/A5_7.png",
-                "Assets/TILESETs/A5_8.png"
+            "spriteAssetsGUID": [
+                "1230355a151d4d04b9eda509308b4b33",
+                "b2f95f8e9065f1147a3ec783a315b0d1",
+                "b2f95f8e9065f1147a3ec783a315b0d1",
+                "b2f95f8e9065f1147a3ec783a315b0d1",
+                "450738d302e35b14ab718095581c5729",
+                "b4039c794ee691a498635c84dd26a958",
+                "79578b7597cab34459b6bdf39f7d9673",
+                "d3d571b4952816543b545e8c36c7da0e",
+                "55ae52e8c4109124c97767cd4b750a82",
+                "61feb3c25c440d447a1e377c9a9e3c32",
+                "b4039c794ee691a498635c84dd26a958",
+                "ac1013d478a28fe4b80b30270dee7465",
+                "814981a8310f9214f98d19279c425229",
+                "0e5bec762b65cb64f96f943768bfcb6f",
+                "61feb3c25c440d447a1e377c9a9e3c32",
+                "b4039c794ee691a498635c84dd26a958",
+                "f25257b2fa787de4c8fdbba609d65891",
+                "a28223ddbf0533b4aa437a1207ce511f",
+                "606046f49977ab4488ad24f6da08b53d",
+                "61feb3c25c440d447a1e377c9a9e3c32",
+                "d766bb703219105499367035464e3047",
+                "18488db55fd560d49801fea6fab89850",
+                "18488db55fd560d49801fea6fab89850",
+                "18488db55fd560d49801fea6fab89850",
+                "c0b26f31b26f57240baf0f8661072187"
             ]
         },
         {
@@ -104,22 +108,22 @@
                 "x": 5,
                 "y": 3
             },
-            "spriteAssetPath": [
+            "spriteAssetsGUID": [
                 "",
-                "Assets/TILESETs/A13_3.png",
+                "a07bf111120387c4691edcae47ce37d2",
                 "",
-                "Assets/TILESETs/A12_1.png",
-                "Assets/TILESETs/A12_2.png",
-                "Assets/TILESETs/A13_1.png",
-                "Assets/TILESETs/A6_5.png",
-                "Assets/TILESETs/A13_2.png",
-                "Assets/TILESETs/A12_3.png",
-                "Assets/TILESETs/A12_4.png",
+                "9c0602a0df9e04349aaf38f1cab6a0e7",
+                "07efa99642f3e9b4784370f924771b26",
+                "e886a8039d044fc4181941015b9ebdcc",
+                "d23693dbc9292104d810e0b03b034f22",
+                "c80ca550cf6c1264a9e3154ea9b5851e",
+                "f3461da027b18ef428da1125e9734cda",
+                "d39848dbb25f4e44cae23eb34277f693",
                 "",
-                "Assets/TILESETs/A13_4.png",
+                "927119c10c1755f4fba10322371203aa",
                 "",
-                "Assets/TILESETs/A12_5.png",
-                "Assets/TILESETs/A12_6.png"
+                "d012aecd8fa95de4cbf115742fc7962d",
+                "03cbb781b0ef13d44b6b25974801ab82"
             ]
         },
         {
@@ -128,26 +132,26 @@
                 "x": 5,
                 "y": 4
             },
-            "spriteAssetPath": [
-                "Assets/TILESETs/A7_1.png",
+            "spriteAssetsGUID": [
+                "50874a2208a315e4cb554d467dbe4fa9",
                 "",
-                "Assets/TILESETs/A7_2.png",
-                "Assets/TILESETs/A7_3.png",
-                "Assets/TILESETs/A8_3.png",
-                "Assets/TILESETs/A7_4.png",
-                "Assets/TILESETs/A7_5.png",
-                "Assets/TILESETs/A7_6.png",
-                "Assets/TILESETs/A7_7.png",
-                "Assets/TILESETs/A8_4.png",
-                "Assets/TILESETs/A8_5.png",
-                "Assets/TILESETs/A14_2.png",
-                "Assets/TILESETs/A14_1.png",
+                "19a9fad5c4fee7247af9f9f76e0532d7",
+                "8bf9ac98a0ac1464391b27ae4b72424d",
+                "67831be6e8c055c48af3185003eac9c7",
+                "9ae3c4fd24705a34983e4e0d62a7c772",
+                "4698b342ca374234ba74281a7c59360e",
+                "7fc18f10ec841984dbcc79a8a465a699",
+                "031a133cacf61fb44bc4c45254ad84b3",
+                "cc5bcaa87dd0f7c47ace63c526b7eb66",
+                "51bcd8785678feb49b6e9e930456a326",
+                "d388af67b80949443b807b34b49f5afc",
+                "fb325396e1c12654b8e97e85c7b777bd",
                 "",
-                "Assets/TILESETs/A8_6.png",
+                "f4a1651f24823f74c98092664ef15c05",
                 "",
-                "Assets/TILESETs/A8_1.png",
-                "Assets/TILESETs/A8_2.png",
-                "Assets/TILESETs/Silouate.png",
+                "64b3f39ff07e4dc499db5bdb18c5b961",
+                "e2fd51706d2f80f449186c747666f0e2",
+                "60a07052c7c44e14e80bb929f31c4e01",
                 ""
             ]
         },
@@ -157,27 +161,37 @@
                 "x": 2,
                 "y": 3
             },
-            "spriteAssetPath": [
-                "Assets/TILESETs/A9_1.png",
-                "Assets/TILESETs/A11_1.png",
-                "Assets/TILESETs/A9_2.png",
-                "Assets/TILESETs/A11_2.png",
-                "Assets/TILESETs/A9_3.png",
+            "spriteAssetsGUID": [
+                "ba324c271e2101047ac833243b50ce5b",
+                "69268c3b4116b0a4b8bf041c409e10f9",
+                "87e8ea110d89dd540babc9eb5bb8cf5f",
+                "16bd1dc1bd1a9974ab518f0a182c96dd",
+                "52562f2ac84e80648b184dce78bed61e",
                 ""
             ]
         },
         {
-            "name": "Generic",
+            "name": "Generic1",
             "size": {
                 "x": 5,
                 "y": 1
             },
-            "spriteAssetPath": [
-                "Assets/Pillar_Top.png",
-                "Assets/Sprites/Pillar.png",
-                "Assets/Sprites/Pillar.png",
-                "Assets/Sprites/Pillar.png",
-                "Assets/Sprites/Pillar.png"
+            "spriteAssetsGUID": [
+                "Pillar_0",
+                "Pillar_1",
+                "Pillar_2",
+                "Pillar_3",
+                "48c86919f1ffbba45889a473fe5d099e"
+            ]
+        },
+        {
+            "name": "Generic2",
+            "size": {
+                "x": 1,
+                "y": 1
+            },
+            "spriteAssetsGUID": [
+                ""
             ]
         }
     ]

@@ -120,7 +120,7 @@ public class SpritePlotter : EditorWindow
     {
         public string name = string.Empty;
         public Vector2Int size = new Vector2Int(1, 1);
-        public string[] spriteAssetPath = null;
+        public string[] spriteAssetsGUID = null;
     }
 
     int pressCount;
@@ -360,7 +360,7 @@ public class SpritePlotter : EditorWindow
 
                             currentPreset.name = "Untitled";
                             currentPreset.size = new Vector2Int(1, 1);
-                            currentPreset.spriteAssetPath = new string[1];
+                            currentPreset.spriteAssetsGUID = new string[1];
 
                             profile.presets = new SpriteGridPreset[1];
                             profile.presets[0] = currentPreset;
@@ -371,6 +371,10 @@ public class SpritePlotter : EditorWindow
                             using (var writer = new StreamWriter(path)) {
                                 writer.Write(json);
                             }
+
+                            //test
+                            currentGridPresetSize = currentPreset.size;
+                            gridPresetSize = currentGridPresetSize;
 
                             AssetDatabase.ImportAsset(path);
                             _Load_From_SaveProfile();
@@ -475,10 +479,24 @@ public class SpritePlotter : EditorWindow
                                 /* currentPreset.name = "A1"; */
 
                                 currentPreset.size = currentGridPresetSize;
-                                currentPreset.spriteAssetPath = new string[spriteGridPresets.Length];
+                                currentPreset.spriteAssetsGUID = new string[spriteGridPresets.Length];
 
                                 for (int i = 0; i < spriteGridPresets.Length; i++) {
-                                    currentPreset.spriteAssetPath[i] = AssetDatabase.GetAssetPath(spriteGridPresets[i]);
+
+                                    var assetPath = AssetDatabase.GetAssetPath(spriteGridPresets[i]);
+                                    var similarAssets = AssetDatabase.LoadAllAssetRepresentationsAtPath(assetPath);
+
+                                    if (similarAssets.Length > 1) {
+                                        foreach (Sprite obj in similarAssets) {
+                                            if (spriteGridPresets[i] == obj) {
+                                                currentPreset.spriteAssetsGUID[i] = obj.name;
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        var assetGUID = AssetDatabase.AssetPathToGUID(assetPath);
+                                        currentPreset.spriteAssetsGUID[i] = assetGUID;
+                                    }
                                 }
 
                                 var json = JsonUtility.ToJson(currentSpriteGridProfile, true);
@@ -888,30 +906,18 @@ public class SpritePlotter : EditorWindow
     {
         try {
             currentSpriteGridProfile = JsonUtility.FromJson<SpriteGridProfile>(fileSpriteGridPresetProfile.text);
-
-            currentGridPresetSize = currentSpriteGridProfile.presets[0].size;
-            gridPresetSize = currentGridPresetSize;
-
             var loadedPresetnames = new string[currentSpriteGridProfile.presets.Length];
 
             for (int i = 0; i < loadedPresetnames.Length; i++) {
                 loadedPresetnames[i] = currentSpriteGridProfile.presets[i].name;
             }
 
+            spriteGridPresetNames = loadedPresetnames;
+
             selectedGridPresetIndex = 0;
             previousSelectedPresetIndex = -1;
 
-            spriteGridPresetNames = loadedPresetnames;
-
-            //Need Refactor
-            var loadedSprite = new Sprite[currentSpriteGridProfile.presets[0].spriteAssetPath.Length];
-
-            for (int i = 0; i < currentSpriteGridProfile.presets[0].spriteAssetPath.Length; i++) {
-                var path = currentSpriteGridProfile.presets[0].spriteAssetPath[i];
-                loadedSprite[i] = (Sprite)AssetDatabase.LoadAssetAtPath(path, typeof(Sprite));
-            }
-
-            spriteGridPresets = loadedSprite;
+            _Reload_Sprite_From_Cached(0);
         }
         catch (Exception exception) {
             EditorUtility.DisplayDialog(
@@ -926,11 +932,30 @@ public class SpritePlotter : EditorWindow
     void _Reload_Sprite_From_Cached(int index)
     {
         try {
-            var loadedSprite = new Sprite[currentSpriteGridProfile.presets[index].spriteAssetPath.Length];
+            var loadedSprite = new Sprite[currentSpriteGridProfile.presets[index].spriteAssetsGUID.Length];
 
-            for (int i = 0; i < currentSpriteGridProfile.presets[index].spriteAssetPath.Length; i++) {
-                var path = currentSpriteGridProfile.presets[index].spriteAssetPath[i];
-                loadedSprite[i] = (Sprite)AssetDatabase.LoadAssetAtPath(path, typeof(Sprite));
+            for (int i = 0; i < currentSpriteGridProfile.presets[index].spriteAssetsGUID.Length; i++) {
+                var assetGUID = currentSpriteGridProfile.presets[index].spriteAssetsGUID[i];
+                var assetPath = AssetDatabase.GUIDToAssetPath(assetGUID);
+
+                if (assetPath == "") {
+                    var assetName = assetGUID;
+                    var foundAssetsGUID = AssetDatabase.FindAssets(assetName);
+
+                    if (foundAssetsGUID.Length > 0) {
+                        var foundAssetPath = AssetDatabase.GUIDToAssetPath(foundAssetsGUID[0]);
+                        var similarAssets = AssetDatabase.LoadAllAssetRepresentationsAtPath(foundAssetPath);
+
+                        foreach (Sprite obj in similarAssets) {
+                            if (assetName == obj.name) {
+                                loadedSprite[i] = (Sprite)obj;
+                            }
+                        }
+                    }
+                }
+                else {
+                    loadedSprite[i] = (Sprite)AssetDatabase.LoadAssetAtPath(assetPath, typeof(Sprite));
+                }
             }
 
             currentGridPresetSize = currentSpriteGridProfile.presets[index].size;

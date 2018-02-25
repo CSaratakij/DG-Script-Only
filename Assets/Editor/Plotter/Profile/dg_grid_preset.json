@@ -1,1 +1,184 @@
-{"presets":[{"name":"A1","size":{"x":3,"y":3},"spriteAssetPath":["Assets/TILESETs/A5_1.png","Assets/TILESETs/A5_2.png","Assets/TILESETs/A5_2.png","Assets/TILESETs/A5_2.png","Assets/TILESETs/A5_3.png","Assets/TILESETs/A5_4.png","Assets/TILESETs/A5_9.png","Assets/TILESETs/A5_10.png","Assets/TILESETs/A5_11.png"]}]}
+{
+    "presets": [
+        {
+            "name": "A2",
+            "size": {
+                "x": 5,
+                "y": 5
+            },
+            "spriteAssetPath": [
+                "Assets/TILESETs/A2_1.png",
+                "Assets/TILESETs/A2_2.png",
+                "Assets/TILESETs/A2_3.png",
+                "Assets/TILESETs/A2_4.png",
+                "Assets/TILESETs/A2_5.png",
+                "Assets/TILESETs/A2_6.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A2_9.png",
+                "Assets/TILESETs/A2_7.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A2_10.png",
+                "Assets/TILESETs/A2_8.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A2_11.png",
+                "Assets/TILESETs/A2_12.png",
+                "Assets/TILESETs/A2_13.png",
+                "Assets/TILESETs/A2_14.png",
+                "Assets/TILESETs/A2_15.png",
+                "Assets/TILESETs/A2_16.png"
+            ]
+        },
+        {
+            "name": "A3",
+            "size": {
+                "x": 2,
+                "y": 2
+            },
+            "spriteAssetPath": [
+                "Assets/TILESETs/A3_1.png",
+                "Assets/TILESETs/A3_2.png",
+                "Assets/TILESETs/A3_3.png",
+                "Assets/TILESETs/A3_4.png"
+            ]
+        },
+        {
+            "name": "A4",
+            "size": {
+                "x": 4,
+                "y": 2
+            },
+            "spriteAssetPath": [
+                "Assets/TILESETs/A4_1.png",
+                "Assets/TILESETs/A4_3.png",
+                "Assets/TILESETs/A4_2.png",
+                "Assets/TILESETs/A4_4.png",
+                "Assets/TILESETs/A4_5.png",
+                "Assets/TILESETs/A4_7.png",
+                "Assets/TILESETs/A4_6.png",
+                "Assets/TILESETs/A4_8.png"
+            ]
+        },
+        {
+            "name": "A5",
+            "size": {
+                "x": 5,
+                "y": 5
+            },
+            "spriteAssetPath": [
+                "Assets/TILESETs/A5_1.png",
+                "Assets/TILESETs/A5_2.png",
+                "Assets/TILESETs/A5_2.png",
+                "Assets/TILESETs/A5_2.png",
+                "Assets/TILESETs/A5_3.png",
+                "Assets/TILESETs/A5_4.png",
+                "Assets/TILESETs/A5_9.png",
+                "Assets/TILESETs/A5_10.png",
+                "Assets/TILESETs/A5_11.png",
+                "Assets/TILESETs/A5_5.png",
+                "Assets/TILESETs/A5_4.png",
+                "Assets/TILESETs/A5_12.png",
+                "Assets/TILESETs/A5_13.png",
+                "Assets/TILESETs/A5_14.png",
+                "Assets/TILESETs/A5_5.png",
+                "Assets/TILESETs/A5_4.png",
+                "Assets/TILESETs/A5_15.png",
+                "Assets/TILESETs/A5_16.png",
+                "Assets/TILESETs/A5_17.png",
+                "Assets/TILESETs/A5_5.png",
+                "Assets/TILESETs/A5_6.png",
+                "Assets/TILESETs/A5_7.png",
+                "Assets/TILESETs/A5_7.png",
+                "Assets/TILESETs/A5_7.png",
+                "Assets/TILESETs/A5_8.png"
+            ]
+        },
+        {
+            "name": "A6",
+            "size": {
+                "x": 5,
+                "y": 3
+            },
+            "spriteAssetPath": [
+                "",
+                "Assets/TILESETs/A13_3.png",
+                "",
+                "Assets/TILESETs/A12_1.png",
+                "Assets/TILESETs/A12_2.png",
+                "Assets/TILESETs/A13_1.png",
+                "Assets/TILESETs/A6_5.png",
+                "Assets/TILESETs/A13_2.png",
+                "Assets/TILESETs/A12_3.png",
+                "Assets/TILESETs/A12_4.png",
+                "",
+                "Assets/TILESETs/A13_4.png",
+                "",
+                "Assets/TILESETs/A12_5.png",
+                "Assets/TILESETs/A12_6.png"
+            ]
+        },
+        {
+            "name": "A7",
+            "size": {
+                "x": 5,
+                "y": 4
+            },
+            "spriteAssetPath": [
+                "Assets/TILESETs/A7_1.png",
+                "",
+                "Assets/TILESETs/A7_2.png",
+                "Assets/TILESETs/A7_3.png",
+                "Assets/TILESETs/A8_3.png",
+                "Assets/TILESETs/A7_4.png",
+                "Assets/TILESETs/A7_5.png",
+                "Assets/TILESETs/A7_6.png",
+                "Assets/TILESETs/A7_7.png",
+                "Assets/TILESETs/A8_4.png",
+                "Assets/TILESETs/A8_5.png",
+                "Assets/TILESETs/A14_2.png",
+                "Assets/TILESETs/A14_1.png",
+                "",
+                "Assets/TILESETs/A8_6.png",
+                "",
+                "Assets/TILESETs/A8_1.png",
+                "Assets/TILESETs/A8_2.png",
+                "Assets/TILESETs/Silouate.png",
+                ""
+            ]
+        },
+        {
+            "name": "A8",
+            "size": {
+                "x": 2,
+                "y": 3
+            },
+            "spriteAssetPath": [
+                "Assets/TILESETs/A9_1.png",
+                "Assets/TILESETs/A11_1.png",
+                "Assets/TILESETs/A9_2.png",
+                "Assets/TILESETs/A11_2.png",
+                "Assets/TILESETs/A9_3.png",
+                ""
+            ]
+        },
+        {
+            "name": "Generic",
+            "size": {
+                "x": 5,
+                "y": 1
+            },
+            "spriteAssetPath": [
+                "Assets/Pillar_Top.png",
+                "Assets/Sprites/Pillar.png",
+                "Assets/Sprites/Pillar.png",
+                "Assets/Sprites/Pillar.png",
+                "Assets/Sprites/Pillar.png"
+            ]
+        }
+    ]
+}

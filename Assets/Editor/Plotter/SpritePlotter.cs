@@ -96,6 +96,7 @@ public class SpritePlotter : EditorWindow
     [SerializeField]
     TextAsset fileSpriteGridPresetProfile;
 
+    //Test runtime represent..
     [SerializeField]
     SpriteGridProfile currentSpriteGridProfile;
 
@@ -301,7 +302,6 @@ public class SpritePlotter : EditorWindow
 
                 EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
 
-                    selectedGridPresetIndex = EditorGUILayout.Popup(selectedGridPresetIndex, new string[] { "A1", "A2" });
                     fileSpriteGridPresetProfile = (TextAsset)EditorGUILayout.ObjectField(
                         new GUIContent(""),
                         fileSpriteGridPresetProfile,
@@ -309,16 +309,68 @@ public class SpritePlotter : EditorWindow
                         false
                     );
 
-                EditorGUILayout.EndHorizontal();
+                    //todo
+                    if (GUILayout.Button("Load")) {
 
-                //check first if it can load a profile..
-                //if can load -> draw the rest
-                //else -> don't draw any gui below..
+                        if (!fileSpriteGridPresetProfile) {
+                            EditorUtility.DisplayDialog("Warning", "Select profile's file first..", "OK");
+                        }
+                        else {
+                            var isLoadGridPreset = EditorUtility.DisplayDialog(
+                                "Load Grid Preset",
+                                "Are you sure to load grid preset?\n" + "All unsaved preset will be lost.",
+                                "Load Preset",
+                                "Cancel"
+                            );
+
+                            if (isLoadGridPreset) {
+                                //Todo..
+                                //Change runtime represent first..
+
+                                //test
+                                //maybe use FromJsonOverWrite?
+                                //
+                                //test before change runtime represent..
+                                //Didn't check if the file is valid..
+                                //Use with caution..
+                                try {
+                                    currentSpriteGridProfile = JsonUtility.FromJson<SpriteGridProfile>(fileSpriteGridPresetProfile.text);
+                                }
+                                catch (Exception exception) {
+                                    EditorUtility.DisplayDialog(
+                                        "Error",
+                                        "Can't load current grid profile from file : " + fileSpriteGridPresetProfile.name,
+                                        "Sad"
+                                    );
+                                    Debug.LogException(exception);
+                                }
+
+                                //test only..
+                                //Assum we only use first preset from profile..
+                                var loadedSprite = new Sprite[currentSpriteGridProfile.presets[0].spriteAssetPath.Length];
+
+                                for (int i = 0; i < currentSpriteGridProfile.presets[0].spriteAssetPath.Length; i++) {
+                                    var path = currentSpriteGridProfile.presets[0].spriteAssetPath[i];
+                                    loadedSprite[i] = (Sprite)AssetDatabase.LoadAssetAtPath(path, typeof(Sprite));
+                                }
+
+                                spriteGridPresets = loadedSprite;
+
+                                currentGridPresetSize = currentSpriteGridProfile.presets[0].size;
+                                gridPresetSize = currentGridPresetSize;
+
+                                selectedGridPresetIndex = 0;
+                            }
+                        }
+                    }
+
+                EditorGUILayout.EndHorizontal();
 
                 if (!fileSpriteGridPresetProfile) {
                     return;
                 }
 
+                selectedGridPresetIndex = EditorGUILayout.Popup(selectedGridPresetIndex, new string[] { "A1", "A2" });
                 currentGridPresetTab = GUILayout.Toolbar(currentGridPresetTab, new string[] { "View", "Edit" });
 
                 if (currentGridPresetTab == 1) {
@@ -398,38 +450,37 @@ public class SpritePlotter : EditorWindow
                                 "Cancel"
                             );
 
-                            if (isSavePreset) {
+                            if (isSavePreset && fileSpriteGridPresetProfile) {
                                 //Todo
                                 //Save grid to json's preset.
-                                if (fileSpriteGridPresetProfile) {
 
-                                    //test
-                                    var profile = new SpriteGridProfile();
-                                    profile.presets = new SpriteGridPreset[1];
+                                //test
+                                var profile = new SpriteGridProfile();
+                                profile.presets = new SpriteGridPreset[1];
 
-                                    var currentPreset = new SpriteGridPreset();
+                                var currentPreset = new SpriteGridPreset();
 
-                                    currentPreset.name = "A1";
-                                    currentPreset.size = currentGridPresetSize;
-                                    currentPreset.spriteAssetPath = new string[spriteGridPresets.Length];
+                                currentPreset.name = "A1";
+                                currentPreset.size = currentGridPresetSize;
+                                currentPreset.spriteAssetPath = new string[spriteGridPresets.Length];
 
-                                    for (int i = 0; i < spriteGridPresets.Length; i++) {
-                                        currentPreset.spriteAssetPath[i] = AssetDatabase.GetAssetPath(spriteGridPresets[i]);
-                                    }
-
-                                    profile.presets[0] = currentPreset;
-                                    
-                                    var json = JsonUtility.ToJson(profile);
-                                    var path = AssetDatabase.GetAssetPath(fileSpriteGridPresetProfile);
-
-                                    using (var writer = new StreamWriter(path)) {
-                                        writer.Write(json);
-                                    }
-
-                                    AssetDatabase.ImportAsset(path);
+                                for (int i = 0; i < spriteGridPresets.Length; i++) {
+                                    currentPreset.spriteAssetPath[i] = AssetDatabase.GetAssetPath(spriteGridPresets[i]);
                                 }
+
+                                profile.presets[0] = currentPreset;
+                                
+                                var json = JsonUtility.ToJson(profile);
+                                var path = AssetDatabase.GetAssetPath(fileSpriteGridPresetProfile);
+
+                                using (var writer = new StreamWriter(path)) {
+                                    writer.Write(json);
+                                }
+
+                                AssetDatabase.ImportAsset(path);
                             }
                         }
+
 
                         if (GUILayout.Button("Clear")) {
 

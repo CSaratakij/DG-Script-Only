@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -92,18 +94,30 @@ public class SpritePlotter : EditorWindow
     int selectedGridPresetIndex;
 
     [SerializeField]
-    TextAsset currentGridPresetProfile;
+    TextAsset fileSpriteGridPresetProfile;
 
-    /* //test */
-    /* [SerializeField] */
-    /* Vector2 gridPresetScrollViewPos; */
+    [SerializeField]
+    SpriteGridProfile currentSpriteGridProfile;
 
-    //Unity can't serialize 2 dimension array- -
-    //Need to seperate this in to two axis..
-    //Or manually adjust index offset....Fuck....
+    //Change this to a custom class "SpriteGridPreset" .
+    //And use only one?
     [SerializeField]
     Sprite[] spriteGridPresets = new Sprite[1];
 
+
+    [Serializable]
+    class SpriteGridProfile
+    {
+        public SpriteGridPreset[] presets = null;
+    }
+
+    [Serializable]
+    class SpriteGridPreset
+    {
+        public string name = string.Empty;
+        public Vector2Int size = new Vector2Int(1, 1);
+        public string[] spriteAssetPath = null;
+    }
 
     int pressCount;
     int currentSelectSortingLayerIndex;
@@ -288,9 +302,9 @@ public class SpritePlotter : EditorWindow
                 EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
 
                     selectedGridPresetIndex = EditorGUILayout.Popup(selectedGridPresetIndex, new string[] { "A1", "A2" });
-                    currentGridPresetProfile = (TextAsset)EditorGUILayout.ObjectField(
+                    fileSpriteGridPresetProfile = (TextAsset)EditorGUILayout.ObjectField(
                         new GUIContent(""),
-                        currentGridPresetProfile,
+                        fileSpriteGridPresetProfile,
                         typeof(TextAsset),
                         false
                     );
@@ -300,6 +314,10 @@ public class SpritePlotter : EditorWindow
                 //check first if it can load a profile..
                 //if can load -> draw the rest
                 //else -> don't draw any gui below..
+
+                if (!fileSpriteGridPresetProfile) {
+                    return;
+                }
 
                 currentGridPresetTab = GUILayout.Toolbar(currentGridPresetTab, new string[] { "View", "Edit" });
 
@@ -383,6 +401,33 @@ public class SpritePlotter : EditorWindow
                             if (isSavePreset) {
                                 //Todo
                                 //Save grid to json's preset.
+                                if (fileSpriteGridPresetProfile) {
+
+                                    //test
+                                    var profile = new SpriteGridProfile();
+                                    profile.presets = new SpriteGridPreset[1];
+
+                                    var currentPreset = new SpriteGridPreset();
+
+                                    currentPreset.name = "A1";
+                                    currentPreset.size = currentGridPresetSize;
+                                    currentPreset.spriteAssetPath = new string[spriteGridPresets.Length];
+
+                                    for (int i = 0; i < spriteGridPresets.Length; i++) {
+                                        currentPreset.spriteAssetPath[i] = AssetDatabase.GetAssetPath(spriteGridPresets[i]);
+                                    }
+
+                                    profile.presets[0] = currentPreset;
+                                    
+                                    var json = JsonUtility.ToJson(profile);
+                                    var path = AssetDatabase.GetAssetPath(fileSpriteGridPresetProfile);
+
+                                    using (var writer = new StreamWriter(path)) {
+                                        writer.Write(json);
+                                    }
+
+                                    AssetDatabase.ImportAsset(path);
+                                }
                             }
                         }
 
@@ -399,6 +444,23 @@ public class SpritePlotter : EditorWindow
                                 for (int i = 0; i < spriteGridPresets.Length; i++) {
                                     spriteGridPresets[i] = null;
                                 }
+                            }
+                        }
+
+                        //test
+                        if (GUILayout.Button("Delete")) {
+
+                            var isDeleteGridPreset = EditorUtility.DisplayDialog(
+                                "Delete Preset",
+                                "Are you sure to delete current grid preset?",
+                                "Delete",
+                                "Cancel"
+                            );
+
+                            if (isDeleteGridPreset) {
+                                //Todo...
+                                //
+                                //After delete -> Save current grid preset to profile's file.
                             }
                         }
 

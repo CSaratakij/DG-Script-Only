@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class ColisionPlotter : EditorWindow
+public class CollisionPlotter : EditorWindow
 {
     const string COLLIDER_PARENT = "Plotter_Collider";
     const string COLLISION_PARENT = "Plotter_Collision";
@@ -51,10 +51,10 @@ public class ColisionPlotter : EditorWindow
     Vector3 endPos;
 
 
-    [MenuItem("Custom/Plotter/ColisionPlotter")]
+    [MenuItem("Custom/Plotter/CollisionPlotter")]
     public static void ShowWindow()
     {
-        EditorWindow.GetWindow(typeof(ColisionPlotter));
+        EditorWindow.GetWindow(typeof(CollisionPlotter));
     }
 
     void OnEnable()

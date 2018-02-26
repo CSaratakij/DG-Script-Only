@@ -5848,6 +5848,15 @@ Prefab:
       propertyPath: leftBound
       value: 
       objectReference: {fileID: 1910353256}
+    - target: {fileID: 114226547611735452, guid: d7786085932feec4e8975204adf5cbd8,
+        type: 2}
+      propertyPath: id
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1512877734308362, guid: d7786085932feec4e8975204adf5cbd8, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7786085932feec4e8975204adf5cbd8, type: 2}
   m_IsPrefabParent: 0

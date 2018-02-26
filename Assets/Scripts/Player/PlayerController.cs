@@ -290,13 +290,18 @@ namespace DG
                 }
                 else {
                     if (isGrounded) {
-
-                        if (input.x != 0.0f) {
-                            anim.Play("Run");
+                        //Hacks
+                        if (Input.GetButton("Jump") && rigid.velocity.y > 1.0f) {
+                            anim.Play("Fall");
                         }
                         else {
-                            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-                                anim.Play("Falling Impact");
+                            if (input.x != 0.0f) {
+                                anim.Play("Run");
+                            }
+                            else {
+                                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                                    anim.Play("Falling Impact");
+                                }
                             }
                         }
                     }

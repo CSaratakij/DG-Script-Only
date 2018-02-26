@@ -173,11 +173,11 @@ namespace DG
                 var originLeft = new Vector2(currentLinePoints[0].x, target.position.y - boundCheckerOffset.y);
                 var originRight = new Vector2(currentLinePoints[1].x, target.position.y - boundCheckerOffset.y);
 
-                ray_UpperToLower = Physics2D.Raycast(originUpper, Vector2.down, 1000.0f, boundMask);
-                ray_LowerToUpper = Physics2D.Raycast(originLower, Vector2.up, 1000.0f, boundMask);
+                ray_UpperToLower = Physics2D.Raycast(originUpper, Vector2.down, 100.0f, boundMask);
+                ray_LowerToUpper = Physics2D.Raycast(originLower, Vector2.up, 100.0f, boundMask);
 
-                ray_LeftToRight = Physics2D.Raycast(originLeft, Vector2.right, 1000.0f, boundMask);
-                ray_RightToLeft = Physics2D.Raycast(originRight, Vector2.left, 1000.0f, boundMask);
+                ray_LeftToRight = Physics2D.Raycast(originLeft, Vector2.right, 100.0f, boundMask);
+                ray_RightToLeft = Physics2D.Raycast(originRight, Vector2.left, 100.0f, boundMask);
 
                 boxLeft = Physics2D.OverlapBox(originLeft, new Vector2(0.25f, 1.4f), 0.0f, boundMask);
                 boxRight = Physics2D.OverlapBox(originRight, new Vector2(0.25f, 1.4f), 0.0f, boundMask);

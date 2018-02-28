@@ -100,6 +100,8 @@ namespace DG
         RaycastHit2D ray_LeftToRight;
         RaycastHit2D ray_RightToLeft;
 
+        RaycastHit2D ray_PlayerHeadToUpper;
+
         Collider2D boxLeft;
         Collider2D boxRight;
 
@@ -181,6 +183,12 @@ namespace DG
 
                 boxLeft = Physics2D.OverlapBox(originLeft, new Vector2(0.25f, 1.4f), 0.0f, boundMask);
                 boxRight = Physics2D.OverlapBox(originRight, new Vector2(0.25f, 1.4f), 0.0f, boundMask);
+
+                //Hacks
+                if (isInMoveMode) {
+                    var originPlayerHead = new Vector2(target.position.x, target.position.y + 1.0f);
+                    ray_PlayerHeadToUpper = Physics2D.Raycast(originPlayerHead, Vector2.up, 100.0f, boundMask);
+                }
             }
         }
 
@@ -284,18 +292,20 @@ namespace DG
                 var isCanMove = (currentLinePoints[2].y + marginY < target.position.y) && (currentLinePoints[0].y < boundOffset_Upper.y);
 
                 if (isCanMove) {
-                    originWorldWrappingPoint.y += (axisY * moveModeSpeed) * Time.deltaTime;
+                    if (ray_PlayerHeadToUpper && ray_PlayerHeadToUpper.distance > 0.1f) {
+                        originWorldWrappingPoint.y += (axisY * moveModeSpeed) * Time.deltaTime;
 
-                    currentLinePoints[0].y += (axisY * moveModeSpeed) * Time.deltaTime;
-                    currentLinePoints[1].y += (axisY * moveModeSpeed) * Time.deltaTime;
-                    currentLinePoints[2].y += (axisY * moveModeSpeed) * Time.deltaTime;
-                    currentLinePoints[3].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                        currentLinePoints[0].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                        currentLinePoints[1].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                        currentLinePoints[2].y += (axisY * moveModeSpeed) * Time.deltaTime;
+                        currentLinePoints[3].y += (axisY * moveModeSpeed) * Time.deltaTime;
 
-                    _RepositionWorldWrappingRect();
+                        _RepositionWorldWrappingRect();
 
-                    _SelectSideHandler();
-                    _RedrawHighlightLine();
-                    _RePositionTriangle();
+                        _SelectSideHandler();
+                        _RedrawHighlightLine();
+                        _RePositionTriangle();
+                    }
                 }
             }
             else if (axisY < 0.0f) {

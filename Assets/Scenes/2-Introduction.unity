@@ -20279,7 +20279,7 @@ Prefab:
         type: 2}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 6200000, guid: 9856ccdd75eadf548a16cb08fd88d707, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 114761246687471006, guid: 7f8ffa5a68ec11b419203b5baa4f913a,
         type: 2}
       propertyPath: footstepClips.Array.data[2]

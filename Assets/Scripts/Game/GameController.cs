@@ -41,6 +41,8 @@ namespace DG
             if (instance == null) {
                 instance = this;
                 DontDestroyOnLoad(this.gameObject);
+
+                SaveInstance.OnSaveDeleted += _OnSaveDeleted;
             }
             else {
                 Destroy(this.gameObject);
@@ -216,6 +218,11 @@ namespace DG
         {
             SaveInstance.FireEvent_OnLoad();
             _StartGameHandler();
+        }
+
+        void _OnSaveDeleted()
+        {
+            Coin.TotalPoint = 0;
         }
     }
 }

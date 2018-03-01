@@ -25,6 +25,7 @@ namespace DG
 
         public static event SaveAndLoadFunc OnBeginSave;
         public static event SaveAndLoadFunc OnSave;
+        public static event SaveAndLoadFunc OnSaveDeleted;
         /* public static event SaveAndLoadFunc OnFinishSave; */
 
         public static event SaveAndLoadFunc OnBeginLoad;
@@ -51,6 +52,15 @@ namespace DG
             }
 
             _SaveToDisk();
+        }
+
+        public static void FireEvent_OnSaveDeleted()
+        {
+            DeleteSave();
+
+            if (OnSaveDeleted != null) {
+                OnSaveDeleted();
+            }
         }
 
         public static void FireEvent_OnLoad()

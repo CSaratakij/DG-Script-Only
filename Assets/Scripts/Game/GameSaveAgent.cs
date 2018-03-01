@@ -16,6 +16,7 @@ namespace DG
         struct GameSaveInfo
         {
             public string lastSceneName;
+            public uint totalCoin;
         }
 
 
@@ -25,6 +26,8 @@ namespace DG
             var scene = SceneManager.GetActiveScene();
 
             info.lastSceneName = scene.name;
+            info.totalCoin = Coin.TotalPoint;
+
             json = JsonConvert.SerializeObject(info, Formatting.None);
         }
 
@@ -32,6 +35,7 @@ namespace DG
         {
             var info = JsonConvert.DeserializeObject<GameSaveInfo>(json);
             LastActiveScene = info.lastSceneName;
+            Coin.TotalPoint = info.totalCoin;
         }
 
         public override void Save()

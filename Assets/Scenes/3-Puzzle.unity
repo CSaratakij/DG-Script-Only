@@ -22619,17 +22619,17 @@ Prefab:
     - target: {fileID: 20082975811035172, guid: 64c77129881e7eb49a2058b85e3dad7c,
         type: 2}
       propertyPath: m_BackGroundColor.r
-      value: 0.5647059
+      value: 0.50980395
       objectReference: {fileID: 0}
     - target: {fileID: 20082975811035172, guid: 64c77129881e7eb49a2058b85e3dad7c,
         type: 2}
       propertyPath: m_BackGroundColor.g
-      value: 0.6392157
+      value: 0.5764706
       objectReference: {fileID: 0}
     - target: {fileID: 20082975811035172, guid: 64c77129881e7eb49a2058b85e3dad7c,
         type: 2}
       propertyPath: m_BackGroundColor.b
-      value: 0.54901963
+      value: 0.49411768
       objectReference: {fileID: 0}
     - target: {fileID: 20082975811035172, guid: 64c77129881e7eb49a2058b85e3dad7c,
         type: 2}
@@ -22640,6 +22640,11 @@ Prefab:
         type: 2}
       propertyPath: offsetY
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 20082975811035172, guid: 64c77129881e7eb49a2058b85e3dad7c,
+        type: 2}
+      propertyPath: m_CullingMask.m_Bits
+      value: 108833
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 64c77129881e7eb49a2058b85e3dad7c, type: 2}

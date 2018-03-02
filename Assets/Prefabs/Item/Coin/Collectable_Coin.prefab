@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114220319964823380}
   m_Layer: 16
   m_Name: Collectable_Coin
-  m_TagString: Untagged
+  m_TagString: coin
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890967832943234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.752182, y: -0.94, z: 0}
+  m_LocalPosition: {x: 19.89, y: -5.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   makeUnique: 0
   key: Item
-  id: 6
+  id: 1
 --- !u!114 &114373163209877714
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -11,6 +11,8 @@ TagManager:
   - box
   - platform
   - wood
+  - coin
+  - photo
   layers:
   - Default
   - TransparentFX

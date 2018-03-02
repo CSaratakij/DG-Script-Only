@@ -2995,7 +2995,7 @@ Prefab:
     - target: {fileID: 114220319964823380, guid: fdc68f7579f18964f833367eaa864e1e,
         type: 2}
       propertyPath: id
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fdc68f7579f18964f833367eaa864e1e, type: 2}
@@ -6631,7 +6631,7 @@ GameObject:
   - component: {fileID: 816409356}
   m_Layer: 16
   m_Name: Collectable_Photo
-  m_TagString: Untagged
+  m_TagString: photo
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6811,7 +6811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDisableOnUsed: 1
   disableDelay: 1
-  collectSound: {fileID: 8300000, guid: 019c3dd929ab3f44e82082c4a74517c7, type: 3}
+  collectSound: {fileID: 8300000, guid: 5e3f014ba65ceed49b6929df787c6482, type: 3}
   photoID: 0
 --- !u!114 &816409356
 MonoBehaviour:
@@ -6826,7 +6826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   makeUnique: 0
   key: Item
-  id: 0
+  id: 1
 --- !u!1 &819142592
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,10 @@ public abstract class Item : MonoBehaviour
     AudioClip collectSound;
 
 
+    public delegate void Func(GameObject obj);
+    public static Func OnPickedItem;
+
+
     bool isUsed;
 
     AudioSource audioSource;
@@ -38,12 +42,21 @@ public abstract class Item : MonoBehaviour
         isUsed = true;
         spriteRenderer.enabled = false;
 
+        _FireEvent_Picked_Item(this.gameObject);
+
         if (audioSource && collectSound) {
             audioSource.PlayOneShot(collectSound);
         }
 
         if (isDisableOnUsed) {
             StartCoroutine(_Disabled_Callback());
+        }
+    }
+
+    void _FireEvent_Picked_Item(GameObject obj)
+    {
+        if (OnPickedItem != null) {
+            OnPickedItem(obj);
         }
     }
 

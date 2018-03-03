@@ -225,6 +225,7 @@ namespace DG
         public static void ClearStaticContainer()
         {
             Coin.TotalPoint = 0;
+            Photo.Unlocked_Photo_List.Clear();
         }
 
         void _OnSaveDeleted()

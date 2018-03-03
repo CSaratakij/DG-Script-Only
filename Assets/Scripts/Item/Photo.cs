@@ -14,6 +14,7 @@ namespace DG
         uint photoID;
 
 
+        public static List<uint> Unlocked_Photo_List = new List<uint>();
         public uint ID { get { return photoID; } } 
 
 
@@ -29,8 +30,15 @@ namespace DG
         public override void Collect()
         {
             base.Collect();
-            //Todo
-            //Send Unlock info on runtime.
+            _Unlock_Photo_By_ID();
+        }
+
+        void _Unlock_Photo_By_ID()
+        {
+            var isAlreadyUnlocked = Unlocked_Photo_List.Contains(ID);
+            if (!isAlreadyUnlocked) {
+                Unlocked_Photo_List.Add(ID);
+            }
         }
     }
 }

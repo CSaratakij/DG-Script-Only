@@ -1,17 +1,16 @@
 ﻿//If photo has picked -> unlock photo whitin particular id.
+//Save list in save file?
+//Attach to GameController?
+//Make unique?
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhotoSaveAgent : MonoBehaviour {
+namespace DG
+{
+    //Don't forget to inherit by SaveInstance
+    public class PhotoSaveAgent : MonoBehaviour
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
 }

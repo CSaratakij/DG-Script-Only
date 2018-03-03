@@ -9,6 +9,7 @@ namespace DG
     {
         const string COIN_TEXT_FORMAT = "x{0}";
 
+
         [SerializeField]
         Text txtCoin;
 
@@ -22,7 +23,12 @@ namespace DG
             _Subscribe_Events();
         }
 
-        void Destroy()
+        void Start()
+        {
+            _Show(false);
+        }
+
+        void OnDestroy()
         {
             _Unsubscribe_Events();
         }
@@ -35,6 +41,22 @@ namespace DG
         void _OnPointValueChanged(uint value)
         {
             _Update_Coin_UI(value);
+            timer.CountDown();
+        }
+
+        void _OnTimerStart()
+        {
+            _Show(true);
+        }
+
+        void _OnTimerStop()
+        {
+            _Show(false);
+        }
+
+        void _Show(bool value)
+        {
+            gameObject.SetActive(value);
         }
 
         void _Update_Coin_UI(uint value)
@@ -44,12 +66,22 @@ namespace DG
 
         void _Subscribe_Events()
         {
+            if (timer) {
+                timer.OnTimerStart += _OnTimerStart;
+                timer.OnTimerStop += _OnTimerStop;
+            }
+
             GameController.OnLoadedScene += _OnLoadedScene;
             Coin.OnPointValueChanged += _OnPointValueChanged;
         }
 
         void _Unsubscribe_Events()
         {
+            if (timer) {
+                timer.OnTimerStart -= _OnTimerStart;
+                timer.OnTimerStop -= _OnTimerStop;
+            }
+
             GameController.OnLoadedScene -= _OnLoadedScene;
             Coin.OnPointValueChanged -= _OnPointValueChanged;
         }

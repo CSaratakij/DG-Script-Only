@@ -10,6 +10,11 @@ namespace DG
         float maxSeconds;
 
 
+        public delegate void Func();
+
+        public event Func OnTimerStart;
+        public event Func OnTimerStop;
+
         public float Seconds { get { return seconds; } }
         public float MaxSeconds { get { return maxSeconds; } }
         public bool IsStarted { get { return isStarted; } }
@@ -33,6 +38,27 @@ namespace DG
 
             if (IsStopped) {
                 Stop();
+                _FireEvent_OnTimerStop();
+            }
+        }
+
+        void Destroy()
+        {
+            OnTimerStart = null;
+            OnTimerStop = null;
+        }
+
+        void _FireEvent_OnTimerStart()
+        {
+            if (OnTimerStart != null) {
+                OnTimerStart();
+            }
+        }
+
+        void _FireEvent_OnTimerStop()
+        {
+            if (OnTimerStop != null) {
+                OnTimerStop();
             }
         }
 
@@ -40,6 +66,7 @@ namespace DG
         {
             seconds = maxSeconds;
             isStarted = true;
+            _FireEvent_OnTimerStart();
         }
 
         public void Pause(bool value)

@@ -216,13 +216,20 @@ namespace DG
 
         public void RestartGameFromSave()
         {
+            GameController.ClearStaticContainer();
             SaveInstance.FireEvent_OnLoad();
             _StartGameHandler();
         }
 
-        void _OnSaveDeleted()
+        //Hacks
+        public static void ClearStaticContainer()
         {
             Coin.TotalPoint = 0;
+        }
+
+        void _OnSaveDeleted()
+        {
+            GameController.ClearStaticContainer();
         }
     }
 }

@@ -7,25 +7,11 @@ namespace DG
 {
     public class InGameMenu : MonoBehaviour
     {
-        //Need to change this to actual coin ui's prefabs
-        [SerializeField]
-        RectTransform panelCoin;
-
-
-        public static InGameMenu instance;
         Canvas canvasInGame;
 
 
         void Awake()
         {
-            if (instance == null) {
-                instance = this;
-                DontDestroyOnLoad(this.gameObject);
-            }
-            else {
-                Destroy(this.gameObject);
-            }
-
             canvasInGame = GetComponent<Canvas>();
             _Subscribe_Events();
         }

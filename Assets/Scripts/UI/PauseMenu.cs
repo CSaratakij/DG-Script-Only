@@ -45,6 +45,10 @@ namespace DG
         EventSystem eventObj;
 
 
+        public delegate void Func(bool isShow, bool isInSubMenu);
+        public static event Func OnPauseStateChanged;
+
+
         public static PauseMenu instance = null;
 
 
@@ -74,11 +78,12 @@ namespace DG
         {
             isUsingSubmenu = panelControl.gameObject.activeSelf || panelJournal.gameObject.activeSelf;
 
-            if (!isUsingSubmenu) {
+            if (isUsingSubmenu) {
+                _SubMenuHandler();
+            }
+            else {
                 _InputHandler();
             }
-
-            _SubMenuHandler();
         }
 
         void _InputHandler()
@@ -100,6 +105,10 @@ namespace DG
                     panelJournal.gameObject.SetActive(false);
 
                     eventObj.SetSelectedGameObject(btnControl.gameObject, new BaseEventData(eventObj));
+                    _FireEvent_OnPauseStateChanged(isShow, false);
+                }
+                else {
+                    _FireEvent_OnPauseStateChanged(false, true);
                 }
 
                 if (Input.GetKeyDown(KeyCode.JoystickButton4) || Input.GetKeyDown(KeyCode.JoystickButton5)) {
@@ -140,6 +149,14 @@ namespace DG
             _Unsubscribe_Events();
         }
 
+
+        void _FireEvent_OnPauseStateChanged(bool isShow, bool isInSubMenu)
+        {
+            if (OnPauseStateChanged != null) {
+                OnPauseStateChanged(isShow, isInSubMenu);
+            }
+        }
+
         void _Subscribe_Events()
         {
             GameController.OnLoadingScene += _OnLoadingScene;
@@ -162,6 +179,8 @@ namespace DG
             foreach (var obj in dialogBoxes) {
                 obj.gameObject.SetActive(false);
             }
+
+            _FireEvent_OnPauseStateChanged(isShow, false);
         }
 
         public void ToggleMenu()
@@ -179,6 +198,8 @@ namespace DG
                     obj.gameObject.SetActive(false);
                 }
             }
+
+            _FireEvent_OnPauseStateChanged(isShow, false);
         }
 
         public void NextControlMapView(Dropdown target) {
@@ -195,6 +216,7 @@ namespace DG
         public void RestartGameFromSave()
         {
             if (GameController.instance) {
+                Hide();
                 GameController.instance.RestartGameFromSave();
             }
             else {

@@ -25,7 +25,7 @@ namespace DG
 
         void Start()
         {
-            _Show(false);
+            Show(false);
         }
 
         void OnDestroy()
@@ -46,22 +46,27 @@ namespace DG
 
         void _OnTimerStart()
         {
-            _Show(true);
+            Show(true);
         }
 
         void _OnTimerStop()
         {
-            _Show(false);
-        }
-
-        void _Show(bool value)
-        {
-            gameObject.SetActive(value);
+            Show(false);
         }
 
         void _Update_Coin_UI(uint value)
         {
             txtCoin.text = string.Format(COIN_TEXT_FORMAT, value);
+        }
+
+        void _OnPauseStateChanged(bool isShow, bool isInSubMenu)
+        {
+            if (isInSubMenu) {
+                ShowPermenent(false);
+            }
+            else {
+                ShowPermenent(isShow);
+            }
         }
 
         void _Subscribe_Events()
@@ -73,6 +78,7 @@ namespace DG
 
             GameController.OnLoadedScene += _OnLoadedScene;
             Coin.OnPointValueChanged += _OnPointValueChanged;
+            PauseMenu.OnPauseStateChanged += _OnPauseStateChanged;
         }
 
         void _Unsubscribe_Events()
@@ -84,6 +90,21 @@ namespace DG
 
             GameController.OnLoadedScene -= _OnLoadedScene;
             Coin.OnPointValueChanged -= _OnPointValueChanged;
+            PauseMenu.OnPauseStateChanged -= _OnPauseStateChanged;
+        }
+
+        public void Show(bool value)
+        {
+            if (gameObject.activeSelf == value) {
+                return;
+            }
+            gameObject.SetActive(value);
+        }
+
+        public void ShowPermenent(bool value)
+        {
+            timer.Stop();
+            Show(value);
         }
     }
 }

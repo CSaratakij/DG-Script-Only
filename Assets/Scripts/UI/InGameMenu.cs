@@ -7,56 +7,21 @@ namespace DG
 {
     public class InGameMenu : MonoBehaviour
     {
+        [SerializeField]
+        CoinView coinView;
+
+
         Canvas canvasInGame;
 
 
         void Awake()
         {
             canvasInGame = GetComponent<Canvas>();
-            _Subscribe_Events();
         }
 
-        void Destroy()
+        public void Show(bool value)
         {
-            _Unsubscribe_Events();
-        }
-
-        void _OnPickedItem(GameObject obj)
-        {
-            _UpdateUI(obj.tag);
-        }
-
-        void _Hide()
-        {
-            canvasInGame.enabled = false;
-        }
-
-        void _Show()
-        {
-            canvasInGame.enabled = true;
-        }
-
-        void _UpdateUI(string tag) {
-            switch (tag) {
-                case "coin":
-                    break;
-
-                case "photo":
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        void _Subscribe_Events()
-        {
-            Item.OnPickedItem += _OnPickedItem;
-        }
-
-        void _Unsubscribe_Events()
-        {
-            Item.OnPickedItem -= _OnPickedItem;
+            canvasInGame.enabled = value;
         }
     }
 }

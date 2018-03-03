@@ -8,8 +8,6 @@ namespace DG
 {
     public class PauseMenu : MonoBehaviour
     {
-        const string COIN_TEXT_FORMAT = "x{0}";
-
         [SerializeField]
         Button btnResume;
 
@@ -42,9 +40,6 @@ namespace DG
 
         [SerializeField]
         RectTransform[] dialogBoxes;
-
-        [SerializeField]
-        Text txtCoin;
 
         [SerializeField]
         EventSystem eventObj;
@@ -134,15 +129,9 @@ namespace DG
             gameObject.SetActive(false);
         }
 
-        void _OnPointValueChanged(uint value)
-        {
-            _Update_Coin_UI(value);
-        }
-
         void _OnLoadedScene()
         {
             gameObject.SetActive(true);
-            _Update_Coin_UI(Coin.TotalPoint);
             PlayerController.isInCinematic = false;
         }
 
@@ -155,19 +144,12 @@ namespace DG
         {
             GameController.OnLoadingScene += _OnLoadingScene;
             GameController.OnLoadedScene += _OnLoadedScene;
-            Coin.OnPointValueChanged += _OnPointValueChanged;
         }
 
         void _Unsubscribe_Events()
         {
             GameController.OnLoadingScene -= _OnLoadingScene;
             GameController.OnLoadedScene -= _OnLoadedScene;
-            Coin.OnPointValueChanged -= _OnPointValueChanged;
-        }
-
-        void _Update_Coin_UI(uint value)
-        {
-            txtCoin.text = string.Format(COIN_TEXT_FORMAT, value);
         }
 
         public void Hide()

@@ -60,9 +60,6 @@ namespace DG
 
         void Awake()
         {
-            canvas = GetComponent<Canvas>();
-            _Subscribe_Events();
-
             if (instance == null) {
                 instance = this;
                 DontDestroyOnLoad(this.gameObject);
@@ -70,6 +67,9 @@ namespace DG
             else {
                 Destroy(this.gameObject);
             }
+
+            canvas = GetComponent<Canvas>();
+            _Subscribe_Events();
 
             eventObj.SetSelectedGameObject(null, new BaseEventData(eventObj));
         }
@@ -127,6 +127,10 @@ namespace DG
                     panelJournal.gameObject.SetActive(false);
 
                     eventObj.SetSelectedGameObject(btnJournal.gameObject, new BaseEventData(eventObj));
+                    _FireEvent_OnPauseStateChanged(isShow, false);
+                }
+                else {
+                    _FireEvent_OnPauseStateChanged(false, true);
                 }
             }
         }

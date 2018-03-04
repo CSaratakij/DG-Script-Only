@@ -24,6 +24,9 @@ namespace DG
         GameObject panelCredit;
 
         [SerializeField]
+        RectTransform panelBG;
+
+        [SerializeField]
         EventSystem eventObj;
 
 
@@ -42,6 +45,10 @@ namespace DG
         void Update()
         {
             _SubMenuHandler();
+
+            if (panelBG.gameObject.activeSelf != dialogConfirm.activeSelf) {
+                panelBG.gameObject.SetActive(dialogConfirm.activeSelf);
+            }
         }
 
         void _SubMenuHandler()

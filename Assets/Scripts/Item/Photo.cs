@@ -13,6 +13,12 @@ namespace DG
         [SerializeField]
         uint photoID;
 
+        [SerializeField]
+        Sprite photoImage;
+
+
+        public delegate void FuncCollect(uint id, Sprite photoSprite);
+        public static event FuncCollect OnPhotoCollected;
 
         public static List<uint> Unlocked_Photo_List = new List<uint>();
         public uint ID { get { return photoID; } } 
@@ -31,6 +37,7 @@ namespace DG
         {
             base.Collect();
             _Unlock_Photo_By_ID();
+            _FireEvent_OnPhotoCollected();
         }
 
         void _Unlock_Photo_By_ID()
@@ -38,6 +45,13 @@ namespace DG
             var isAlreadyUnlocked = Unlocked_Photo_List.Contains(ID);
             if (!isAlreadyUnlocked) {
                 Unlocked_Photo_List.Add(ID);
+            }
+        }
+
+        void _FireEvent_OnPhotoCollected()
+        {
+            if (OnPhotoCollected != null) {
+                OnPhotoCollected(photoID, photoImage);
             }
         }
     }

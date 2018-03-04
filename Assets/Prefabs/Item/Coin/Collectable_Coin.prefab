@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4682237598067056}
   - component: {fileID: 212466100805604886}
-  - component: {fileID: 61683847407186350}
+  - component: {fileID: 58744286961991806}
   - component: {fileID: 95045105464833376}
   - component: {fileID: 82622906772958926}
   - component: {fileID: 114373163209877714}
@@ -45,8 +45,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61683847407186350
-BoxCollider2D:
+--- !u!58 &58744286961991806
+CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -58,18 +58,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5714286, y: 0.5714286}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.2857143
 --- !u!82 &82622906772958926
 AudioSource:
   m_ObjectHideFlags: 1
@@ -180,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   makeUnique: 0
   key: Item
-  id: 3
+  id: 4
 --- !u!114 &114373163209877714
 MonoBehaviour:
   m_ObjectHideFlags: 1

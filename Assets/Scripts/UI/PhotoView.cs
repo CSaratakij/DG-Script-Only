@@ -57,20 +57,32 @@ namespace DG
             }
         }
 
-        void _OnPhotoCollected(uint id, Sprite photoSprite)
+        void _OnPhotoCollected(uint id, uint partID)
         {
-            imgPhoto.sprite = photoSprite;
+            //Need to change display logic..
+            //might be painful,
+            //maybe 2 camera will help us in this case?
+            /* imgPhoto.sprite = "Texture in camera??" */
             Show(true);
+        }
+
+        void _OnLoadedScene()
+        {
+            if (isShow) {
+                Show(false);
+            }
         }
 
         void _Subscribe_Events()
         {
             Photo.OnPhotoCollected += _OnPhotoCollected;
+            GameController.OnLoadedScene += _OnLoadedScene;
         }
 
         void _Unsubscribe_Events()
         {
             Photo.OnPhotoCollected -= _OnPhotoCollected;
+            GameController.OnLoadedScene -= _OnLoadedScene;
         }
 
         public void Show(bool value)

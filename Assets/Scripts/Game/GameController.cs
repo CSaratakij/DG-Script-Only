@@ -226,6 +226,12 @@ namespace DG
         {
             Coin.TotalPoint = 0;
             Photo.Unlocked_Photo_List.Clear();
+
+            if (GlobalPhoto.instance) {
+                GlobalPhoto.instance.HideAllPhoto();
+                GlobalPhoto.instance.HideAllPart();
+                GlobalPhoto.instance.HideAllPartParent();
+            }
         }
 
         void _OnSaveDeleted()

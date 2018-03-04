@@ -59,10 +59,6 @@ namespace DG
 
         void _OnPhotoCollected(uint id, uint partID)
         {
-            //Need to change display logic..
-            //might be painful,
-            //maybe 2 camera will help us in this case?
-            /* imgPhoto.sprite = "Texture in camera??" */
             Show(true);
         }
 

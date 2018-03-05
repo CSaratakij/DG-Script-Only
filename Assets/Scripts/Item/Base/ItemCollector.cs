@@ -20,7 +20,8 @@ namespace DG
         LayerMask itemMask;
 
 
-        Collider2D hit;
+        int hitCount;
+        Collider2D[] hit;
 
 
 #if UNITY_EDITOR
@@ -31,15 +32,20 @@ namespace DG
         }
 #endif
 
+        void Awake()
+        {
+            hit = new Collider2D[1];
+        }
+
         void FixedUpdate()
         {
-            hit = Physics2D.OverlapBox(transform.position + offset, size, 0.0f, itemMask);
+            hitCount = Physics2D.OverlapBoxNonAlloc(transform.position + offset, size, 0.0f, hit, itemMask);
 
-            if (!hit) {
+            if (hitCount <= 0) {
                 return;
             }
 
-            var item = hit.transform.gameObject.GetComponent<Item>();
+            var item = hit[0].transform.gameObject.GetComponent<Item>();
 
             if (!item) {
                 return;

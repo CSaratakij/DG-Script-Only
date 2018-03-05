@@ -26,6 +26,9 @@ namespace DG
         GameObject uiObject;
 
 
+        public bool IsUnlocked { get { return isUnlocked; } set { isUnlocked = value; } }
+
+
         int hitCount;
         bool isUnlocked;
 
@@ -52,6 +55,7 @@ namespace DG
         void Update()
         {
             _InputHandler();
+            _AnimationHandler();
             _UIHandler();
         }
 
@@ -74,12 +78,16 @@ namespace DG
             }
         }
 
+        void _AnimationHandler()
+        {
+            anim.SetBool("isUnlocked", isUnlocked);
+        }
+
         void _OpenChest(uint receivedCoin)
         {
             if (requireCoin > receivedCoin) { return; }
             Coin.Remove(requireCoin);
             isUnlocked = true;
-            anim.Play("Open");
         }
 
         void _UIHandler()

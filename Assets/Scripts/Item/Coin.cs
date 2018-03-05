@@ -33,15 +33,26 @@ namespace DG
         public override void Collect()
         {
             base.Collect();
-            TotalPoint += 1;
-            _FireEvent_PointValueChanged(TotalPoint);
+            Coin.Add(1);
         }
 
-        void _FireEvent_PointValueChanged(uint value)
+        public static void FireEvent_PointValueChanged(uint value)
         {
             if (OnPointValueChanged != null) {
                 OnPointValueChanged(value);
             }
+        }
+
+        public static void Add(uint value)
+        {
+            Coin.TotalPoint += value;
+            FireEvent_PointValueChanged(Coin.TotalPoint);
+        }
+
+        public static void Remove(uint value)
+        {
+            Coin.TotalPoint -= value;
+            FireEvent_PointValueChanged(Coin.TotalPoint);
         }
     }
 }

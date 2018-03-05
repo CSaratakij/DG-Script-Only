@@ -9,9 +9,11 @@ namespace DG
     {
         const string COIN_TEXT_FORMAT = "x{0}";
 
-
         [SerializeField]
         Text txtCoin;
+
+
+        public static CoinView instance;
 
 
         Timer timer;
@@ -19,6 +21,14 @@ namespace DG
 
         void Awake()
         {
+            if (instance == null) {
+                instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else {
+                Destroy(this.gameObject);
+            }
+
             timer = GetComponent<Timer>();
             _Subscribe_Events();
         }
@@ -99,6 +109,11 @@ namespace DG
                 return;
             }
             gameObject.SetActive(value);
+        }
+
+        public void ShowTemponary()
+        {
+            timer.CountDown();
         }
 
         public void ShowPermenent(bool value)

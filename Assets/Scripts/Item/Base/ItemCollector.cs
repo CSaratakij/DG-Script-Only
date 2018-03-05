@@ -34,7 +34,7 @@ namespace DG
 
         void Awake()
         {
-            hit = new Collider2D[1];
+            hit = new Collider2D[3];
         }
 
         void FixedUpdate()
@@ -45,17 +45,24 @@ namespace DG
                 return;
             }
 
-            var item = hit[0].transform.gameObject.GetComponent<Item>();
+            foreach (Collider2D collider in hit) {
 
-            if (!item) {
-                return;
+                if (!collider) {
+                    continue;
+                }
+
+                var item = collider.transform.gameObject.GetComponent<Item>();
+
+                if (!item) {
+                    continue;
+                }
+
+                if (item.IsUsed) {
+                    continue;
+                }
+
+                item.Collect();
             }
-
-            if (item.IsUsed) {
-                return;
-            }
-
-            item.Collect();
         }
     }
 }

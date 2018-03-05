@@ -162,14 +162,14 @@ namespace DG
 
             foreach (Transform item in itemParent) {
 
-                var force = Random.Range(100, 200);
+                var force = Random.Range(200, 300);
                 var direction = Vector2.zero;
 
                 if (vectorFromHitToChest.x > 0) {
-                    direction = new Vector2(1.0f, 1.0f).normalized;
+                    direction = new Vector2(0.4f, 1.0f).normalized;
                 }
                 else {
-                    direction = new Vector2(-1.0f, 1.0f).normalized;
+                    direction = new Vector2(-0.4f, 1.0f).normalized;
                 }
 
                 var velocity = direction * force * Time.deltaTime;

@@ -10,8 +10,13 @@ namespace DG
 {
     public class ChestController : MonoBehaviour
     {
+        const string REQUIRE_COIN_TEXT_FORMAT = "x {0}";
+
         [SerializeField]
         uint requireCoin;
+
+        [SerializeField]
+        Transform itemParent;
 
         [SerializeField]
         Vector2 offset;
@@ -24,6 +29,9 @@ namespace DG
 
         [SerializeField]
         GameObject uiObject;
+
+        [SerializeField]
+        TextMesh textMesh;
 
 
         public bool IsUnlocked { get { return isUnlocked; } set { isUnlocked = value; } }
@@ -40,7 +48,7 @@ namespace DG
         void OnDrawGizmos() {
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position + new Vector3(offset.x, offset.y, 0.0f), size);
-            Handles.Label(transform.position + new Vector3(offset.x, offset.y, 0.0f), "Trigger Area");
+            Handles.Label(transform.position, "Require Coin : " + requireCoin);
         }
 #endif
 
@@ -48,6 +56,14 @@ namespace DG
         {
             hit = new Collider2D[1];
             anim = GetComponent<Animator>();
+
+            foreach (Transform item in itemParent) {
+                item.gameObject.SetActive(false);
+                item.position = transform.position;
+            }
+
+            var seed = (int)Random.Range(1, 10);
+            Random.InitState(seed);
 
             _ShowInteractUI(false);
         }
@@ -88,6 +104,7 @@ namespace DG
             if (requireCoin > receivedCoin) { return; }
             Coin.Remove(requireCoin);
             isUnlocked = true;
+            _SplitOutItems();
         }
 
         void _UIHandler()
@@ -106,6 +123,9 @@ namespace DG
             }
 
             if (uiObject.activeSelf != value) {
+                if (textMesh) {
+                    textMesh.text = string.Format(REQUIRE_COIN_TEXT_FORMAT, requireCoin);
+                }
                 uiObject.SetActive(value);
             }
         }
@@ -117,6 +137,56 @@ namespace DG
             }
 
             CoinView.instance.ShowTemponary();
+        }
+
+        void _SplitOutItems()
+        {
+            if (hitCount <= 0 || !itemParent) {
+                return;
+            }
+
+            if (itemParent.childCount <= 0) {
+                return;
+            }
+
+            var offset = 1.0f;
+            var vectorFromHitToChest = (transform.position - hit[0].transform.position);
+            var origin = Vector3.zero;
+
+            if (vectorFromHitToChest.x > 0) {
+                origin = new Vector3(transform.position.x + offset, transform.position.y, 0.0f);
+            }
+            else {
+                origin = new Vector3(transform.position.x - offset, transform.position.y, 0.0f);
+            }
+
+            foreach (Transform item in itemParent) {
+
+                var force = Random.Range(100, 200);
+                var direction = Vector2.zero;
+
+                if (vectorFromHitToChest.x > 0) {
+                    direction = new Vector2(1.0f, 1.0f).normalized;
+                }
+                else {
+                    direction = new Vector2(-1.0f, 1.0f).normalized;
+                }
+
+                var velocity = direction * force * Time.deltaTime;
+                var collider = item.gameObject.GetComponent<Collider2D>();
+
+                if (collider && collider.isTrigger) {
+                    collider.isTrigger = false;
+                }
+
+                var rigid = item.gameObject.AddComponent<Rigidbody2D>() as Rigidbody2D;
+                rigid.freezeRotation = true;
+
+                item.position = origin;
+                item.gameObject.SetActive(true);
+
+                rigid.AddForce(velocity, ForceMode2D.Impulse);
+            }
         }
     }
 }

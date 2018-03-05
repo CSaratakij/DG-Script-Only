@@ -22,6 +22,9 @@ namespace DG
 
         public static GlobalPhoto instance;
 
+        public int TotalPhoto { get { return allPhotos.Length; } }
+        public uint CurrentPhotoInPhotoViewID { get { return currentPhotoInPhotoViewID; } }
+
 
         void Awake()
         {

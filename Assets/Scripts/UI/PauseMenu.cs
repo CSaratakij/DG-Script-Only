@@ -128,6 +128,11 @@ namespace DG
 
                     eventObj.SetSelectedGameObject(btnJournal.gameObject, new BaseEventData(eventObj));
                     _FireEvent_OnPauseStateChanged(isShow, false);
+
+                    //Hacks
+                    if (GlobalPhoto.instance) {
+                        GlobalPhoto.instance.RestoreToCurrentPhoto();
+                    }
                 }
                 else {
                     _FireEvent_OnPauseStateChanged(false, true);

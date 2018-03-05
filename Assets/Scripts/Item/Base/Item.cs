@@ -2,67 +2,70 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Item : MonoBehaviour
+namespace DG
 {
-    [SerializeField]
-    bool isDisableOnUsed = true;
-
-    [SerializeField]
-    float disableDelay;
-
-    [SerializeField]
-    AudioClip collectSound;
-
-
-    public delegate void Func(GameObject obj);
-    public static Func OnPickedItem;
-
-
-    bool isUsed;
-
-    AudioSource audioSource;
-    SpriteRenderer spriteRenderer;
-
-
-    public bool IsUsed { get { return isUsed; } set { isUsed = value; } }
-
-
-    protected virtual void Awake()
+    public abstract class Item : MonoBehaviour
     {
-        audioSource = GetComponent<AudioSource>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+        [SerializeField]
+        bool isDisableOnUsed = true;
 
-    public virtual void Collect()
-    {
-        if (isUsed) {
-            return;
+        [SerializeField]
+        float disableDelay;
+
+        [SerializeField]
+        AudioClip collectSound;
+
+
+        public delegate void Func(GameObject obj);
+        public static Func OnPickedItem;
+
+
+        bool isUsed;
+
+        AudioSource audioSource;
+        SpriteRenderer spriteRenderer;
+
+
+        public bool IsUsed { get { return isUsed; } set { isUsed = value; } }
+
+
+        protected virtual void Awake()
+        {
+            audioSource = GetComponent<AudioSource>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        isUsed = true;
-        spriteRenderer.enabled = false;
+        public virtual void Collect()
+        {
+            if (isUsed) {
+                return;
+            }
 
-        _FireEvent_Picked_Item(this.gameObject);
+            isUsed = true;
+            spriteRenderer.enabled = false;
 
-        if (audioSource && collectSound) {
-            audioSource.PlayOneShot(collectSound);
+            _FireEvent_Picked_Item(this.gameObject);
+
+            if (audioSource && collectSound) {
+                audioSource.PlayOneShot(collectSound);
+            }
+
+            if (isDisableOnUsed) {
+                StartCoroutine(_Disabled_Callback());
+            }
         }
 
-        if (isDisableOnUsed) {
-            StartCoroutine(_Disabled_Callback());
+        void _FireEvent_Picked_Item(GameObject obj)
+        {
+            if (OnPickedItem != null) {
+                OnPickedItem(obj);
+            }
         }
-    }
 
-    void _FireEvent_Picked_Item(GameObject obj)
-    {
-        if (OnPickedItem != null) {
-            OnPickedItem(obj);
+        IEnumerator _Disabled_Callback()
+        {
+            yield return new WaitForSeconds(disableDelay);
+            gameObject.SetActive(false);
         }
-    }
-
-    IEnumerator _Disabled_Callback()
-    {
-        yield return new WaitForSeconds(disableDelay);
-        gameObject.SetActive(false);
     }
 }

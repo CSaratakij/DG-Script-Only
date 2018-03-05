@@ -517,6 +517,7 @@ GameObject:
   - component: {fileID: 224231571575218504}
   - component: {fileID: 222631236861025084}
   - component: {fileID: 114341961555169178}
+  - component: {fileID: 114079948585819944}
   m_Layer: 5
   m_Name: panelJournal
   m_TagString: Untagged
@@ -2916,6 +2917,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: decrease bound
+--- !u!114 &114079948585819944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1217329343491346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18db89dbf7b3a345b818f127f74ce02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114083539313017660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3472,6 +3484,17 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 114772554701454288}
         m_MethodName: UnSelectAnything
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 114079948585819944}
+        m_MethodName: RestoreToCurrentPhoto
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4751,7 +4774,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114723658243586994}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114079948585819944}
+        m_MethodName: NextPhoto
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114469205462212496
@@ -4969,7 +5003,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114878840545049012}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114079948585819944}
+        m_MethodName: PreviousPhoto
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114494033926121610

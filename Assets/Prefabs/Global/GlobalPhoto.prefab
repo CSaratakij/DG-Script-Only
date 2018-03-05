@@ -209,6 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4164175830521156}
   - component: {fileID: 114650171555977278}
+  - component: {fileID: 114202980400030648}
   m_Layer: 0
   m_Name: GlobalPhoto
   m_TagString: Untagged
@@ -470,6 +471,20 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1114340729186052}
   m_Enabled: 0
+--- !u!114 &114202980400030648
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1813032338471808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dffc6f6443d10349810f01ee6952d72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  makeUnique: 1
+  key: Journal
+  id: 0
 --- !u!114 &114650171555977278
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -57,6 +57,10 @@ namespace DG
             for (int i = 0; i < allMasks.Length; i++) {
                 allMasks[i] = maskGroup.GetChild(i);
             }
+
+            HideAllPhoto();
+            HideAllPart();
+            HideAllPartParent();
         }
 
         void _OnPhotoCollected(uint photoID, uint partID)
@@ -65,14 +69,23 @@ namespace DG
             ShowPhoto(photoID, partID, true);
         }
 
+        void _OnFinishLoad()
+        {
+            foreach (uint key in Photo.Unlocked_Photo_List.Keys) {
+                ShowPhoto(key, Photo.Unlocked_Photo_List[key].ToArray(), true);
+            }
+        }
+
         void _Subscribe_Events()
         {
             Photo.OnPhotoCollected += _OnPhotoCollected;
+            SaveInstance.OnFinishLoad += _OnFinishLoad;
         }
 
         void _Unsubscribe_Events()
         {
             Photo.OnPhotoCollected -= _OnPhotoCollected;
+            SaveInstance.OnFinishLoad -= _OnFinishLoad;
         }
 
         public void HideAllPhoto()
@@ -135,6 +148,7 @@ namespace DG
             catch (Exception exception) {
                 var log = string.Format("Part ID : {0} not exist..", partID);
                 Debug.Log(log);
+                Debug.LogException(exception);
             }
         }
 

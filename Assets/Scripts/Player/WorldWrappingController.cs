@@ -75,6 +75,12 @@ namespace DG
         [SerializeField]
         Transform triangleUp;
 
+        [SerializeField]
+        Transform focusBG;
+
+        [SerializeField]
+        Transform[] focusEdges;
+
 
         public bool IsUseFocus { get { return isUseFocus; } }
 
@@ -106,6 +112,11 @@ namespace DG
         Collider2D boxRight;
 
         Vector2 lastSelectedSide;
+
+        Vector3 offsetUpperLeft;
+        Vector3 offsetUpperRight;
+        Vector3 offsetLowerRight;
+        Vector3 offsetLowerLeft;
 
         Vector3[] currentLinePoints;
         Vector3[] currentHighlightLinePoints;
@@ -196,8 +207,16 @@ namespace DG
         {
             currentLinePoints = new Vector3[4];
             currentHighlightLinePoints = new Vector3[2];
+
             lineRenderer = GetComponent<LineRenderer>();
             lastSelectedSide = Vector2.right;
+
+            offsetUpperLeft = new Vector3(-0.06f, 0.06f, 0.0f);
+            offsetUpperRight = new Vector3(0.06f, 0.06f, 0.0f);
+            offsetLowerRight = new Vector3(0.06f, -0.06f, 0.0f);
+            offsetLowerLeft = new Vector3(-0.06f, -0.06f, 0.0f);
+
+            _Show_Sprite_Edge(false);
         }
 
         void _InputHandler()
@@ -439,6 +458,33 @@ namespace DG
 
             triangleUp.gameObject.SetActive(lastSelectedSide == Vector2.up || lastSelectedSide == Vector2.down);
             triangleRight.gameObject.SetActive(lastSelectedSide == Vector2.left || lastSelectedSide == Vector2.right);
+        }
+
+        void _Show_Sprite_Edge(bool value)
+        {
+            if (focusBG.gameObject.activeSelf != value) {
+                focusBG.gameObject.SetActive(value);
+            }
+
+            foreach (Transform obj in focusEdges) {
+                if (obj.gameObject.activeSelf == value) {
+                    continue;
+                }
+                obj.gameObject.SetActive(value);
+            }
+        }
+
+        void _RePositionFocusEdgeSprite()
+        {
+            if (mask) {
+                focusBG.position = mask.position;
+                focusBG.localScale = mask.localScale;
+            }
+
+            focusEdges[0].position = currentLinePoints[0] + offsetUpperLeft;
+            focusEdges[1].position = currentLinePoints[1] + offsetUpperRight;
+            focusEdges[2].position = currentLinePoints[2] + offsetLowerRight;
+            focusEdges[3].position = currentLinePoints[3] + offsetLowerLeft;
         }
 
         void _EditModeHandler_Horizontal()
@@ -794,6 +840,7 @@ namespace DG
         {
             _RedrawWorldWrappingAreaLine();
             _ResizeSpriteMask();
+            _RePositionFocusEdgeSprite();
             _RepositionBound();
         }
 
@@ -951,6 +998,9 @@ namespace DG
                 FocusButtonIndicator.instance.IsCan_EditMode = isCanEditMode;
                 FocusButtonIndicator.instance.IsCan_MoveMode = isCanMoveMode;
             }
+
+            //Hacks
+            _Show_Sprite_Edge(value);
         }
 
         public void UseEditMode(bool value)

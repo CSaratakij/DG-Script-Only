@@ -79,6 +79,9 @@ namespace DG
         Transform focusBG;
 
         [SerializeField]
+        Transform focusRecord;
+
+        [SerializeField]
         Transform[] focusEdges;
 
 
@@ -112,6 +115,8 @@ namespace DG
         Collider2D boxRight;
 
         Vector2 lastSelectedSide;
+
+        Vector3 offsetFocusRecord;
 
         Vector3 offsetUpperLeft;
         Vector3 offsetUpperRight;
@@ -210,6 +215,8 @@ namespace DG
 
             lineRenderer = GetComponent<LineRenderer>();
             lastSelectedSide = Vector2.right;
+
+            offsetFocusRecord = new Vector3(0.7f, -0.35f, 0.0f);
 
             offsetUpperLeft = new Vector3(-0.06f, 0.06f, 0.0f);
             offsetUpperRight = new Vector3(0.06f, 0.06f, 0.0f);
@@ -466,6 +473,10 @@ namespace DG
                 focusBG.gameObject.SetActive(value);
             }
 
+            if (focusRecord.gameObject.activeSelf != value) {
+                focusRecord.gameObject.SetActive(value);
+            }
+
             foreach (Transform obj in focusEdges) {
                 if (obj.gameObject.activeSelf == value) {
                     continue;
@@ -480,6 +491,8 @@ namespace DG
                 focusBG.position = mask.position;
                 focusBG.localScale = mask.localScale;
             }
+
+            focusRecord.position = currentLinePoints[0] + offsetFocusRecord;
 
             focusEdges[0].position = currentLinePoints[0] + offsetUpperLeft;
             focusEdges[1].position = currentLinePoints[1] + offsetUpperRight;

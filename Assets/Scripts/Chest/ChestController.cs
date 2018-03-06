@@ -10,6 +10,7 @@ namespace DG
 {
     public class ChestController : MonoBehaviour
     {
+        const float BURST_OUT_FORCE = 370;
         const string REQUIRE_COIN_TEXT_FORMAT = "x {0}";
 
         [SerializeField]
@@ -40,6 +41,7 @@ namespace DG
         int hitCount;
         bool isUnlocked;
 
+        Timer timer;
         Collider2D[] hit;
         Animator anim;
 
@@ -56,16 +58,24 @@ namespace DG
         {
             hit = new Collider2D[1];
             anim = GetComponent<Animator>();
+            timer = GetComponent<Timer>();
 
-            foreach (Transform item in itemParent) {
-                item.gameObject.SetActive(false);
-                item.position = transform.position;
+            foreach (Transform obj in itemParent) {
+                obj.gameObject.SetActive(false);
+                obj.position = transform.position;
+                
+                var item = obj.gameObject.GetComponent<Item>();
+
+                if (item) {
+                    item.IsInteractable = false;
+                }
             }
 
-            var seed = (int)Random.Range(1, 10);
-            Random.InitState(seed);
+            var seed = Random.value;
+            Random.InitState((int)seed);
 
             _ShowInteractUI(false);
+            _Subscribe_Events();
         }
 
         void Update()
@@ -83,6 +93,11 @@ namespace DG
             }
 
             hitCount = Physics2D.OverlapBoxNonAlloc(transform.position + new Vector3(offset.x, offset.y, 0.0f), size, 0.0f, hit, activatorMask);
+        }
+
+        void OnDestroy()
+        {
+            _Unsubscribe_Events();
         }
 
         void _InputHandler()
@@ -103,8 +118,13 @@ namespace DG
         {
             if (requireCoin > receivedCoin) { return; }
             Coin.Remove(requireCoin);
+            timer.CountDown();
             isUnlocked = true;
-            _SplitOutItems();
+        }
+
+        void _OnTimerStop()
+        {
+            _BurstOutItems();
         }
 
         void _UIHandler()
@@ -139,9 +159,9 @@ namespace DG
             CoinView.instance.ShowTemponary();
         }
 
-        void _SplitOutItems()
+        void _BurstOutItems()
         {
-            if (hitCount <= 0 || !itemParent) {
+            if (!itemParent) {
                 return;
             }
 
@@ -149,7 +169,7 @@ namespace DG
                 return;
             }
 
-            var offset = 1.0f;
+            var offset = 0.2f;
             var vectorFromHitToChest = (transform.position - hit[0].transform.position);
             var origin = Vector3.zero;
 
@@ -160,32 +180,52 @@ namespace DG
                 origin = new Vector3(transform.position.x - offset, transform.position.y, 0.0f);
             }
 
-            foreach (Transform item in itemParent) {
+            foreach (Transform obj in itemParent) {
 
-                var force = Random.Range(200, 300);
                 var direction = Vector2.zero;
 
                 if (vectorFromHitToChest.x > 0) {
-                    direction = new Vector2(0.4f, 1.0f).normalized;
+                    direction = new Vector2(0.2f, 1.0f).normalized;
                 }
                 else {
-                    direction = new Vector2(-0.4f, 1.0f).normalized;
+                    direction = new Vector2(-0.2f, 1.0f).normalized;
                 }
 
-                var velocity = direction * force * Time.deltaTime;
-                var collider = item.gameObject.GetComponent<Collider2D>();
+                var force = Random.Range(BURST_OUT_FORCE - 50, BURST_OUT_FORCE + 50);
+                var velocity = (direction * force) * Time.deltaTime;
+                var collider = obj.gameObject.GetComponent<Collider2D>();
 
                 if (collider && collider.isTrigger) {
                     collider.isTrigger = false;
                 }
 
-                var rigid = item.gameObject.AddComponent<Rigidbody2D>() as Rigidbody2D;
+                var rigid = obj.gameObject.AddComponent<Rigidbody2D>() as Rigidbody2D;
                 rigid.freezeRotation = true;
 
-                item.position = origin;
-                item.gameObject.SetActive(true);
+                obj.position = origin;
+                obj.gameObject.SetActive(true);
+
+                var item = obj.gameObject.GetComponent<Item>();
+
+                if (item) {
+                    item.MakeInteractable(1.0f);
+                }
 
                 rigid.AddForce(velocity, ForceMode2D.Impulse);
+            }
+        }
+
+        void _Subscribe_Events()
+        {
+            if (timer) {
+                timer.OnTimerStop += _OnTimerStop;
+            }
+        }
+
+        void _Unsubscribe_Events()
+        {
+            if (timer) {
+                timer.OnTimerStop -= _OnTimerStop;
             }
         }
     }

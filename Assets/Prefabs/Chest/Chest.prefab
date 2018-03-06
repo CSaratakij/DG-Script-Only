@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 95748285542529916}
   - component: {fileID: 114469369981551046}
   - component: {fileID: 114609987331151456}
+  - component: {fileID: 114355186139934496}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -181,7 +182,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1399083974728904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.5, y: -1.4, z: 0}
+  m_LocalPosition: {x: -3.41, y: -1.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4326554139223562}
@@ -398,6 +399,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyboardUI: {fileID: 1100270205938812}
   gamepadUI: {fileID: 1304255380133292}
+--- !u!114 &114355186139934496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1399083974728904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0583d53aaac8655489e3316d8854a9e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSeconds: 0.35
 --- !u!114 &114469369981551046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -409,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97274e7bb207061478498117d01b0807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requireCoin: 2
+  requireCoin: 1
   itemParent: {fileID: 4326554139223562}
   offset: {x: 0.09, y: -0.11}
   size: {x: 1.5, y: 1}
@@ -431,7 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   makeUnique: 0
   key: Chest
-  id: 0
+  id: 1
 --- !u!212 &212171615454968904
 SpriteRenderer:
   m_ObjectHideFlags: 1

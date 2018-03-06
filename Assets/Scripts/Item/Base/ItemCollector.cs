@@ -56,6 +56,10 @@ namespace DG
                 if (!item) {
                     continue;
                 }
+                
+                if (!item.IsInteractable) {
+                    continue;
+                }
 
                 if (item.IsUsed) {
                     continue;

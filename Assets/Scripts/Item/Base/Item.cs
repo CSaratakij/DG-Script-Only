@@ -19,14 +19,15 @@ namespace DG
         public delegate void Func(GameObject obj);
         public static Func OnPickedItem;
 
+        public bool IsUsed { get { return isUsed; } set { isUsed = value; } }
+        public bool IsInteractable { get { return isInteractable; } set { isInteractable = value; } }
+
 
         bool isUsed;
+        bool isInteractable = true;
 
         AudioSource audioSource;
         SpriteRenderer spriteRenderer;
-
-
-        public bool IsUsed { get { return isUsed; } set { isUsed = value; } }
 
 
         protected virtual void Awake()
@@ -55,6 +56,11 @@ namespace DG
             }
         }
 
+        void _OnTimerStop()
+        {
+            isInteractable = true;
+        }
+
         void _FireEvent_Picked_Item(GameObject obj)
         {
             if (OnPickedItem != null) {
@@ -66,6 +72,17 @@ namespace DG
         {
             yield return new WaitForSeconds(disableDelay);
             gameObject.SetActive(false);
+        }
+
+        IEnumerator _MakeInteractable_Callback(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            isInteractable = true;
+        }
+
+        public void MakeInteractable(float delay)
+        {
+            StartCoroutine(_MakeInteractable_Callback(delay));
         }
     }
 }

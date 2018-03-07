@@ -22,21 +22,24 @@ namespace DG
         LayerMask layerMask;
 
 
+        int hitCount;
+
         Animator anim;
         Switch switchObj;
 
-        Collider2D hit;
+        Collider2D[] hit;
 
 
         void Awake()
         {
             anim = GetComponent<Animator>();
             switchObj = GetComponent<Switch>();
+            hit = new Collider2D[1];
         }
 
         void Update()
         {
-            if (hit)
+            if (hitCount > 0)
             {
                 _Open();
             }
@@ -47,7 +50,7 @@ namespace DG
 
         void FixedUpdate()
         {
-            hit = Physics2D.OverlapBox(transform.position + offset, size, 0.0f, layerMask);
+            hitCount = Physics2D.OverlapBoxNonAlloc(transform.position + offset, size, 0.0f,  hit, layerMask);
         }
 
 #if UNITY_EDITOR

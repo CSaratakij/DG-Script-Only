@@ -10,11 +10,19 @@ namespace DG
         int currentPhoto = 0;
 
 
+        public static JournalView instance;
         public int CurrentPhoto { get { return currentPhoto; } }
 
 
         void Awake()
         {
+            if (instance == null) {
+                instance = this;
+            }
+            else {
+                Destroy(this.gameObject);
+            }
+
             _Subscribe_Events();
         }
 

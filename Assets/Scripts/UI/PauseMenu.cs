@@ -136,6 +136,14 @@ namespace DG
                 }
                 else {
                     _FireEvent_OnPauseStateChanged(false, true);
+
+                    if (!JournalView.instance) { return; }
+                    if (Input.GetKeyDown(KeyCode.JoystickButton4)) {
+                        JournalView.instance.PreviousPhoto();
+                    }
+                    else if (Input.GetKeyDown(KeyCode.JoystickButton5)) {
+                        JournalView.instance.NextPhoto();
+                    }
                 }
             }
         }

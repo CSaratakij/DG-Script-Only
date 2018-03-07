@@ -34,10 +34,12 @@ namespace DG
         public bool IsUsed { get { return isUsed; } set { isUsed = value; } }
 
 
+        int hitCount;
         bool isUsed;
+
         Animator anim;
 
-        Collider2D hit;
+        Collider2D[] hit;
         GameObject target;
         
 
@@ -50,16 +52,17 @@ namespace DG
             Handles.Label(transform.position, "Trigger Area");
 
             if (unlockList.Length > 0) {
-                Handles.Label(origin + transform.position + Vector3.down * 0.2f, "Unlock : \n" + _GetAllUnlockName());
+                Handles.Label(origin + transform.position + (Vector3.down * 0.2f), "Unlock : \n" + _GetAllUnlockName());
             }
             else {
-                Handles.Label(origin + transform.position + Vector3.down * 0.2f, "None 'Focus' ability to unlock.");
+                Handles.Label(origin + transform.position + (Vector3.down * 0.2f), "None 'Focus' ability to unlock.");
             }
         }
 #endif
 
         void Awake()
         {
+            hit = new Collider2D[1];
             anim = GetComponent<Animator>();
         }
 
@@ -70,7 +73,7 @@ namespace DG
 
         void Update()
         {
-            if (hit) {
+            if (hitCount > 0) {
                 if (isUsed) {
                     _ToggleInteractUI(false);
                 }
@@ -86,7 +89,7 @@ namespace DG
 
         void FixedUpdate()
         {
-            hit = Physics2D.OverlapBox(origin + transform.position, size, 0.0f, layerMask);
+            hitCount = Physics2D.OverlapBoxNonAlloc(origin + transform.position, size, 0.0f,  hit, layerMask);
         }
 
         void _InputHandler()
@@ -98,7 +101,7 @@ namespace DG
 
         void _UnlockFocus()
         {
-            var worldWrappingControl = hit.gameObject.GetComponent<WorldWrappingController>();
+            var worldWrappingControl = hit[0].gameObject.GetComponent<WorldWrappingController>();
 
             if (worldWrappingControl) {
                 foreach (var unlockType in unlockList) {

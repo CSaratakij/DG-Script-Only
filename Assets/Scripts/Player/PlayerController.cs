@@ -41,6 +41,8 @@ namespace DG
         public Vector2 AvatarDirFromBox { get { return avatarDirFromBox; } set { avatarDirFromBox = value; } }
 
 
+        int materialHitCount;
+
         bool isUsingBox;
         bool isControlable;
 
@@ -61,7 +63,7 @@ namespace DG
         Transform ground;
         Transform feet;
 
-        RaycastHit2D materialRay;
+        RaycastHit2D[] materialRay;
         CameraFolllow cameraFollow;
 
         Vector3 newScale;
@@ -147,7 +149,7 @@ namespace DG
         void FixedUpdate()
         {
             isGrounded = Physics2D.OverlapCircle(ground.position, 0.02f, groundMask);
-            materialRay = Physics2D.CircleCast(feet.position, 0.02f, Vector2.down, 1.0f, footstepMask);
+            materialHitCount = Physics2D.CircleCastNonAlloc(feet.position, 0.02f, Vector2.down, materialRay, 1.0f, footstepMask);
 
             _JumpHandler();
             _MovementHandler();
@@ -174,6 +176,7 @@ namespace DG
             render = GetComponent<SpriteRenderer>();
             isControlable = true;
             platformAttacher = GetComponent<PlatformAttacher>();
+            materialRay = new RaycastHit2D[1];
         }
 
         void _InputHandler()
@@ -342,18 +345,18 @@ namespace DG
         {
             if (isGrounded) {
 
-                if (isFalling && materialRay) {
+                if (isFalling && materialHitCount > 0) {
 
                     if (!platformAttacher.IsUse) {
-                        footStepAudioPlayer.PlayImpactForce(materialRay.transform.tag);
+                        footStepAudioPlayer.PlayImpactForce(materialRay[0].transform.tag);
                     }
 
                     isFalling = false;
                 }
 
                 if (isControlable) {
-                    if (input.x != 0.0f && materialRay) {
-                        footStepAudioPlayer.Play(materialRay.transform.tag);
+                    if (input.x != 0.0f && materialHitCount > 0) {
+                        footStepAudioPlayer.Play(materialRay[0].transform.tag);
                     }
                     else {
                         footStepAudioPlayer.StopFootStep();

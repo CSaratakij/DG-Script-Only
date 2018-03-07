@@ -63,10 +63,11 @@ namespace DG
         protected bool isOpen;
 
 
+        int hitCount;
         bool isUseAxisY;
 
         Animator anim;
-        Collider2D hit;
+        Collider2D[] hit;
 
 
 #if UNITY_EDITOR
@@ -117,8 +118,8 @@ namespace DG
                  var axisY = Input.GetAxisRaw("Vertical");
 
                  if (axisY > 0.0f && !isUseAxisY) {
-                     if (isAllowEnter && hit) {
-                         this.Enter(hit.transform);
+                     if (isAllowEnter && hitCount > 0) {
+                         this.Enter(hit[0].transform);
                      }
 
                      isUseAxisY = true;
@@ -147,6 +148,7 @@ namespace DG
         protected virtual void Awake()
         {
             anim = GetComponent<Animator>();
+            hit = new Collider2D[1];
         }
 
         protected virtual void Update()
@@ -154,7 +156,7 @@ namespace DG
             _InputHandler();
             _AnimationHandler();
 
-            if (hit && isAllowEnter) {
+            if (hitCount > 0 && isAllowEnter) {
                 if (!uiObject.activeSelf) {
                     uiObject.SetActive(true);
                 }
@@ -168,7 +170,7 @@ namespace DG
 
         protected virtual void FixedUpdate()
         {
-            hit = Physics2D.OverlapBox(transform.position + offset, size, 0.0f, allowEnterMask);
+            hitCount = Physics2D.OverlapBoxNonAlloc(transform.position + offset, size, 0.0f, hit, allowEnterMask);
         }
 
         protected virtual void Enter(Transform obj)

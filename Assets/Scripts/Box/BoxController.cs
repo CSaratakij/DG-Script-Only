@@ -32,6 +32,9 @@ namespace DG
         GameObject uiObject;
 
 
+        int hitPlayerCount;
+        int hitBoxResetterCount;
+
         bool isInitUsing;
         bool isInitReset;
 
@@ -43,8 +46,8 @@ namespace DG
 
         Vector3 originalPosition;
 
-        Collider2D hit;
-        Collider2D hitBoxResetter;
+        Collider2D[] hit;
+        Collider2D[] hitBoxResetter;
 
         Rigidbody2D rigid;
         PlayerController playerControl;
@@ -67,6 +70,9 @@ namespace DG
             rigid = GetComponent<Rigidbody2D>();
             focusEffector = GetComponent<FocusEffector>();
             platformAttacher = GetComponent<PlatformAttacher>();
+
+            hit = new Collider2D[1];
+            hitBoxResetter = new Collider2D[1];
         }
 
         void Start()
@@ -87,12 +93,12 @@ namespace DG
 
         void FixedUpdate()
         {
-            hit = Physics2D.OverlapBox(transform.position, size, 0.0f, layerMask);
-            hitBoxResetter = Physics2D.OverlapBox(transform.position, size, 0.0f, resetterMask);
+            hitPlayerCount = Physics2D.OverlapBoxNonAlloc(transform.position, size, 0.0f,  hit, layerMask);
+            hitBoxResetterCount = Physics2D.OverlapBoxNonAlloc(transform.position, size, 0.0f,  hitBoxResetter, resetterMask);
 
             if (isUsing) {
 
-                if (hit) {
+                if (hitPlayerCount > 0) {
 
                     velocity.x = inputVector.x * moveForce;
                     velocity.y = rigid.velocity.y;
@@ -112,7 +118,7 @@ namespace DG
                 rigid.velocity = newVelocity;
             }
 
-            if (hitBoxResetter) {
+            if (hitBoxResetterCount > 0) {
                 if (!isInitReset) {
                     StartCoroutine(_Reset_Box_CallBack());
                     isInitReset = true;
@@ -162,7 +168,7 @@ namespace DG
                 }
             }
             else {
-                if (hit) {
+                if (hitPlayerCount > 0) {
 
                     if (!isInteractable) {
                         return;
@@ -173,7 +179,7 @@ namespace DG
                         isInitUsing = true;
                         isUsing = true;
 
-                        playerControl = hit.GetComponent<PlayerController>();
+                        playerControl = hit[0].GetComponent<PlayerController>();
 
                         if (playerControl) {
                             worldWrappingControl = playerControl.GetComponent<WorldWrappingController>();
@@ -233,7 +239,7 @@ namespace DG
 
         void _CheckInteractable()
         {
-            if (!hit) {
+            if (hitPlayerCount <= 0) {
                 isInteractable = false;
                 return;
             }
@@ -242,11 +248,11 @@ namespace DG
                 isInteractable = true;
             }
             else {
-                if (hit.transform.position.x < transform.position.x) {
-                    isInteractable = (hit.transform.localScale.x > 0.0f);
+                if (hit[0].transform.position.x < transform.position.x) {
+                    isInteractable = (hit[0].transform.localScale.x > 0.0f);
                 }
-                else if (hit.transform.position.x > transform.position.x) {
-                    isInteractable = (hit.transform.localScale.x < 0.0f);
+                else if (hit[0].transform.position.x > transform.position.x) {
+                    isInteractable = (hit[0].transform.localScale.x < 0.0f);
                 }
                 else {
                     isInteractable = false;
@@ -256,7 +262,7 @@ namespace DG
 
         void _ToggleUIHandler()
         {
-            if (hit) {
+            if (hitPlayerCount > 0) {
                 if (isUsing) {
                     _ToggleInteractUI(false);
                 }

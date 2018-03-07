@@ -27,9 +27,6 @@ namespace DG
         [SerializeField]
         LayerMask layerMask;
 
-        [SerializeField]
-        GameObject uiObject;
-
 
         public bool IsUsed { get { return isUsed; } set { isUsed = value; } }
 
@@ -66,37 +63,25 @@ namespace DG
             anim = GetComponent<Animator>();
         }
 
-        void Start()
-        {
-            gameObject.SetActive(!isUsed);
-        }
-
         void Update()
         {
+            _AnimationHandler();
+
+            if (isUsed) { return; }
             if (hitCount > 0) {
-                if (isUsed) {
-                    _ToggleInteractUI(false);
-                }
-                else {
-                    _ToggleInteractUI(true);
-                    _InputHandler();
-                }
-            }
-            else {
-                _ToggleInteractUI(false);
+                _UnlockFocus();
             }
         }
 
         void FixedUpdate()
         {
+            if (isUsed) { return; }
             hitCount = Physics2D.OverlapBoxNonAlloc(origin + transform.position, size, 0.0f,  hit, layerMask);
         }
 
-        void _InputHandler()
+        void _AnimationHandler()
         {
-            if (Input.GetButtonDown("Interact")) {
-                _UnlockFocus();
-            }
+            anim.SetBool("isUsed", isUsed);
         }
 
         void _UnlockFocus()
@@ -125,8 +110,6 @@ namespace DG
             else {
                 Debug.Log("Can't unlock focus ability..");
             }
-
-            anim.Play("Used");
         }
 
         void _Disabled()
@@ -154,14 +137,6 @@ namespace DG
                 result += "\n";
             }
             return result;
-        }
-
-        void _ToggleInteractUI(bool value) {
-            if (uiObject) {
-                if (uiObject.activeSelf != value) {
-                    uiObject.SetActive(value);
-                }
-            }
         }
     }
 }

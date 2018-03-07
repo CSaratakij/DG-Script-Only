@@ -41,6 +41,7 @@ namespace DG
         public Vector2 AvatarDirFromBox { get { return avatarDirFromBox; } set { avatarDirFromBox = value; } }
 
 
+        int groundHitCount;
         int materialHitCount;
 
         bool isUsingBox;
@@ -49,6 +50,8 @@ namespace DG
         bool isPressedJump;
         bool isGrounded;
         bool isFalling;
+
+        Collider2D[] groundHit;
 
         Vector2 input;
         Vector2 velocity;
@@ -148,7 +151,9 @@ namespace DG
 
         void FixedUpdate()
         {
-            isGrounded = Physics2D.OverlapCircle(ground.position, 0.02f, groundMask);
+            groundHitCount = Physics2D.OverlapCircleNonAlloc(ground.position, 0.02f, groundHit, groundMask);
+            isGrounded = groundHitCount > 0;
+
             materialHitCount = Physics2D.CircleCastNonAlloc(feet.position, 0.02f, Vector2.down, materialRay, 1.0f, footstepMask);
 
             _JumpHandler();
@@ -167,6 +172,7 @@ namespace DG
             anim = GetComponent<Animator>();
             rigid = GetComponent<Rigidbody2D>();
             audioSource = GetComponent<AudioSource>();
+            groundHit = new Collider2D[1];
             ground = transform.Find("ground");
             feet = transform.Find("footstep");
             footStepAudioPlayer = transform.Find("footstep").gameObject.GetComponent<FootStepAudioPlayer>();

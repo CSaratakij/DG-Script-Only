@@ -173,22 +173,28 @@ namespace DG
             var vectorFromHitToChest = (transform.position - hit[0].transform.position);
             var origin = Vector3.zero;
 
-            if (vectorFromHitToChest.x > 0) {
+            if (vectorFromHitToChest.x > 0.0f) {
                 origin = new Vector3(transform.position.x + offset, transform.position.y, 0.0f);
             }
-            else {
+            else if (vectorFromHitToChest.x < 0.0f) {
                 origin = new Vector3(transform.position.x - offset, transform.position.y, 0.0f);
+            }
+            else {
+                origin = transform.position;
             }
 
             foreach (Transform obj in itemParent) {
 
                 var direction = Vector2.zero;
 
-                if (vectorFromHitToChest.x > 0) {
+                if (vectorFromHitToChest.x > 0.0f) {
                     direction = new Vector2(0.2f, 1.0f).normalized;
                 }
-                else {
+                else if (vectorFromHitToChest.x < 0.0f) {
                     direction = new Vector2(-0.2f, 1.0f).normalized;
+                }
+                else {
+                    direction = Vector2.up;
                 }
 
                 var force = Random.Range(BURST_OUT_FORCE - 50, BURST_OUT_FORCE + 50);

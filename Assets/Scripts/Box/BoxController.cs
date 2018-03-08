@@ -57,6 +57,7 @@ namespace DG
 
         PlatformAttacher platformAttacher;
 
+
 #if UNITY_EDITOR
         void OnDrawGizmosSelected() {
             Gizmos.color = Color.yellow;

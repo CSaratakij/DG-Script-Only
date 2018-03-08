@@ -36,12 +36,14 @@ namespace DG
 
 
         public bool IsUse { get { return isUse; } }
+        public Vector3 ExtraStep { get { return extraStep; } set { extraStep = value; } }
 
 
         bool isInitHit;
 
         Vector3 offsetFromPlatform;
         Vector3 contactPoint;
+        Vector3 extraStep;
 
         Rigidbody2D rigid;
         RaycastHit2D hit;
@@ -129,8 +131,7 @@ namespace DG
             }
 
             if (isInitHit) {
-                float weight = Mathf.Cos(Time.deltaTime * platformSpeed * 2 * Mathf.PI) * 0.5f + 0.5f;
-                rigid.MovePosition(transform.position * weight + (hit.transform.position - offsetFromPlatform) * (1 - weight));
+                MoveAlongPlatform();
             }
         }
 
@@ -141,6 +142,18 @@ namespace DG
             if (!value) {
                 isInitHit = false;
             }
+        }
+
+        public void MoveAlongPlatform()
+        {
+            float weight = Mathf.Cos(Time.deltaTime * platformSpeed * 2 * Mathf.PI) * 0.5f + 0.5f;
+            rigid.MovePosition(transform.position * weight + (hit.transform.position - offsetFromPlatform) * (1 - weight));
+        }
+
+        public Vector3 GetExpectPos()
+        {
+            float weight = Mathf.Cos(Time.deltaTime * platformSpeed * 2 * Mathf.PI) * 0.5f + 0.5f;
+            return transform.position * weight + (hit.transform.position - offsetFromPlatform) * (1 - weight);
         }
     }
 }

@@ -32,11 +32,14 @@ namespace DG
         LayerMask activatorMask;
 
 
+        int hitCount;
         bool isInitHit;
+
         Vector2 initHitOffset;
 
-        Collider2D hit;
+        Collider2D[] hit;
         Object lastHitRef;
+
 
 #if UNITY_EDITOR
         void OnDrawGizmos() {
@@ -50,12 +53,13 @@ namespace DG
 
         void Awake()
         {
+            hit = new Collider2D[1];
             lastHitRef = null;
         }
 
         void Update()
         {
-            if (isInitHit && !hit && lastHitRef) {
+            if (isInitHit && (hitCount < 0) && lastHitRef) {
 
                 if (isResetAfterExit) {
                     _ResetCameraOffset();
@@ -68,9 +72,9 @@ namespace DG
 
         void FixedUpdate()
         {
-            hit = Physics2D.OverlapBox(transform.position + new Vector3(offset.x, offset.y, 0.0f), size, 0.0f, activatorMask);
+            hitCount = Physics2D.OverlapBoxNonAlloc(transform.position + new Vector3(offset.x, offset.y, 0.0f), size, 0.0f,  hit, activatorMask);
 
-            if (hit) {
+            if (hitCount > 0) {
                 
                 if (!isInitHit) {
 
@@ -81,7 +85,7 @@ namespace DG
                     isInitHit = true;
                 }
 
-                lastHitRef = hit;
+                lastHitRef = hit[0];
             }
         }
 

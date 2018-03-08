@@ -2136,6 +2136,11 @@ Prefab:
       propertyPath: m_Name
       value: box_with_focus_effector (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114226547611735452, guid: d7786085932feec4e8975204adf5cbd8,
+        type: 2}
+      propertyPath: id
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7786085932feec4e8975204adf5cbd8, type: 2}
   m_IsPrefabParent: 0
@@ -16472,6 +16477,11 @@ Prefab:
       propertyPath: targetDoor
       value: 
       objectReference: {fileID: 651658986}
+    - target: {fileID: 114258452831080056, guid: 886a93af640df3440bdb30663192a8e6,
+        type: 2}
+      propertyPath: id
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 886a93af640df3440bdb30663192a8e6, type: 2}
   m_IsPrefabParent: 0

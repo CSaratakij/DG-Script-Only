@@ -7,11 +7,19 @@ namespace DG
 {
     public class JournalView : MonoBehaviour
     {
-        int currentPhoto = 0;
+        const uint MAX_PHOTO = 5;
+        const string TOTAL_PHOTO_FORMAT = "{0} / {1}";
+
+
+        [SerializeField]
+        Text txtTotalPhoto;
 
 
         public static JournalView instance;
         public int CurrentPhoto { get { return currentPhoto; } }
+
+
+        int currentPhoto = 0;
 
 
         void Awake()
@@ -38,12 +46,14 @@ namespace DG
             }
 
             currentPhoto = (int)GlobalPhoto.instance.CurrentPhotoInPhotoViewID;
+            _Update_UI((uint)currentPhoto);
         }
 
         void _Show(uint id)
         {
             GlobalPhoto.instance.ShowPhoto(id, true);
             GlobalPhoto.instance.ShowParentOfPhotoPart(id, true);
+            _Update_UI(id);
         }
 
         void _Subscribe_Events()
@@ -84,6 +94,13 @@ namespace DG
             }
 
             currentPhoto = (int)GlobalPhoto.instance.CurrentPhotoInPhotoViewID;
+            _Show((uint)currentPhoto);
+        }
+
+        void _Update_UI(uint id)
+        {
+            if (!txtTotalPhoto) { return; }
+            txtTotalPhoto.text = string.Format(TOTAL_PHOTO_FORMAT, (id + 1), MAX_PHOTO);
         }
     }
 }

@@ -19,13 +19,8 @@ namespace DG
         [SerializeField]
         LayerMask layerMask;
 
-        [SerializeField]
-        GameObject uiObject;
-
 
         Collider2D hit;
-
-
         bool isAlreadyEnter;
 
 
@@ -45,17 +40,9 @@ namespace DG
                 }
                 else {
                     _InputHandler();
-
-                    if (!uiObject.activeSelf) {
-                        uiObject.SetActive(true);
-                    }
                 }
             }
             else {
-                if (uiObject.activeSelf) {
-                    uiObject.SetActive(false);
-                }
-
                 isAlreadyEnter = false;
             }
         }

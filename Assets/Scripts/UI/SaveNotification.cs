@@ -7,6 +7,7 @@ namespace DG
 {
     public class SaveNotification : MonoBehaviour
     {
+        const float HIDE_SAVE_NOTIFICATION_DELAY = 2.5f;
         public static SaveNotification instance = null;
 
 
@@ -45,7 +46,7 @@ namespace DG
 
         IEnumerator _Show_Notification_Callback()
         {
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(HIDE_SAVE_NOTIFICATION_DELAY);
             Hide();
         }
     }

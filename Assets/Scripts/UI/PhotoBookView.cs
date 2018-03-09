@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace DG
 {
-    public class JournalView : MonoBehaviour
+    public class PhotoBookView : MonoBehaviour
     {
         const uint MAX_PHOTO = 5;
         const string TOTAL_PHOTO_FORMAT = "{0} / {1}";
@@ -15,7 +15,7 @@ namespace DG
         Text txtTotalPhoto;
 
 
-        public static JournalView instance;
+        public static PhotoBookView instance;
         public int CurrentPhoto { get { return currentPhoto; } }
 
 

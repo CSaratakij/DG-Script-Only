@@ -570,9 +570,9 @@ GameObject:
   - component: {fileID: 224231571575218504}
   - component: {fileID: 222631236861025084}
   - component: {fileID: 114341961555169178}
-  - component: {fileID: 114079948585819944}
+  - component: {fileID: 114944204764824310}
   m_Layer: 5
-  m_Name: panelJournal
+  m_Name: panelPhotoBook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2298,7 +2298,7 @@ GameObject:
   - component: {fileID: 222946842187629534}
   - component: {fileID: 114556223947799724}
   m_Layer: 5
-  m_Name: panelPhotoView
+  m_Name: panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2540,7 +2540,7 @@ GameObject:
   - component: {fileID: 222129168406059822}
   - component: {fileID: 114795241037278164}
   m_Layer: 5
-  m_Name: lblJournal
+  m_Name: lblPhotoBook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3053,18 +3053,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: decrease bound
---- !u!114 &114079948585819944
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1217329343491346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d18db89dbf7b3a345b818f127f74ce02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  txtTotalPhoto: {fileID: 114234903120243698}
 --- !u!114 &114083539313017660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3631,7 +3619,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 114079948585819944}
+      - m_Target: {fileID: 114944204764824310}
         m_MethodName: RestoreToCurrentPhoto
         m_Mode: 1
         m_Arguments:
@@ -4064,7 +4052,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114079948585819944}
+      - m_Target: {fileID: 114944204764824310}
         m_MethodName: PreviousPhoto
         m_Mode: 1
         m_Arguments:
@@ -4333,7 +4321,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114079948585819944}
+      - m_Target: {fileID: 114944204764824310}
         m_MethodName: NextPhoto
         m_Mode: 1
         m_Arguments:
@@ -5300,7 +5288,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114079948585819944}
+      - m_Target: {fileID: 114944204764824310}
         m_MethodName: NextPhoto
         m_Mode: 1
         m_Arguments:
@@ -6510,7 +6498,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114079948585819944}
+      - m_Target: {fileID: 114944204764824310}
         m_MethodName: PreviousPhoto
         m_Mode: 1
         m_Arguments:
@@ -7341,7 +7329,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Journal
+  m_Text: Photo Book
 --- !u!114 &114795911815772946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8306,6 +8294,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114944204764824310
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1217329343491346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1340c81a7635dc408c4d74e17f790a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  txtTotalPhoto: {fileID: 114234903120243698}
 --- !u!114 &114952417235795148
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9721,7 +9721,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -23.559994, y: 0}
+  m_AnchoredPosition: {x: 61, y: 0}
   m_SizeDelta: {x: 178.9, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224082408005820786
@@ -9816,7 +9816,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.00000023841858}
+  m_AnchoredPosition: {x: -46, y: 0.00000023841858}
   m_SizeDelta: {x: 47.119995, y: 47.12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224098615969612020
@@ -10891,7 +10891,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -44.060005, y: 0}
+  m_AnchoredPosition: {x: 60, y: 0}
   m_SizeDelta: {x: 178.9, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224444862477858428
@@ -11828,7 +11828,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -56, y: 0}
   m_SizeDelta: {x: 88.12, y: 45.83}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224769925388696514
@@ -12261,7 +12261,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000072124, y: -48.3}
+  m_AnchoredPosition: {x: 4.7519054, y: -48.300003}
   m_SizeDelta: {x: -0, y: 64.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224940729877661784

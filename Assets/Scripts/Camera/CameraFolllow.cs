@@ -45,6 +45,7 @@ namespace DG
         public bool IsOutBoundY { get { return expectOutBoundY; } }
         public float OffsetX { get { return offsetX; } }
         public float OffsetY { get { return offsetY; } }
+        public Transform CurrentTarget { get { return target; } set { target = value; } }
 
 
         Vector3 offset;

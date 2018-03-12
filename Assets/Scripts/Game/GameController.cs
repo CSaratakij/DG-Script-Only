@@ -21,9 +21,11 @@ namespace DG
         public static float loadingProgress = 0.0f;
 
         public delegate void LoadingSceneFunc();
+        public delegate void CinematicFunc(bool isInCinematic);
 
         public static event LoadingSceneFunc OnLoadingScene;
         public static event LoadingSceneFunc OnLoadedScene;
+        public static event CinematicFunc OnCinematic;
 
         public static int expectDoorWrapID = -1;
         public static GameObject expectDoor = null; 
@@ -231,6 +233,13 @@ namespace DG
                 GlobalPhoto.instance.HideAllPhoto();
                 GlobalPhoto.instance.HideAllPart();
                 GlobalPhoto.instance.HideAllPartParent();
+            }
+        }
+
+        public static void FireEvent_OnCinematic()
+        {
+            if (OnCinematic != null) {
+                OnCinematic(PlayerController.isInCinematic);
             }
         }
 

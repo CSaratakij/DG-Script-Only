@@ -334,7 +334,13 @@ namespace DG
                         }
                     }
                     else {
-                        anim.Play("Fall");
+                        //Test
+                        if (platformAttacher.IsUse) {
+                            anim.Play("Idle");
+                        }
+                        else {
+                            anim.Play("Fall");
+                        }
                     }
                 }
             }

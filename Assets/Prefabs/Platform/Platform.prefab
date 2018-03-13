@@ -89,10 +89,10 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: dff5aebb775865e409805719ef4a78c7, type: 2}
-  m_Interpolate: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &61683338730312968
 BoxCollider2D:

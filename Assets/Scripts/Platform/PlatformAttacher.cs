@@ -146,8 +146,20 @@ namespace DG
 
         public void MoveAlongPlatform()
         {
-            float weight = Mathf.Cos(Time.deltaTime * platformSpeed * 2 * Mathf.PI) * 0.5f + 0.5f;
-            rigid.MovePosition(transform.position * weight + (hit.transform.position - offsetFromPlatform) * (1 - weight));
+            float weightX = Mathf.Cos(Time.deltaTime * platformSpeed * 2 * Mathf.PI) * 0.5f + 0.5f;
+            float weightY = Mathf.Sin(Time.deltaTime * platformSpeed * 2 * Mathf.PI) * 0.5f + 0.5f;
+
+            var newPos = transform.position;
+
+            newPos.x = transform.position.x * weightX;
+            newPos.y = transform.position.y * weightY;
+
+            var resultPos = newPos;
+
+            resultPos.x = newPos.x + (hit.transform.position.x - offsetFromPlatform.x) * (1 - weightX);
+            resultPos.y = newPos.y + (hit.point.y - offsetFromPlatform.y) * (1 - weightY);
+
+            rigid.MovePosition(resultPos);
         }
 
         public Vector3 GetExpectPos()

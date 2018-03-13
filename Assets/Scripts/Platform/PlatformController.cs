@@ -29,14 +29,14 @@ namespace DG
         Transform[] points;
 
 
+        public bool IsPauseMoving { get { return isPauseMoving; } }
+        public Vector3 MoveDirection { get { return currentDirection; } }
+
+
         enum MoveState {
             Forward,
             Backward
         }
-
-        public bool IsPauseMoving { get { return isPauseMoving; } }
-        public Vector3 MoveDirection { get { return currentDirection; } }
-
 
         int currentPointIndex;
 

@@ -7,7 +7,7 @@ namespace DG
 {
     public class PhotoBookView : MonoBehaviour
     {
-        const uint MAX_PHOTO = 5;
+        const uint MAX_PHOTO = 3;
         const string TOTAL_PHOTO_FORMAT = "{0} / {1}";
 
 

@@ -12,20 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/1-MainMenu.unity
     guid: 7e90b08909e61fe4082e59f9a0df9bc2
   - enabled: 1
-    path: Assets/Scenes/gameplay_ref_old/2-Introduction.unity
-    guid: c1aea21129180924c9f5a26e4a453d3a
+    path: Assets/Scenes/newgameplay/2-Introduction(new).unity
+    guid: cb0236f078408e9428aad482473a6a67
   - enabled: 1
-    path: Assets/Scenes/gameplay_ref_old/3-Puzzle.unity
-    guid: 14eae41ec06c2614fa9c8f709b7a0dfa
+    path: Assets/Scenes/newgameplay/3-Introduction(new).unity
+    guid: 239945284d1b1ae4b99e17ca3c9bd6b1
   - enabled: 1
-    path: Assets/Scenes/gameplay_ref_old/4-Puzzle.unity
-    guid: fe9711df9dddaee44be7cafd14d14262
-  - enabled: 1
-    path: Assets/Scenes/gameplay_ref_old/5-Puzzle.unity
-    guid: a42adba4b676a204a955702e0a845a8a
-  - enabled: 1
-    path: Assets/Scenes/gameplay_ref_old/6-Puzzle.unity
-    guid: 163fb80b32e006f4cb28aa1a3f8e4150
+    path: Assets/Scenes/newgameplay/4-Puzzle(new).unity
+    guid: 952837e291797ab4abb7726b83b0cece
   - enabled: 1
     path: Assets/Scenes/9-Thank you for playing.unity
     guid: 5bb9b64da2c08694aad0867f727a1203

@@ -29,6 +29,9 @@ namespace DG
         LayerMask groundMask;
 
         [SerializeField]
+        LayerMask wallMask;
+
+        [SerializeField]
         LayerMask footstepMask;
 
         [SerializeField]
@@ -42,16 +45,20 @@ namespace DG
 
 
         int groundHitCount;
+        int wallHitCount;
         int materialHitCount;
 
         bool isUsingBox;
         bool isControlable;
 
-        bool isPressedJump;
         bool isGrounded;
+        bool isWallJump;
         bool isFalling;
 
         Collider2D[] groundHit;
+
+        RaycastHit2D[] wallHit;
+        RaycastHit2D[] wallLeftHit;
 
         Vector2 input;
         Vector2 velocity;
@@ -65,6 +72,7 @@ namespace DG
 
         Transform ground;
         Transform feet;
+        Transform wallRight;
 
         RaycastHit2D[] materialRay;
         CameraFolllow cameraFollow;
@@ -116,7 +124,7 @@ namespace DG
                 isFalling = true;
             }
 
-            if (isControlable && !isUsingBox) {
+            if (isControlable && !isUsingBox && !isWallJump) {
                 _FlipXHandler();
             }
 
@@ -154,10 +162,24 @@ namespace DG
             groundHitCount = Physics2D.OverlapCircleNonAlloc(ground.position, 0.02f, groundHit, groundMask);
             isGrounded = groundHitCount > 0;
 
-            materialHitCount = Physics2D.CircleCastNonAlloc(feet.position, 0.02f, Vector2.down, materialRay, 1.0f, footstepMask);
+            if (isGrounded) {
+                isWallJump = false;
+            }
 
-            _JumpHandler();
-            _MovementHandler();
+            materialHitCount = Physics2D.CircleCastNonAlloc(feet.position, 0.02f, Vector2.down, materialRay, 1.0f, footstepMask);
+            wallHitCount = Physics2D.RaycastNonAlloc(wallRight.position, Vector2.right, wallHit, 0.3f, wallMask);
+
+            _WallJumpHandler();
+
+            if (isWallJump) {
+                if (rigid.velocity.y < 0.0f) {
+                    rigid.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+                }
+            }
+            else {
+                _JumpHandler();
+                _MovementHandler();
+            }
         }
 
         void LateUpdate()
@@ -173,8 +195,10 @@ namespace DG
             rigid = GetComponent<Rigidbody2D>();
             audioSource = GetComponent<AudioSource>();
             groundHit = new Collider2D[1];
+            wallHit = new RaycastHit2D[1];
             ground = transform.Find("ground");
             feet = transform.Find("footstep");
+            wallRight = transform.Find("wallRight");
             footStepAudioPlayer = transform.Find("footstep").gameObject.GetComponent<FootStepAudioPlayer>();
             cameraFollow = Camera.main.GetComponent<CameraFolllow>();
             newScale = transform.localScale;
@@ -191,12 +215,6 @@ namespace DG
 
             if (isInverseMovement) {
                 input.x *= -1.0f;
-            }
-
-            if (isControlable) {
-                if (Input.GetButtonDown("Jump")) {
-                    isPressedJump = true;
-                }
             }
 
             if (worldWrappingControl.IsCanFocus) {
@@ -373,10 +391,10 @@ namespace DG
 
         void _JumpHandler()
         {
-            if (isGrounded && isPressedJump) {
+            if (!isControlable) { return; }
+            if (isGrounded && Input.GetButtonDown("Jump")) {
                 rigid.velocity = Vector2.up * jumpForce;
                 audioSource.Play();
-                isPressedJump = false;
             }
 
             if (rigid.velocity.y < 0.0f) {
@@ -384,6 +402,41 @@ namespace DG
             }
             else if (rigid.velocity.y > 0.0f && !Input.GetButton("Jump")) {
                 rigid.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+            }
+        }
+
+        void _WallJumpHandler()
+        {
+            if (!isControlable) { return; }
+            if (isGrounded) { return; }
+            if (wallHitCount <= 0) { return; }
+
+            if (Input.GetButtonDown("Jump")) {
+
+                isWallJump = true;
+
+                if (transform.position.x < wallHit[0].transform.position.x) {
+                    var direction = new Vector2(-0.3f, 0.7f);
+
+                    var newScale = transform.localScale;
+                    newScale.x = -1;
+
+                    transform.localScale = newScale;
+
+                    var force = 12.0f;
+                    rigid.velocity = direction * force;
+                }
+                else if (transform.position.x > wallHit[0].transform.position.x) {
+                    var direction = new Vector2(0.3f, 0.7f);
+
+                    var newScale = transform.localScale;
+                    newScale.x = 1;
+
+                    transform.localScale = newScale;
+
+                    var force = 12.0f;
+                    rigid.velocity = direction * force;
+                }
             }
         }
 

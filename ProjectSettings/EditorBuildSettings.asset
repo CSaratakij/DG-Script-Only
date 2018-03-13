@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/newgameplay/5-Puzzle(new).unity
     guid: a0862af375d7b694792a93ba7947e173
   - enabled: 1
+    path: Assets/Scenes/newgameplay/6-Puzzle(new).unity
+    guid: b313c99308aa385418d1d736fe74b25e
+  - enabled: 1
     path: Assets/Scenes/9-Thank you for playing.unity
     guid: 5bb9b64da2c08694aad0867f727a1203
   - enabled: 0

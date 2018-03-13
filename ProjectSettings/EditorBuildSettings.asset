@@ -27,6 +27,15 @@ EditorBuildSettings:
     path: Assets/Scenes/newgameplay/6-Puzzle(new).unity
     guid: b313c99308aa385418d1d736fe74b25e
   - enabled: 1
+    path: Assets/Scenes/newgameplay/7-Puzzle(new).unity
+    guid: bc955964e8bbf844bbe065df557d6ff0
+  - enabled: 1
+    path: Assets/Scenes/newgameplay/8-Puzzle(new).unity
+    guid: dd2328131de69b545a601bc0e2b93174
+  - enabled: 1
+    path: Assets/Scenes/newgameplay/9-GameOver(new).unity
+    guid: 4ca3b222784f0bb4689ec63d93bb466e
+  - enabled: 1
     path: Assets/Scenes/9-Thank you for playing.unity
     guid: 5bb9b64da2c08694aad0867f727a1203
   - enabled: 0

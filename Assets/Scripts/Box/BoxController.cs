@@ -32,6 +32,9 @@ namespace DG
         GameObject uiObject;
 
 
+        public Vector3 OriginalPosition { get { return originalPosition; } }
+
+
         int hitPlayerCount;
         int hitBoxResetterCount;
 
@@ -263,6 +266,11 @@ namespace DG
 
         void _ToggleUIHandler()
         {
+            if (isInitReset) { 
+                _ToggleInteractUI(false); 
+                return;
+            }
+
             if (hitPlayerCount > 0) {
                 if (isUsing) {
                     _ToggleInteractUI(false);

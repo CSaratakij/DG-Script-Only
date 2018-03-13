@@ -155,6 +155,19 @@ namespace DG
                     platformAttacher.Use(false);
                 }
             }
+
+            //Hacks
+            _WallJumpHandler();
+
+            if (isWallJump) {
+                if (rigid.velocity.y < 0.0f) {
+                    rigid.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+                }
+            }
+            else {
+                _JumpHandler();
+                _MovementHandler();
+            }
         }
 
         void FixedUpdate()
@@ -168,18 +181,6 @@ namespace DG
 
             materialHitCount = Physics2D.CircleCastNonAlloc(feet.position, 0.02f, Vector2.down, materialRay, 1.0f, footstepMask);
             wallHitCount = Physics2D.RaycastNonAlloc(wallRight.position, Vector2.right, wallHit, 0.3f, wallMask);
-
-            _WallJumpHandler();
-
-            if (isWallJump) {
-                if (rigid.velocity.y < 0.0f) {
-                    rigid.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-                }
-            }
-            else {
-                _JumpHandler();
-                _MovementHandler();
-            }
         }
 
         void LateUpdate()

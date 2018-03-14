@@ -37,8 +37,13 @@ namespace DG
             if (hit) {
                 _InputHandler();
 
-                if (!uiObject.activeSelf) {
-                    uiObject.SetActive(true);
+                if (PlayerController.isInCinematic) {
+                    uiObject.SetActive(false);
+                }
+                else {
+                    if (!uiObject.activeSelf) {
+                        uiObject.SetActive(true);
+                    }
                 }
             }
             else {

@@ -39,13 +39,18 @@ namespace DG
         IEnumerator _PlayCutscene_Callback()
         {
             PlayerController.isInCinematic = true;
+            GameController.FireEvent_OnCinematic();
+
             previousTarget = cameraFollow.CurrentTarget;
             cameraFollow.CurrentTarget = target;
 
             yield return new WaitForSeconds(delay);
 
             cameraFollow.CurrentTarget = previousTarget;
+
             PlayerController.isInCinematic = false;
+            GameController.FireEvent_OnCinematic();
+
             MarkPlayed(true);
         }
 

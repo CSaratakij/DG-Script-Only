@@ -87,7 +87,7 @@ namespace DG
             if (isUseForLoadLevel) {
 
                 if (GameController.instance) {
-                    GameController.instance.MoveToScene(finalSceneIndex, loadLevelDelay, true);
+                    GameController.instance.MoveToScene(finalSceneIndex, 2.0f, true);
                 }
                 else {
                     SceneManager.LoadScene(finalSceneIndex);

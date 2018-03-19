@@ -648,7 +648,7 @@ Prefab:
     - target: {fileID: 114224722466543172, guid: 670a7487b31de1542a67811fa8df738e,
         type: 2}
       propertyPath: photoID
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114381657675680752, guid: 670a7487b31de1542a67811fa8df738e,
         type: 2}
@@ -664,7 +664,7 @@ Prefab:
     - target: {fileID: 114224722466543172, guid: 670a7487b31de1542a67811fa8df738e,
         type: 2}
       propertyPath: partID
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1631088211377282, guid: 670a7487b31de1542a67811fa8df738e, type: 2}
       propertyPath: m_IsActive

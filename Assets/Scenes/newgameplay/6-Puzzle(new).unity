@@ -26059,7 +26059,7 @@ Prefab:
     - target: {fileID: 114469369981551046, guid: 6639fcfdd15d0e1428183e1245fcfd52,
         type: 2}
       propertyPath: requireCoin
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_RootOrder
@@ -33682,7 +33682,7 @@ Prefab:
     - target: {fileID: 114469369981551046, guid: 6639fcfdd15d0e1428183e1245fcfd52,
         type: 2}
       propertyPath: requireCoin
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_RootOrder

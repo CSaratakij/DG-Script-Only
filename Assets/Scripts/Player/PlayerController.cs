@@ -421,6 +421,7 @@ namespace DG
             if (Input.GetButtonDown("Jump")) {
 
                 isWallJump = true;
+                audioSource.Play();
 
                 if (transform.position.x < wallHit[0].transform.position.x) {
                     var direction = new Vector2(-0.3f, 0.7f);

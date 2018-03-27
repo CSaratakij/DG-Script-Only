@@ -104,9 +104,7 @@ namespace DG
 
         public void Show(bool value)
         {
-            if (gameObject.activeSelf == value) {
-                return;
-            }
+            if (gameObject.activeSelf == value) { return; }
             gameObject.SetActive(value);
         }
 

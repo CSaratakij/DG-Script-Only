@@ -31,9 +31,7 @@ namespace DG
         [SerializeField]
         GameObject uiObject;
 
-
         public Vector3 OriginalPosition { get { return originalPosition; } }
-
 
         int hitPlayerCount;
         int hitBoxResetterCount;

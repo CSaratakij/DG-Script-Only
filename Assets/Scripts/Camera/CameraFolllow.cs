@@ -27,13 +27,13 @@ namespace DG
         [SerializeField]
         [Range(-5.0f, 5.0f)]
         float boundYMargin;
-        
+
         [SerializeField]
         float dampSpeedX;
 
         [SerializeField]
         float slowDampSpeedX;
-        
+
         [SerializeField]
         float dampSpeedY;
 
@@ -51,7 +51,7 @@ namespace DG
         Vector3 offset;
         Vector3 bottomLeftWorldPoint;
         Vector3 lastPositionBeforeLock;
-        
+
         bool isNeedFollowX;
         bool isNeedFollowY;
 

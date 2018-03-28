@@ -5149,6 +5149,91 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1001 &196567284
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 42.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 14.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_RootOrder
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: cameraOffset.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetAfterExit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetByPreviousOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: resetOffset.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_Name
+      value: CameraOffsetChanger (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &197311922
 GameObject:
   m_ObjectHideFlags: 0
@@ -11530,7 +11615,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 99.85
+      value: 103.59
       objectReference: {fileID: 0}
     - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
       propertyPath: m_LocalPosition.y
@@ -11573,7 +11658,7 @@ Prefab:
     - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
         type: 2}
       propertyPath: size.x
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
         type: 2}
@@ -28725,6 +28810,91 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1001 &1014782733
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 9.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_RootOrder
+      value: 129
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: cameraOffset.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.x
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetAfterExit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetByPreviousOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: resetOffset.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_Name
+      value: CameraOffsetChanger (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1015415097
 GameObject:
   m_ObjectHideFlags: 0
@@ -37428,11 +37598,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4542407778011790, guid: 7f8ffa5a68ec11b419203b5baa4f913a, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -20.05
+      value: -19.8
       objectReference: {fileID: 0}
     - target: {fileID: 4542407778011790, guid: 7f8ffa5a68ec11b419203b5baa4f913a, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.46
+      value: 7.72
       objectReference: {fileID: 0}
     - target: {fileID: 4542407778011790, guid: 7f8ffa5a68ec11b419203b5baa4f913a, type: 2}
       propertyPath: m_LocalPosition.z
@@ -40534,6 +40704,91 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1001 &1415831510
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 83.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 18.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_RootOrder
+      value: 130
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: cameraOffset.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetAfterExit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetByPreviousOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: resetOffset.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_Name
+      value: CameraOffsetChanger (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1415855972
 GameObject:
   m_ObjectHideFlags: 0
@@ -49434,12 +49689,12 @@ Prefab:
     - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
         type: 2}
       propertyPath: isResetAfterExit
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
         type: 2}
       propertyPath: isResetByPreviousOffset
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
         type: 2}
@@ -56582,6 +56837,91 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1001 &2029484116
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 99.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 12.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_RootOrder
+      value: 131
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: cameraOffset.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.y
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetAfterExit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetByPreviousOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: resetOffset.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_Name
+      value: CameraOffsetChanger (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &2033962978
 Prefab:
   m_ObjectHideFlags: 0
@@ -57556,6 +57896,91 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1001 &2069577473
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 27.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 9.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932056519989408, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_RootOrder
+      value: 127
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: cameraOffset.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.x
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: size.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetAfterExit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: isResetByPreviousOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114640141931419270, guid: 6617e2d7e74bc8d49adb8cf5abd08e28,
+        type: 2}
+      propertyPath: resetOffset.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_Name
+      value: CameraOffsetChanger (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032052710726532, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6617e2d7e74bc8d49adb8cf5abd08e28, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &2077026833
 Prefab:
   m_ObjectHideFlags: 0
